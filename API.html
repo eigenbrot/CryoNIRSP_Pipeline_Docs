@@ -1,0 +1,596 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reference/API &#8212; CryoNIRSP_Pipeline v0.1.1</title>
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="_static/dkist.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="shortcut icon" href="_static/favico.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ensure_fits" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits.html" />
+    <link rel="prev" title="Data Reduction Walkthrough" href="walkthrough.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Reference/API</a><ul>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.CryoNIRSPPipeline">CryoNIRSP_Pipeline.CryoNIRSPPipeline Module</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.ScienceCalibration">CryoNIRSP_Pipeline.common.ScienceCalibration Module</a><ul>
+<li><a class="reference internal" href="#id1">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a><ul>
+<li><a class="reference internal" href="#id2">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.Data">CryoNIRSP_Pipeline.common.Data Module</a><ul>
+<li><a class="reference internal" href="#id3">Functions</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.DarkCalibration">CryoNIRSP_Pipeline.common.DarkCalibration Module</a><ul>
+<li><a class="reference internal" href="#id4">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">CryoNIRSP_Pipeline.Gain.Gain1Calibration Module</a><ul>
+<li><a class="reference internal" href="#id5">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration">CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration Module</a><ul>
+<li><a class="reference internal" href="#id6">Functions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration">CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration Module</a><ul>
+<li><a class="reference internal" href="#id7">Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="walkthrough.html" title="Previous Chapter: Data Reduction Walkthrough"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Data Reductio...</span>
+    </a>
+  </li>
+  <li>
+    <a href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits.html" title="Next Chapter: ensure_fits"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">ensure_fits &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reference/API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.CryoNIRSPPipeline">CryoNIRSP_Pipeline.CryoNIRSPPipeline Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits.html">ensure_fits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config.html">gen_blank_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.generate_intermediate_objects.html">generate_intermediate_objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.get_pol_kwargs.html">get_pol_kwargs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.strip_fits.html">strip_fits</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.ScienceCalibration">CryoNIRSP_Pipeline.common.ScienceCalibration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.generate_science_calibration.html">generate_science_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.validate_observe_task_data.html">validate_observe_task_data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.average_FitsData.html">average_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.average_modulated_FitsData.html">average_modulated_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.dark_correction.html">dark_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction.html">instrument_polarization_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html">modulated_gain_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication.html">polarimetric_multiplication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.polarization_correction.html">polarization_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html">stddev_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html">stddev_modulated_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.telescope_pol_correction.html">telescope_pol_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html">unmodulated_gain_correction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.Data">CryoNIRSP_Pipeline.common.Data Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.concatenate_fitsData.html">concatenate_fitsData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#classes">Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.AlignmentData.html">AlignmentData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.CSStep.html">CSStep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.CSStepData.html">CSStepData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.DarkData.html">DarkData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.DemodulationData.html">DemodulationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html">FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.GainData.html">GainData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.ObservationData.html">ObservationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.SoCCData.html">SoCCData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.DarkCalibration">CryoNIRSP_Pipeline.common.DarkCalibration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.generate_dark_calibration.html">generate_dark_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_calibration.html">validate_dark_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_task_data.html">validate_dark_task_data</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">CryoNIRSP_Pipeline.Gain.Gain1Calibration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.generate_gain1_calibration.html">generate_gain1_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_calibration.html">validate_gain1_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_task.html">validate_gain1_task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration">CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.extract_macropixels.html">extract_macropixels</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.gen_inst_pol_cal_objects.html">gen_inst_pol_cal_objects</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_instrument_polarization_calibration.html">generate_instrument_polarization_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_dark_calibration.html">generate_polcal_dark_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_gain_calibration.html">generate_polcal_gain_calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.manage_CS_rdx.html">manage_CS_rdx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_full_CS.html">reduce_full_CS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_single_CS_step.html">reduce_single_CS_step</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_CUpar.html">run_PAC_CUpar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_demod.html">run_PAC_demod</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.write_reduced_CS_step.html">write_reduced_CS_step</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration">CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration.generate_telescope_pol_calibration.html">generate_telescope_pol_calibration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <div class="section" id="reference-api">
+<h1>Reference/API<a class="headerlink" href="#reference-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-CryoNIRSP_Pipeline.CryoNIRSPPipeline">
+<span id="cryonirsp-pipeline-cryonirsppipeline-module"></span><h2>CryoNIRSP_Pipeline.CryoNIRSPPipeline Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.CryoNIRSPPipeline" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.ensure_fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ensure_fits</span></code></a>(filename)</p></td>
+<td><p>Make sure that a string has only one ‘.fits’ on the end of it</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_blank_config</span></code></a>(filename)</p></td>
+<td><p>Create a blank configuration file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.generate_intermediate_objects.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.generate_intermediate_objects" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.generate_intermediate_objects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_intermediate_objects</span></code></a>(config)</p></td>
+<td><p>Generate/collect the intermediate Calibration Objects needed by the Science Calibration module.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.get_pol_kwargs.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.get_pol_kwargs" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.get_pol_kwargs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_pol_kwargs</span></code></a>(config)</p></td>
+<td><p>Get the somewhat hidden polarization correction keywords, using defaults if necessary</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.main.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.main" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(config_file)</p></td>
+<td><p>The main, runner script for the entire CryoNIRSP Pipeline.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.strip_fits.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.strip_fits" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.strip_fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_fits</span></code></a>(filename)</p></td>
+<td><p>Strip the ‘.fits’ extension from a filename</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.ScienceCalibration">
+<span id="cryonirsp-pipeline-common-sciencecalibration-module"></span><h2>CryoNIRSP_Pipeline.common.ScienceCalibration Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.ScienceCalibration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Functions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.generate_science_calibration.html#CryoNIRSP_Pipeline.common.ScienceCalibration.generate_science_calibration" title="CryoNIRSP_Pipeline.common.ScienceCalibration.generate_science_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_science_calibration</span></code></a>(fitsData, outpre)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.main.html#CryoNIRSP_Pipeline.common.ScienceCalibration.main" title="CryoNIRSP_Pipeline.common.ScienceCalibration.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(data_dir, outpre[, dark_cal, gain_cal, …])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.ScienceCalibration.validate_observe_task_data.html#CryoNIRSP_Pipeline.common.ScienceCalibration.validate_observe_task_data" title="CryoNIRSP_Pipeline.common.ScienceCalibration.validate_observe_task_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_observe_task_data</span></code></a>(fitsData)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.generic">
+<span id="cryonirsp-pipeline-common-generic-module"></span><h2>CryoNIRSP_Pipeline.common.generic Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.generic" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.average_FitsData.html#CryoNIRSP_Pipeline.common.generic.average_FitsData" title="CryoNIRSP_Pipeline.common.generic.average_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">average_FitsData</span></code></a>(fitsData)</p></td>
+<td><p>Average ALL hdus into a single frame</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.average_modulated_FitsData.html#CryoNIRSP_Pipeline.common.generic.average_modulated_FitsData" title="CryoNIRSP_Pipeline.common.generic.average_modulated_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">average_modulated_FitsData</span></code></a>(fitsData)</p></td>
+<td><p>Average all data from the same modulator state together</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.dark_correction.html#CryoNIRSP_Pipeline.common.generic.dark_correction" title="CryoNIRSP_Pipeline.common.generic.dark_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dark_correction</span></code></a>(fitsData, dark_calibration)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction.html#CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction" title="CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument_polarization_correction</span></code></a>(fitsData, …)</p></td>
+<td><p>Multiply input data by the provided demodulation matrix</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.modulated_gain_correction" title="CryoNIRSP_Pipeline.common.generic.modulated_gain_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modulated_gain_correction</span></code></a>(fitsData, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication.html#CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication" title="CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarimetric_multiplication</span></code></a>(data, demod)</p></td>
+<td><p>Matrix multiply the input data by a polarization demodulation matrix.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.polarization_correction.html#CryoNIRSP_Pipeline.common.generic.polarization_correction" title="CryoNIRSP_Pipeline.common.generic.polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarization_correction</span></code></a>(fitsData, …[, …])</p></td>
+<td><p>Remove some or all polarimetric effects from data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_FitsData</span></code></a>(fitsData[, average])</p></td>
+<td><p>Compute the per-pixel standard deviation across ALL HDUs present in the input data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_modulated_FitsData</span></code></a>(fitsData[, average])</p></td>
+<td><p>Compute the per-pixel standard deviation for each modulator state present in the input data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.telescope_pol_correction.html#CryoNIRSP_Pipeline.common.generic.telescope_pol_correction" title="CryoNIRSP_Pipeline.common.generic.telescope_pol_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope_pol_correction</span></code></a>(fitsData, teleCal)</p></td>
+<td><p>Apply an inverse Telescope Mueller matrix and update header values</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction" title="CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unmodulated_gain_correction</span></code></a>(fitsData, …)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.Data">
+<span id="cryonirsp-pipeline-common-data-module"></span><h2>CryoNIRSP_Pipeline.common.Data Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.Data" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.concatenate_fitsData.html#CryoNIRSP_Pipeline.common.Data.concatenate_fitsData" title="CryoNIRSP_Pipeline.common.Data.concatenate_fitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate_fitsData</span></code></a>(fitsData1, fitsData2)</p></td>
+<td><p>Add in this case means concatenation, NOT a sum of the actual data</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.AlignmentData.html#CryoNIRSP_Pipeline.common.Data.AlignmentData" title="CryoNIRSP_Pipeline.common.Data.AlignmentData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlignmentData</span></code></a>([data_dir, dataset_ID, memmap])</p></td>
+<td><p>AlignmentData is an extension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">FitData</span></code> designed to only hold data from the Alignment InstrumentProgramTask (DKIST004).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.CSStep.html#CryoNIRSP_Pipeline.common.Data.CSStep" title="CryoNIRSP_Pipeline.common.Data.CSStep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSStep</span></code></a>(header)</p></td>
+<td><p>This class allows for an easy way to quickly compare SPEC-0122 style headers to determine if they come from the same Calibration Sequence (CS) step.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.CSStepData.html#CryoNIRSP_Pipeline.common.Data.CSStepData" title="CryoNIRSP_Pipeline.common.Data.CSStepData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CSStepData</span></code></a>([CS_step, memmap])</p></td>
+<td><p>CSStepData is an extension of FitsData that loads a single Calibration Curve from a directory containing a full Set of Calibration Curves (SoCC).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.DarkData.html#CryoNIRSP_Pipeline.common.Data.DarkData" title="CryoNIRSP_Pipeline.common.Data.DarkData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DarkData</span></code></a>([data_dir, dataset_ID, memmap])</p></td>
+<td><p>DarkData is an extension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">FitData</span></code> designed to only hold data from the Dark InstrumentProgramTask (DKIST004).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.DemodulationData.html#CryoNIRSP_Pipeline.common.Data.DemodulationData" title="CryoNIRSP_Pipeline.common.Data.DemodulationData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DemodulationData</span></code></a>()</p></td>
+<td><p>DemodulationData is a small modification of the <a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html#CryoNIRSP_Pipeline.common.Data.FitsData" title="CryoNIRSP_Pipeline.common.Data.FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsData</span></code></a> class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html#CryoNIRSP_Pipeline.common.Data.FitsData" title="CryoNIRSP_Pipeline.common.Data.FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsData</span></code></a>([load_obj, memmap, allow3D])</p></td>
+<td><p>FitsData is a basically a wrapper for astropy.io.fits, with some extra methods and properties to aid the reduction of DKIST data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.GainData.html#CryoNIRSP_Pipeline.common.Data.GainData" title="CryoNIRSP_Pipeline.common.Data.GainData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GainData</span></code></a>([data_dir, dataset_ID, memmap])</p></td>
+<td><p>GainData is an extension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">FitData</span></code> designed to only hold data from the Gain InstrumentProgramTask (DKIST004).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.ObservationData.html#CryoNIRSP_Pipeline.common.Data.ObservationData" title="CryoNIRSP_Pipeline.common.Data.ObservationData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ObservationData</span></code></a>([data_dir, dataset_ID, memmap])</p></td>
+<td><p>ObservationData is an extension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">FitData</span></code> designed to only hold data from the Observation InstrumentProgramTask (DKIST004).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.SoCCData.html#CryoNIRSP_Pipeline.common.Data.SoCCData" title="CryoNIRSP_Pipeline.common.Data.SoCCData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SoCCData</span></code></a>([data_dir, suffix])</p></td>
+<td><p>SoCCData performs 2 functions: First, it separates and sorts Calibration Sequence (CS) steps found among raw data in a directory.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Time</span></code>(val[, val2, format, scale, precision, …])</p></td>
+<td><p>Represent and manipulate times and dates for astronomy.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><object data="_images/inheritance-3bc375ee5e360ca3d83dd939fc96621677e603a2.svg" type="image/svg+xml" class="inheritance graphviz">
+<p class="warning">Inheritance diagram of CryoNIRSP_Pipeline.common.Data.AlignmentData, CryoNIRSP_Pipeline.common.Data.CSStep, CryoNIRSP_Pipeline.common.Data.CSStepData, CryoNIRSP_Pipeline.common.Data.DarkData, CryoNIRSP_Pipeline.common.Data.DemodulationData, CryoNIRSP_Pipeline.common.Data.FitsData, CryoNIRSP_Pipeline.common.Data.GainData, CryoNIRSP_Pipeline.common.Data.ObservationData, CryoNIRSP_Pipeline.common.Data.SoCCData</p></object></div>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.DarkCalibration">
+<span id="cryonirsp-pipeline-common-darkcalibration-module"></span><h2>CryoNIRSP_Pipeline.common.DarkCalibration Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.DarkCalibration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Functions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.generate_dark_calibration.html#CryoNIRSP_Pipeline.common.DarkCalibration.generate_dark_calibration" title="CryoNIRSP_Pipeline.common.DarkCalibration.generate_dark_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_dark_calibration</span></code></a>(avgData, dark_dir, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.main.html#CryoNIRSP_Pipeline.common.DarkCalibration.main" title="CryoNIRSP_Pipeline.common.DarkCalibration.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(dark_dir, outpre)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_calibration.html#CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_calibration" title="CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_dark_calibration</span></code></a>(avgDark)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_task_data.html#CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_task_data" title="CryoNIRSP_Pipeline.common.DarkCalibration.validate_dark_task_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_dark_task_data</span></code></a>(darkData)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">
+<span id="cryonirsp-pipeline-gain-gain1calibration-module"></span><h2>CryoNIRSP_Pipeline.Gain.Gain1Calibration Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.generate_gain1_calibration.html#CryoNIRSP_Pipeline.Gain.Gain1Calibration.generate_gain1_calibration" title="CryoNIRSP_Pipeline.Gain.Gain1Calibration.generate_gain1_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_gain1_calibration</span></code></a>(avgData, outpre, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.main.html#CryoNIRSP_Pipeline.Gain.Gain1Calibration.main" title="CryoNIRSP_Pipeline.Gain.Gain1Calibration.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(gain_dir, outpre[, dark_cal])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_calibration.html#CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_calibration" title="CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_gain1_calibration</span></code></a>(avgGain)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_task.html#CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_task" title="CryoNIRSP_Pipeline.Gain.Gain1Calibration.validate_gain1_task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_gain1_task</span></code></a>(fitsData)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration">
+<span id="cryonirsp-pipeline-common-instrumentpolarizationcalibration-module"></span><h2>CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Functions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.extract_macropixels.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.extract_macropixels" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.extract_macropixels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_macropixels</span></code></a>(fitsData)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.gen_inst_pol_cal_objects.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.gen_inst_pol_cal_objects" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.gen_inst_pol_cal_objects"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_inst_pol_cal_objects</span></code></a>(SoCCData, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_instrument_polarization_calibration.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_instrument_polarization_calibration" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_instrument_polarization_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_instrument_polarization_calibration</span></code></a>(…)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_dark_calibration.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_dark_calibration" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_dark_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_polcal_dark_calibration</span></code></a>(SoCCData)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_gain_calibration.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_gain_calibration" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.generate_polcal_gain_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_polcal_gain_calibration</span></code></a>(SoCCData, …)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.main.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.main" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(raw_pol_dir, output[, threads])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.manage_CS_rdx.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.manage_CS_rdx" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.manage_CS_rdx"><code class="xref py py-obj docutils literal notranslate"><span class="pre">manage_CS_rdx</span></code></a>(SoCCData, manage_kwargs, …)</p></td>
+<td><p>Manage the parallel reduction of an entire Calibration Sequence.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_full_CS.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_full_CS" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_full_CS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_full_CS</span></code></a>(raw_pol_dir[, threads, …])</p></td>
+<td><p>Spawn the parallel reduction of an entire Calibration Sequence.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_single_CS_step.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_single_CS_step" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.reduce_single_CS_step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reduce_single_CS_step</span></code></a>(SoCCData, CS_step, outdir)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_CUpar.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_CUpar" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_CUpar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_PAC_CUpar</span></code></a>(run_dir[, overwrite])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_demod.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_demod" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.run_PAC_demod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_PAC_demod</span></code></a>(run_dir[, overwrite])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.write_reduced_CS_step.html#CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.write_reduced_CS_step" title="CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration.write_reduced_CS_step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_reduced_CS_step</span></code></a>(binData, outdir, CS_step)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="module-CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration">
+<span id="cryonirsp-pipeline-common-telescopepolarizationcalibration-module"></span><h2>CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration Module<a class="headerlink" href="#module-CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Functions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration.generate_telescope_pol_calibration.html#CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration.generate_telescope_pol_calibration" title="CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration.generate_telescope_pol_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_telescope_pol_calibration</span></code></a>(fitsData, …)</p></td>
+<td><p>Initialize a TelescopeModel object and load parameters that correspond to when science data were taken</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2019, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 15 Nov 2019.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+Reference/API
+=============
+
+.. automodapi:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.ScienceCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.generic
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.Data
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.DarkCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.Gain.Gain1Calibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line

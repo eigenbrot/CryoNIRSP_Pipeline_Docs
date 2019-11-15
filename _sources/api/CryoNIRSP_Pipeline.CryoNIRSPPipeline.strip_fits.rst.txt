@@ -1,0 +1,6 @@
+strip_fits
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: strip_fits

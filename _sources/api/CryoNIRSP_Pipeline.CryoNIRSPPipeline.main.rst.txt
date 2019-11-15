@@ -1,0 +1,6 @@
+main
+====
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: main

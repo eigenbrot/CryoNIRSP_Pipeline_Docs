@@ -1,0 +1,6 @@
+concatenate_fitsData
+====================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autofunction:: concatenate_fitsData

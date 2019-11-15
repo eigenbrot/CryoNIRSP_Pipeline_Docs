@@ -1,0 +1,6 @@
+stddev_modulated_FitsData
+=========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: stddev_modulated_FitsData

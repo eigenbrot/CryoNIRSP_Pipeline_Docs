@@ -1,0 +1,88 @@
+Configuration File Format
+=========================
+
+The CryoNIRSP Pipeline configuration file is in the standard INI format and contains the following sections and options. Any
+options in *italics* are optional.
+
+.. note::
+   It is OK to put science and calibration data all into the same directory. The specific task (Dark, Gain, Observation,
+   etc.) is determined from the `DKIST004` header value.
+
+Main
+----
+This section controls the top-level Science reduction. All of the \*_cal options point to files that will not exist
+on the first run of the pipeline. Once these objects have been created a lot of time can be saved by reusing them for
+any other science runs that have the same setup. It is also possible to regenerate only a subset of the intermediate
+Calibration Objects by simply pointing the corresponding option to a file that doesn't exist.
+
+.. note::
+   All of the \*_cal objects can be specified with or without their file extensions
+
+:raw_sci_dir: Path to the directory containing raw CryoNIRSP frames to be reduced.
+
+:output_prefix: The prefix to apply to all Level-1 science products. This string can also include a path structure.
+
+:dark_cal: The location of a processed Dark Calibration object. If this file does not exist it will be generated.
+
+:gain1_cal: The location of a processed Gain 1 Calibration object. If it does not exist it will be generated.
+
+:instrument_pol_cal: The location of the Instrument Polarization Calibration object (i.e., demodulation matrices. If
+    it does not exist it will be generated.
+
+:*remove_TM*: **(bool)** [*True*] If `False` then do not apply a polarimetric correction for M1 - M6 (inclusive)
+
+:*include_M12*: **(bool)** [*True*] If `False` then do include mirrors M1 and M2 in the telescope polarimetric correction. This
+    option is only used if ``remove_TM`` is `True`
+
+:*remove_parallactic*: **(bool)** [*True*]If `False` then do not include a final rotation into a common Solar reference frame.
+    This option is only used if ``remove_TM`` is `True`.
+
+:*telescope_db*: [*None*] The path to a telescope mirror parameter database. If none is provided then the default PA&C database
+    will be used.
+
+DarkCalibration
+---------------
+This section will only be used if the file specified by ``Main.dark_cal`` does not exist.
+
+:raw_dark_dir: The location of a directory containing raw dark frames. If ``Main.dark_cal`` does not exist then this
+    directory must contain dark frames or an error will be thrown.
+
+Gain1Calibration
+----------------
+This section will only be used if the file specified by ``Main.gain1_cal`` does not exist.
+
+:raw_gain1_dir: The location of a directory containing raw frames for the Gain1 task.
+
+InstrumentPolarization
+----------------------
+This section will only be used if the file specified by ``Main.instrument_pol_cal`` does not exist.
+
+:raw_pol_dir: The location of a directory containing raw files associated with a single PolCal Calibration Sequence (CS)
+
+:*threads*: **(int)** [*1*] The number of CPU threads to use when performing basic CryoNIRSP reductions on the CS steps
+
+Example Config File
+-------------------
+
+.. code-block:: ini
+
+  [Main]
+  raw_sci_dir = ../raw
+  output_prefix = Sci
+  dark_cal = DarkCal
+  gain1_cal = Gain1Cal
+  instrument_pol_cal = InstPolCal
+  remove_TM = True
+  include_M12 = False
+  remove_parallactic = True
+  telescope_db = my_great_database.txt
+
+  [DarkCalibration]
+  raw_dark_dir = ../raw
+
+  [Gain1Calibration]
+  raw_gain1_dir = ../raw
+
+  [InstrumentPolarization]
+  raw_pol_dir = ../polcal
+  threads = 3

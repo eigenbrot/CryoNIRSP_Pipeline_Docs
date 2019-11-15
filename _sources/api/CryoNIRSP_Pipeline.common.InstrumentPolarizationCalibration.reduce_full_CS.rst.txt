@@ -1,0 +1,6 @@
+reduce_full_CS
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration
+
+.. autofunction:: reduce_full_CS

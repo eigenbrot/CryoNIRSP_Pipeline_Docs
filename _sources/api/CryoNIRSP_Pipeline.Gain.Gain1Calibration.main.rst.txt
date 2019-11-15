@@ -1,0 +1,6 @@
+main
+====
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain1Calibration
+
+.. autofunction:: main

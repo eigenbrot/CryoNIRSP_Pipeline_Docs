@@ -1,0 +1,6 @@
+generate_dark_calibration
+=========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.DarkCalibration
+
+.. autofunction:: generate_dark_calibration

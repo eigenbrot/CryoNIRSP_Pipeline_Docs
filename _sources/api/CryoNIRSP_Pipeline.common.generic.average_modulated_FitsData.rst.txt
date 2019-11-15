@@ -1,0 +1,6 @@
+average_modulated_FitsData
+==========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: average_modulated_FitsData

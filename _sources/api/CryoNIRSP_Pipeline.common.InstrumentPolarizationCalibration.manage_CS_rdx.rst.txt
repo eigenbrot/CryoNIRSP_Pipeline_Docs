@@ -1,0 +1,6 @@
+manage_CS_rdx
+=============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration
+
+.. autofunction:: manage_CS_rdx

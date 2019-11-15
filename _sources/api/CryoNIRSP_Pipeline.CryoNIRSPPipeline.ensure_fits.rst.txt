@@ -1,0 +1,6 @@
+ensure_fits
+===========
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: ensure_fits

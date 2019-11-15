@@ -1,0 +1,6 @@
+gen_blank_config
+================
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: gen_blank_config

@@ -1,0 +1,6 @@
+unmodulated_gain_correction
+===========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: unmodulated_gain_correction

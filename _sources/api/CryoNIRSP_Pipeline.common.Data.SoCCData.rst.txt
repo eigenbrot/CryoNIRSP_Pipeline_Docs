@@ -1,0 +1,33 @@
+SoCCData
+========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SoCCData
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~SoCCData.num_CS_steps
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~SoCCData.get_CS_step_data
+      ~SoCCData.get_clear_file_list
+      ~SoCCData.get_dark_file_list
+      ~SoCCData.read_directory
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: num_CS_steps
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: get_CS_step_data
+   .. automethod:: get_clear_file_list
+   .. automethod:: get_dark_file_list
+   .. automethod:: read_directory

@@ -1,0 +1,19 @@
+CSStep
+======
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: CSStep
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~CSStep.is_clear
+      ~CSStep.is_dark
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: is_clear
+   .. automethod:: is_dark

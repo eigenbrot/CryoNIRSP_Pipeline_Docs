@@ -1,0 +1,6 @@
+instrument_polarization_correction
+==================================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: instrument_polarization_correction

@@ -1,0 +1,6 @@
+generate_polcal_gain_calibration
+================================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration
+
+.. autofunction:: generate_polcal_gain_calibration

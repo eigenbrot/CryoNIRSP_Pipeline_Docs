@@ -1,0 +1,6 @@
+get_pol_kwargs
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: get_pol_kwargs

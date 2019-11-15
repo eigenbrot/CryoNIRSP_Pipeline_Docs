@@ -1,0 +1,6 @@
+dark_correction
+===============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: dark_correction

@@ -1,0 +1,17 @@
+DarkData
+========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: DarkData
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~DarkData.task
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: task
