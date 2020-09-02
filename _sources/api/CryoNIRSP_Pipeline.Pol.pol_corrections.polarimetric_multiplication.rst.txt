@@ -1,0 +1,6 @@
+polarimetric_multiplication
+===========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_corrections
+
+.. autofunction:: polarimetric_multiplication

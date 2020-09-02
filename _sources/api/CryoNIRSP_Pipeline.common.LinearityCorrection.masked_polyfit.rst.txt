@@ -1,0 +1,6 @@
+masked_polyfit
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: masked_polyfit

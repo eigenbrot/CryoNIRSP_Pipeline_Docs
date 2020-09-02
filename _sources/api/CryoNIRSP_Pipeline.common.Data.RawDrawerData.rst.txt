@@ -1,0 +1,33 @@
+RawDrawerData
+=============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: RawDrawerData
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~RawDrawerData.num_CS_steps
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~RawDrawerData.get_CS_step_data
+      ~RawDrawerData.get_clear_file_list
+      ~RawDrawerData.get_dark_file_list
+      ~RawDrawerData.read_directory
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: num_CS_steps
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: get_CS_step_data
+   .. automethod:: get_clear_file_list
+   .. automethod:: get_dark_file_list
+   .. automethod:: read_directory

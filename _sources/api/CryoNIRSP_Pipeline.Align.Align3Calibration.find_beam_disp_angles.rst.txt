@@ -1,0 +1,6 @@
+find_beam_disp_angles
+=====================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: find_beam_disp_angles

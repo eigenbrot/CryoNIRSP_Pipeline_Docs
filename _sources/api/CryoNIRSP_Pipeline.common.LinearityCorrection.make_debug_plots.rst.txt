@@ -1,0 +1,6 @@
+make_debug_plots
+================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: make_debug_plots

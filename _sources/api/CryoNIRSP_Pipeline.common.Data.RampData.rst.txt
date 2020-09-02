@@ -1,0 +1,39 @@
+RampData
+========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: RampData
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~RampData.flattened_data
+      ~RampData.flattened_subarray
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~RampData.check_dead_beef
+      ~RampData.construct_time_vector
+      ~RampData.correct_camera_specifics
+      ~RampData.init_subarray
+      ~RampData.invert_16bit_data
+      ~RampData.load_from_filelist
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: flattened_data
+   .. autoattribute:: flattened_subarray
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: check_dead_beef
+   .. automethod:: construct_time_vector
+   .. automethod:: correct_camera_specifics
+   .. automethod:: init_subarray
+   .. automethod:: invert_16bit_data
+   .. automethod:: load_from_filelist

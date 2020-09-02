@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.Pol.pol_corrections &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../../../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../../../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for CryoNIRSP_Pipeline.Pol.pol_corrections</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">dask</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">array</span> <span class="k">as</span> <span class="n">da</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.Pol</span> <span class="kn">import</span> <span class="n">TelescopePolarizationCalibration</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">generic</span><span class="p">,</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span><span class="p">,</span> <span class="n">is_mp</span>
+
+
+<div class="viewcode-block" id="polarization_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction">[docs]</a><span class="k">def</span> <span class="nf">polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">,</span>
+                            <span class="n">remove_TM</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">telescope_db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_M12</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_parallactic</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove some or all polarimetric effects from data</span>
+
+<span class="sd">    At a minimum, this function demodulates the data with an InstrumentPolarizationCalibration object (i.e., a</span>
+<span class="sd">    demodulation matrix). It can also remove the M1 - M6 telescope Mueller matrix. In this case it first uses data</span>
+<span class="sd">    header values to generate a telescope matrix appropriate for the time and date of observations and then removes</span>
+<span class="sd">    this matrix from the data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Data to remove polarimetric effects from. Should be modulated data.</span>
+
+<span class="sd">    inst_pol_calibration : `Data.DemodulationData`</span>
+<span class="sd">        The demodulation matrices</span>
+
+<span class="sd">    remove_TM : bool</span>
+<span class="sd">        If True then the inverse telescope Mueller matrix is applied</span>
+
+<span class="sd">    telescope_db : str</span>
+<span class="sd">        Path to a file containing telescope mirror parameters as a function of time and wavelength. If this is None then</span>
+<span class="sd">        the default database is loaded from the PA&amp;C Modules (recommended).</span>
+
+<span class="sd">    include_M12 : bool</span>
+<span class="sd">        If True then mirrors M1 and M2 are included in the telescope Mueller matrix</span>
+
+<span class="sd">    remove_parallactic : bool</span>
+<span class="sd">        If True then the telescope Mueller matrix will include rotation by the parallactic angle and will thus put</span>
+<span class="sd">        the data into a common solar reference frame</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        The demodulated input data with the telescope Mueller matrix potentially removed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: demodulating data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">stokesData</span> <span class="o">=</span> <span class="n">instrument_polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">remove_TM</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">telescope_db</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">telescope_db</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loading telescope parameter database from PA&amp;C defualts&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+            <span class="kn">from</span> <span class="nn">PAC_Pipeline.generic</span> <span class="kn">import</span> <span class="n">get_default_telescope_db</span>
+            <span class="n">telescope_db</span> <span class="o">=</span> <span class="n">get_default_telescope_db</span><span class="p">()</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: generating inverse telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">tm_mat</span> <span class="o">=</span> <span class="n">TelescopePolarizationCalibration</span><span class="o">.</span><span class="n">generate_telescope_pol_calibration</span><span class="p">(</span><span class="n">stokesData</span><span class="p">,</span> <span class="n">telescope_db</span><span class="p">,</span>
+                                                                                     <span class="n">M12</span><span class="o">=</span><span class="n">include_M12</span><span class="p">,</span>
+                                                                                     <span class="n">include_parallactic</span><span class="o">=</span><span class="n">remove_parallactic</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: removing telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">stokesData</span> <span class="o">=</span> <span class="n">telescope_pol_correction</span><span class="p">(</span><span class="n">stokesData</span><span class="p">,</span> <span class="n">tm_mat</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: skipping removal of telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">stokesData</span></div>
+
+
+<div class="viewcode-block" id="instrument_polarization_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction">[docs]</a><span class="k">def</span> <span class="nf">instrument_polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multiply input data by the provided demodulation matrix</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Input data. Should have M data_hdus (one for each modulator state), each with shape (x, y).</span>
+
+<span class="sd">    inst_pol_calibration : `Data.Demodulation`</span>
+<span class="sd">        Should contain the full-frame (i.e., both beams) demodulation matrices in the `.beam1` property. These matrices</span>
+<span class="sd">        should have shape (x, y, 4, M) or (4, M).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Demodulated Stokes data. Has four data_hdus each of shape (x, y), corresponding to the four Stokes components.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Because we directly read stacked data below, the order of the ImageHDUs matters. Here we make sure it&#39;s correct</span>
+    <span class="n">generic</span><span class="o">.</span><span class="n">sort_hdus_by_modulator</span><span class="p">(</span><span class="n">fitsData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: stacking data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">stacked_data</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># Remember from InstrumentPolarizationCalibration.generate_instrument_pol_calibration that beam1 contains</span>
+    <span class="c1">#  the full-frame (both beam) demodulation matrices</span>
+    <span class="n">demod</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">inst_pol_calibration</span><span class="o">.</span><span class="n">beam1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Modulated data (</span><span class="si">{}</span><span class="s1">) and demodulation matrices (</span><span class="si">{}</span><span class="s1">) do not &#39;</span>
+                         <span class="s1">&#39;have the same number of modulation states&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stacked_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">polarimetric_multiplication</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">,</span> <span class="n">demod</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_mp</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: subprocess detected. Computing array synchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;synchronous&#39;</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: computing array (potentially) asynchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+    <span class="k">del</span> <span class="n">stacked_data</span>
+
+    <span class="n">outData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+    <span class="n">outData</span><span class="o">.</span><span class="n">init_with_ndarray</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">stokes</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">]):</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;STOKES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stokes</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;EXTNAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Stokes </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stokes</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">outData</span></div>
+
+
+<div class="viewcode-block" id="telescope_pol_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction">[docs]</a><span class="k">def</span> <span class="nf">telescope_pol_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">teleCal</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply an inverse Telescope Mueller matrix and update header values</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : Data.FitsData</span>
+<span class="sd">        Data to apply the inverse TM to. Should have 4 data HDUs (stokes vectors).</span>
+
+<span class="sd">    teleCal : numpy.ndarray</span>
+<span class="sd">        A (4, 4) array containing the Mueller matrix for the inverse of mirrors 1 - 6</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Data.FitsData</span>
+<span class="sd">        The input data with the polarimetric contributions of M1 - M6 removed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s1">&#39;ISSTOKES&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Input data is not demodulated!&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: stacking data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">stacked_data</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">polarimetric_multiplication</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">,</span> <span class="n">teleCal</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_mp</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: subprocess detected. Computing array synchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;synchronous&#39;</span><span class="p">):</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: computing array (potentially) asynchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+
+    <span class="k">del</span> <span class="n">stacked_data</span>
+
+    <span class="n">outData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+    <span class="n">outData</span><span class="o">.</span><span class="n">init_with_ndarray</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">new</span><span class="p">,</span> <span class="n">old</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">,</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">):</span>
+        <span class="n">new</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">outData</span></div>
+
+
+<div class="viewcode-block" id="polarimetric_multiplication"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication">[docs]</a><span class="k">def</span> <span class="nf">polarimetric_multiplication</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">demod</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Matrix multiply the input data by a polarization demodulation matrix.</span>
+
+<span class="sd">    This is a general-purpose function that requires good understanding of the input parameters. The important thing</span>
+<span class="sd">    is that the demodulation matrix&#39;s last dimension is equal to the number of data HDU&#39;s in the input data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Input data to demodulate. Should have shape (x, y, M).</span>
+
+<span class="sd">    demod : `numpy.ndarray`</span>
+<span class="sd">        The demodulation matrix. There are a few different shapes it can have:</span>
+
+<span class="sd">            1. (x, y, 4, M), where (x, y) is the shape of a single input frame and M is the number of modulation</span>
+<span class="sd">            states. In this case, a separate demodulation can be provided for each individual pixel. Total control!</span>
+
+<span class="sd">            2. (4, M). This assumes a constant demodulation matrix across the ViSP chip</span>
+
+<span class="sd">            3. (4, 4). This form is used for removing the polarizing effect of the telescope optics and requires the</span>
+<span class="sd">            input data to already be in &quot;Stokes&quot; form.</span>
+
+<span class="sd">        Note that in all cases the length of the second to last dimension is 4 (corresponding to the Stokes vector)</span>
+<span class="sd">        and the length of the last dimension is equal to the number of data HDUs in the input data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Demodulated/corrected polarization data. Regardless of the inputs, the output will have shape (x, y, 4),</span>
+<span class="sd">        corresponding to the 4 Stokes parameters.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: matrix-multiplying arrays with shapes </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">demod</span> <span class="o">*</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

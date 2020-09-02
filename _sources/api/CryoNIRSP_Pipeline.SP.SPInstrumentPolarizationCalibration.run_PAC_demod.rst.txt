@@ -1,0 +1,6 @@
+run_PAC_demod
+=============
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPInstrumentPolarizationCalibration
+
+.. autofunction:: run_PAC_demod

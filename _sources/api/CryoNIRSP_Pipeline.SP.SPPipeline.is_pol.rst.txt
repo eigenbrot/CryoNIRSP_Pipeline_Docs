@@ -1,0 +1,6 @@
+is_pol
+======
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPPipeline
+
+.. autofunction:: is_pol

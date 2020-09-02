@@ -1,0 +1,6 @@
+perturb_parameters
+==================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: perturb_parameters

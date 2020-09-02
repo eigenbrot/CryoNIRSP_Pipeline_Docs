@@ -1,0 +1,6 @@
+resample_CU_params
+==================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_generic
+
+.. autofunction:: resample_CU_params

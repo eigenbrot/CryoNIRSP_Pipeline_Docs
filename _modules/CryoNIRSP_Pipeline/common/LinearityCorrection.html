@@ -1,0 +1,534 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.common.LinearityCorrection &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../../../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../../../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for CryoNIRSP_Pipeline.common.LinearityCorrection</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy.ma</span> <span class="k">as</span> <span class="nn">ma</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">CONSTANTS</span>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html#CryoNIRSP_Pipeline.common.LinearityCorrection.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">threshold_file</span><span class="p">,</span> <span class="n">bad_px_file</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Use a collection of raw DHS non-destructive reads (NDRs) to produce linearity corrected data.</span>
+
+<span class="sd">    This is essentially a pre-processing step for all data before they can be ingested properly by the rest of the</span>
+<span class="sd">    pipeline.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    target_dir : str</span>
+<span class="sd">        Path to directory containing NDRs for any number of separate ramps</span>
+
+<span class="sd">    output_dir : str</span>
+<span class="sd">        Path to save the linearity corrected ramp data</span>
+
+<span class="sd">    threshold_file : str</span>
+<span class="sd">        Path to a numpy save (.npy) file that contains the linearity threshold for each pixel in the subarray to use</span>
+<span class="sd">        (see below).</span>
+
+<span class="sd">    bad_px_file : str</span>
+<span class="sd">        Path to a numpy save (.npy) file that contains a bad pixel mask for each pixel in the subarray to use (see below)</span>
+
+<span class="sd">    x0 : int</span>
+<span class="sd">        The origin (in pixel coordinates) of first dimension for the subarry to use</span>
+
+<span class="sd">    y0 : int</span>
+<span class="sd">        The origin (in pixel coordinates) of second dimension for the subarry to use</span>
+
+
+<span class="sd">    x_size : int</span>
+<span class="sd">        The size, in pixels, of the subarry in the first dimension</span>
+
+<span class="sd">    y_size : int</span>
+<span class="sd">        The size, in pixels, of the subarray in the second dimension</span>
+
+<span class="sd">    order : int</span>
+<span class="sd">        The polynomial order to use when fitting the linear portion of each ramp</span>
+
+<span class="sd">    overwrite : bool</span>
+<span class="sd">        If True then any already-corrected output files will be overwritten</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">threshold_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">threshold_file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">thresh</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">bad_px</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">bad_px_file</span><span class="p">)</span>
+
+    <span class="n">allRamps</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">RampAggregator</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ramp_id</span> <span class="ow">in</span> <span class="n">allRamps</span><span class="o">.</span><span class="n">ramp_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Correcting ramp </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">ramp_id</span><span class="p">))</span>
+        <span class="n">rampData</span> <span class="o">=</span> <span class="n">allRamps</span><span class="o">.</span><span class="n">get_ramp_data</span><span class="p">(</span><span class="n">ramp_id</span><span class="p">)</span>
+        <span class="n">rampData</span><span class="o">.</span><span class="n">init_subarray</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">)</span>
+
+        <span class="n">new_data</span> <span class="o">=</span> <span class="n">correct_single_ramp</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">bad_px</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">threshold_vec</span><span class="o">=</span><span class="n">thresh</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,:]</span>
+
+        <span class="n">date_id</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">ramp_id</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">outname</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/CRSP_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">_</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">instrument</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">camera_mode</span><span class="p">,</span> <span class="n">date_id</span><span class="p">,</span>
+                                               <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
+
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">rampData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">outname</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="correct_single_ramp"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html#CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp">[docs]</a><span class="k">def</span> <span class="nf">correct_single_ramp</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">bad_px_vec</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">threshold_vec</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">plot_px</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform linearity correction on a single ramp. This is the heart of this module.</span>
+
+<span class="sd">    The correction pipeline has the following steps:</span>
+
+<span class="sd">    1. Use ramp data to conform the threshold values to the current data</span>
+
+<span class="sd">    2. Identify pixels above the threshold and mask them out</span>
+
+<span class="sd">    3. Fit polynommials  region of each pixel</span>
+
+<span class="sd">    4. Use the polynomial fit coefficients to compute the &quot;true&quot; pixel value at the end of the ramp</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rampData : `Data.RampData`</span>
+<span class="sd">        Object containing the ramp to be corrected. This object must have had a subarray initialized.</span>
+
+<span class="sd">    threshold_vec : `numpy.ndarray`</span>
+<span class="sd">        Vector containing the upper threshold of the linear region for each pixel. Must have the same shape as</span>
+<span class="sd">        rampData.flattened_subarray.shape[1:]</span>
+<span class="sd">        </span>
+<span class="sd">    bad_px_vec : `numpy.ndarray`</span>
+<span class="sd">        Vector containing as bad pixel mask. Must have shape equal to rampData.flattened_subarray.shape[1:]</span>
+
+<span class="sd">    order : int</span>
+<span class="sd">        Order of polynomial to fit to the linear regions of each pixel</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Corrected pixel values for all pixels in the rampData subarray. Same shape as rampData.subarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">threshold_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bias</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Using pre-computed threshold values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">: Correcting threshold with gain </span><span class="si">{:.1f}</span><span class="s1"> and average bias </span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span>
+                                                                                          <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span>
+                                                                                          <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bias</span><span class="p">)))</span>
+        <span class="n">corrected_threshold</span> <span class="o">=</span> <span class="n">threshold_vec</span> <span class="o">/</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">+</span> <span class="n">bias</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing threshold values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">corrected_threshold</span> <span class="o">=</span> <span class="n">find_threshold</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing masks&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">threshold_mask</span><span class="p">,</span> <span class="n">first_nan</span> <span class="o">=</span> <span class="n">get_threshold_mask</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">,</span> <span class="n">corrected_threshold</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Checking masks&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">fit_column_mask</span> <span class="o">=</span> <span class="n">check_mask_vs_fitorder</span><span class="p">(</span><span class="n">first_nan</span><span class="p">,</span> <span class="n">order</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing fit coefficients&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="c1"># For now, we only fit with the order requested (fit_column_mask[0]). In the future we might need to add</span>
+    <span class="c1"># the ability to fit for lower orders as well (fit_column_mask[1:-1]).</span>
+    <span class="n">threshold_mask</span><span class="p">[:,</span> <span class="n">fit_column_mask</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">coeffs</span> <span class="o">=</span> <span class="n">masked_polyfit</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">threshold_mask</span><span class="p">,</span> <span class="n">first_nan</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">plot_px</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">make_debug_plots</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">corrected_threshold</span><span class="p">,</span> <span class="n">first_nan</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">plot_px</span><span class="p">)</span>
+        <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Waiting...&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Calculating corrected data values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">coeffs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="n">bad_px_vec</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="find_threshold"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html#CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold">[docs]</a><span class="k">def</span> <span class="nf">find_threshold</span><span class="p">(</span><span class="n">flat_data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the threshold value at which ramp data departs from linearity</span>
+
+<span class="sd">    The threshold is computed separately for all pixels in the image and is found via the second derivative of electrons</span>
+<span class="sd">    per NDR. A check is made for pixels that are linear over all NDRs provided.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    flat_data : `numpy.ndarray`</span>
+<span class="sd">        Array with shape (N, x*y) where N is the number of NDRs and (x, y) are the detector image dimensions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Array with shape (x*y). The upper linearity threshold for each pixel.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">ddx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># If the ramp is basically linear across all NDRs then ddx will be mostly constant. Check for that here.</span>
+    <span class="c1">#  Beware the magic number 100</span>
+    <span class="c1">#TODO: Magic number!</span>
+    <span class="n">all_linear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span>
+
+    <span class="n">max_delta_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">max_delta_idx</span><span class="p">[</span><span class="n">all_linear</span><span class="p">]</span> <span class="o">=</span> <span class="n">flat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># If the ramp is linear across all NDRs then set the index of last linear NDR to the final NDR</span>
+
+    <span class="c1"># 0.9 to move the threshold a &quot;bit&quot; below the value of max change. Highly scientific.</span>
+    <span class="c1">#TODO: Magic number!</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">flat_data</span><span class="p">[</span><span class="n">max_delta_idx</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">flat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">*</span> <span class="mf">0.9</span>
+
+    <span class="k">return</span> <span class="n">threshold</span></div>
+
+<div class="viewcode-block" id="get_threshold_mask"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html#CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask">[docs]</a><span class="k">def</span> <span class="nf">get_threshold_mask</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+    <span class="c1"># From Andre&#39;s cnToolbox.py</span>
+    <span class="sd">&quot;&quot;&quot;Compute a mask that masks out pixels above the given threshold</span>
+
+<span class="sd">    Also note at which NDR each pixel crosses the threshold.</span>
+
+<span class="sd">    Andre&#39;s doc:</span>
+<span class="sd">    get a mask with 1 after first occurance of threshold in column</span>
+<span class="sd">    get first_nan vector with index of first above threshold</span>
+<span class="sd">    both are ndarrays</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Array with shape (N, x*y) where N is the number of NDRs and (x, y) are the ramp subarray dimensions</span>
+<span class="sd">        </span>
+<span class="sd">    threshold : `numpy.ndarray`</span>
+<span class="sd">        Array of shape (x*y) containing the upper limit of the linear region for each pixel</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Boolean array with the same shape as ``data``. True corresponds to readings above the threshold value</span>
+
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Vector of shape (x*y) containing the NDR # at which each pixel goes above the threshold value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">threshold</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">max_ind</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="c1"># find all points with values higher than threshold</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># bugfix 3 Jul 2019: if condition in ma.masked_where is True nowhere</span>
+    <span class="c1"># the mask will be a single boolean False rather than an array of False</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mask</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># None of the data is bad so make make mask an array of FALSEs</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># argmax returns the *first* instance</span>
+    <span class="n">first</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># argmax does not work if all 1 or all 0;</span>
+    <span class="c1"># all returns True if all 1s</span>
+    <span class="n">tester</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="o">~</span><span class="n">b</span><span class="o">.</span><span class="n">mask</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">first</span><span class="p">[</span><span class="n">tester</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_ind</span>
+
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">ind</span> <span class="o">&gt;=</span> <span class="n">first</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">mask</span><span class="p">,</span> <span class="n">first</span></div>
+
+<div class="viewcode-block" id="check_mask_vs_fitorder"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.check_mask_vs_fitorder.html#CryoNIRSP_Pipeline.common.LinearityCorrection.check_mask_vs_fitorder">[docs]</a><span class="k">def</span> <span class="nf">check_mask_vs_fitorder</span><span class="p">(</span><span class="n">firstNan</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="c1"># From Andre&#39;s cnToolbox.py</span>
+    <span class="sd">&quot;&quot;&quot;Check which columns can be fitted with what order of polynomial</span>
+
+<span class="sd">    Any pixels that do not have enough &quot;good&quot; ndrs to fit the given order are tested against all lower orders. Thus,</span>
+<span class="sd">    each pixel is assigned its maximum possible fit order.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    firstNan : `numpy.ndarray`</span>
+<span class="sd">        1D array containing the first ndr at which each pixel becomes non-linear</span>
+
+<span class="sd">    order : int</span>
+<span class="sd">        Maximum fitting order that will be used to fit the linear regions</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Binary array of shape (order + 1, x*y) that contains the BAD pixel mask for each order. In other words,</span>
+<span class="sd">        mask[i, :] == 0 are all the pixels in order i that CAN be fit with that order. The first dimension indexes</span>
+<span class="sd">        order in reverse, so mask[0] is the highest fit order and mask[-1] are pixesl that cannot be fit with any order.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># needs to be list as they could have different lengths</span>
+    <span class="n">fit_column_index</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># 3D mask that contains mask for each highest order possible</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">order</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">firstNan</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int8</span><span class="p">)</span>
+    <span class="c1"># make firstNan masked array so we can disregard used ones</span>
+    <span class="n">firstNan</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">firstNan</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">firstNan</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="c1"># are there any series where number of data points is</span>
+    <span class="c1"># not sufficient for order of polynom?</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># can do full order</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">firstNan</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">fit_column_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="c1"># mask the used values</span>
+        <span class="n">firstNan</span><span class="o">.</span><span class="n">mask</span><span class="p">[</span><span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># for the overall mask we want 0 for the values we can use</span>
+        <span class="c1"># for this order</span>
+        <span class="n">mask</span><span class="p">[</span><span class="n">order</span><span class="o">-</span><span class="n">i</span><span class="p">,</span> <span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># remaining columns have one or less data points</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">firstNan</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">fit_column_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
+    <span class="c1"># for the overall mask we want 0 for the values we can use for that order</span>
+    <span class="n">mask</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmp</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1"> pixels will be fit with order = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit_column_index</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">order</span> <span class="o">-</span> <span class="n">i</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: </span><span class="si">{}</span><span class="s1"> pixels cannot be fit&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="nb">len</span><span class="p">(</span><span class="n">fit_column_index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+
+    <span class="k">return</span> <span class="n">mask</span></div>
+
+<div class="viewcode-block" id="masked_polyfit"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit.html#CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit">[docs]</a><span class="k">def</span> <span class="nf">masked_polyfit</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">order</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">first_nan</span><span class="p">,</span> <span class="n">fit</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fit each pixel with a polynomial</span>
+
+<span class="sd">    Andre&#39;s doc:</span>
+<span class="sd">    using standar masked polyfit</span>
+<span class="sd">    !!! ma.polyfit mask up to the shortest data series when 2D masked y is given</span>
+<span class="sd">    i.e. truncates longer series -&gt; solve with loop</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    time : `numpy.ndarray`</span>
+<span class="sd">        The time (in seconds) of each NDR</span>
+
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Array of shape (N, x*y) where N is the number of NDRs and (x, y) is the ramp&#39;s subarray shape</span>
+
+<span class="sd">    order : int</span>
+<span class="sd">        Order of polynomial to use for the fit</span>
+
+<span class="sd">    mask : `numpy.ndarray`</span>
+<span class="sd">        Boolean array of shape (N, x*y) corresponding to bad pixel mask for each order</span>
+
+<span class="sd">    first_nan : `numpy.ndarray`</span>
+<span class="sd">        Vector of shape (x*y) containing the NDR # at which each pixel goes above the linear threshold</span>
+
+<span class="sd">    fit : bool</span>
+<span class="sd">        If True return the best fit along with the coefficients</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ma.core.MaskedArray`</span>
+<span class="sd">        Array of shape (order + 1, x*y) containing the best-fit polynomial coefficients for each pixel</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">maskedY</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+    <span class="c1"># full = np.where(first_nan &gt; order)[0]</span>
+
+     <span class="c1"># initialize coef array with NaNs</span>
+    <span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1"># how many unique lengths of data series</span>
+    <span class="n">myl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">first_nan</span><span class="p">)</span>
+    <span class="c1"># only use the ones that can fit the chosen order</span>
+    <span class="n">myl</span> <span class="o">=</span> <span class="n">myl</span><span class="p">[</span><span class="n">myl</span> <span class="o">&gt;</span> <span class="n">order</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">myl</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># have to loop through all lengths otherwise collapsed mask causes issues</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">myl</span><span class="p">:</span>
+            <span class="n">wo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">first_nan</span> <span class="o">==</span> <span class="n">i</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># print(&#39;data series length&#39;, i)</span>
+            <span class="c1"># print(&#39;percentage of points&#39;, 100*len(wo)/(data.shape[1]))</span>
+            <span class="n">coef</span><span class="p">[:,</span> <span class="n">wo</span><span class="p">]</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">polyfit</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">maskedY</span><span class="p">[:,</span> <span class="n">wo</span><span class="p">],</span> <span class="n">order</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">fit</span><span class="p">:</span>
+            <span class="n">fitX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coef</span><span class="p">,</span> <span class="n">fitX</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="n">ma</span><span class="o">.</span><span class="n">masked_array</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">coef</span><span class="p">,</span> <span class="n">fit</span>
+        <span class="k">return</span> <span class="n">coef</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no valid data points for fit&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="make_debug_plots"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots.html#CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots">[docs]</a><span class="k">def</span> <span class="nf">make_debug_plots</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">first_NaN</span><span class="p">,</span> <span class="n">coeffs</span><span class="p">,</span> <span class="n">pixels_to_plot</span><span class="p">):</span>
+
+    <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+    <span class="kn">from</span> <span class="nn">matplotlib.backends.backend_pdf</span> <span class="kn">import</span> <span class="n">PdfPages</span> <span class="k">as</span> <span class="n">PDF</span>
+    <span class="n">pp</span> <span class="o">=</span> <span class="n">PDF</span><span class="p">(</span><span class="s1">&#39;linearity_plots.pdf&#39;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">pidx</span> <span class="ow">in</span> <span class="n">pixels_to_plot</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel_multi_index</span><span class="p">(</span><span class="n">pidx</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;NDR #&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;e-&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">],</span> <span class="s1">&#39;k-&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="n">first_NaN</span><span class="p">[</span><span class="n">idx</span><span class="p">]],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">threshold</span><span class="p">[</span><span class="n">idx</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">fit_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">],</span> <span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">,</span> <span class="n">fit_values</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">fit_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">fit_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;</span><span class="si">{:.2f}</span><span class="s1"> &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">fit_values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">coeffs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">idx</span><span class="p">])),</span>
+                <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">verticalalignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Pixel </span><span class="si">{}</span><span class="s1">. (ds9 </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pidx</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pidx</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">dax</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{d^2e-}{dx^2}$&#39;</span><span class="p">)</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+        <span class="n">ddx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">[:,</span> <span class="n">idx</span><span class="p">]))</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">,</span> <span class="n">ddx</span><span class="p">,</span> <span class="s1">&#39;b-&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+        <span class="n">dax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddx</span><span class="p">)),</span> <span class="n">transform</span><span class="o">=</span><span class="n">dax</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+        <span class="n">pp</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+
+    <span class="n">pp</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

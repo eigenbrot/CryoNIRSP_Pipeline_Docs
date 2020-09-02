@@ -1,0 +1,6 @@
+compute_average_spectrum
+========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: compute_average_spectrum

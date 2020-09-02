@@ -1,0 +1,6 @@
+check_mask_vs_fitorder
+======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: check_mask_vs_fitorder

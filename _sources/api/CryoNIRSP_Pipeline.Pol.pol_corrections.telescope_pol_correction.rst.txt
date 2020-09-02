@@ -1,0 +1,6 @@
+telescope_pol_correction
+========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_corrections
+
+.. autofunction:: telescope_pol_correction

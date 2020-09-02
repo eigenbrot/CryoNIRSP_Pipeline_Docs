@@ -1,0 +1,6 @@
+polarization_correction
+=======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_corrections
+
+.. autofunction:: polarization_correction

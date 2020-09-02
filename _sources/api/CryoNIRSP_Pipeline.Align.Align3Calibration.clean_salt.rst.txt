@@ -1,0 +1,6 @@
+clean_salt
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: clean_salt

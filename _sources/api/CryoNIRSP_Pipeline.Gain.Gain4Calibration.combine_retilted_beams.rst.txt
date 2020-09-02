@@ -1,0 +1,6 @@
+combine_retilted_beams
+======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: combine_retilted_beams

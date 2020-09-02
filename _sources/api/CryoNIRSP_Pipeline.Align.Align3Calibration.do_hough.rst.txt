@@ -1,0 +1,6 @@
+do_hough
+========
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: do_hough

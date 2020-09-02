@@ -1,0 +1,6 @@
+clean_pepper
+============
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: clean_pepper

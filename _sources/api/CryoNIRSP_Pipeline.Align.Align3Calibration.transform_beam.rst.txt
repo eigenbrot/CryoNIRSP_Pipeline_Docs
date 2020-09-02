@@ -1,0 +1,6 @@
+transform_beam
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: transform_beam

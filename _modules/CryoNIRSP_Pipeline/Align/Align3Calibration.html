@@ -1,0 +1,762 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.Align.Align3Calibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../../../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../../../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for CryoNIRSP_Pipeline.Align.Align3Calibration</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">asdf</span>
+<span class="kn">import</span> <span class="nn">lmfit</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">peakutils</span> <span class="k">as</span> <span class="nn">pku</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">skimage.transform</span> <span class="k">as</span> <span class="nn">skit</span>
+<span class="kn">import</span> <span class="nn">skimage.filters</span> <span class="k">as</span> <span class="nn">skif</span>
+<span class="kn">import</span> <span class="nn">skimage.metrics</span> <span class="k">as</span> <span class="nn">skme</span>
+<span class="kn">import</span> <span class="nn">skimage.morphology</span> <span class="k">as</span> <span class="nn">skim</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">LinearityCorrection</span><span class="p">,</span> <span class="n">Data</span><span class="p">,</span> <span class="n">generic</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">ALIGN3_NUMBERS</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">,</span> <span class="n">S122</span>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.main.html#CryoNIRSP_Pipeline.Align.Align3Calibration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">pinhole_dir</span><span class="p">,</span> <span class="n">align_dir</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">angle_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">align_clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+         <span class="o">**</span><span class="n">align_params</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">linearize</span><span class="p">:</span>
+        <span class="n">lin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pinhole_dir</span><span class="p">,</span> <span class="s1">&#39;linearized&#39;</span><span class="p">)</span>
+        <span class="n">LinearityCorrection</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">pinhole_dir</span><span class="p">,</span> <span class="n">lin_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;LinearityKwargs&#39;</span><span class="p">])</span>
+        <span class="n">pinhole_dir</span> <span class="o">=</span> <span class="n">lin_dir</span>
+
+    <span class="c1"># TODO: CHANGE THIS ONCE WE GET REAL ALIGN3 DATA</span>
+    <span class="n">pinholeData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">SPAlign1Data</span><span class="p">(</span><span class="n">pinhole_dir</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pinholeData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># This might change at some point, but probably not</span>
+        <span class="n">pinholeData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">pinholeData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing beam angles&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">find_beam_disp_angles</span><span class="p">(</span><span class="n">pinholeData</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="n">angle_clean</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">linearize</span><span class="p">:</span>
+        <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;LinearityKwargs&#39;</span><span class="p">][</span><span class="s1">&#39;threshold_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">lin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">align_dir</span><span class="p">,</span> <span class="s1">&#39;linearized&#39;</span><span class="p">)</span>
+        <span class="n">LinearityCorrection</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">align_dir</span><span class="p">,</span> <span class="n">lin_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;LinearityKwargs&#39;</span><span class="p">])</span>
+        <span class="n">align_dir</span> <span class="o">=</span> <span class="n">lin_dir</span>
+
+    <span class="c1"># TODO: CHANGE THIS ONCE WE GET REAL ALIGN3 DATA</span>
+    <span class="n">alignData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">Gain4Data</span><span class="p">(</span><span class="n">align_dir</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">alignData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># This will likely change in the future once real ALIGN3 data are provided/used</span>
+        <span class="n">alignData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">alignData</span><span class="p">)</span>
+
+    <span class="n">validate_align3_task_data</span><span class="p">(</span><span class="n">pinholeData</span><span class="p">,</span> <span class="n">alignData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing beam mapping transform&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">fit_output</span> <span class="o">=</span> <span class="n">find_beam_align_transform</span><span class="p">(</span><span class="n">alignData</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="n">align_clean</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">,</span> <span class="o">**</span><span class="n">align_params</span><span class="p">)</span>
+
+    <span class="n">validate_align3_calibration</span><span class="p">(</span><span class="n">fit_output</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Generating Align3 Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">alignCal</span> <span class="o">=</span> <span class="n">generate_align3_calibration</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">fit_output</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">alignCal</span></div>
+
+<span class="c1"># TODO: CHANGE THIS ONCE WE GET REAL ALIGN3 DATA</span>
+<div class="viewcode-block" id="validate_align3_task_data"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.validate_align3_task_data.html#CryoNIRSP_Pipeline.Align.Align3Calibration.validate_align3_task_data">[docs]</a><span class="k">def</span> <span class="nf">validate_align3_task_data</span><span class="p">(</span><span class="n">pinholeData</span><span class="p">,</span> <span class="n">alignData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Right now this just ensures that all the IP&#39;s are the same.</span>
+
+<span class="sd">    Checks for the correct task and subtask are already handled by the _TaskData derivatives used to find the data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">IP0</span> <span class="o">=</span> <span class="n">pinholeData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">pinholeData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">IP0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not all pinhole frames have the same IP ID&#39;</span><span class="p">)</span>
+
+    <span class="n">IP0</span> <span class="o">=</span> <span class="n">alignData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">alignData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">IP0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not all align3 frames have the same IP ID&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="validate_align3_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.validate_align3_calibration.html#CryoNIRSP_Pipeline.Align.Align3Calibration.validate_align3_calibration">[docs]</a><span class="k">def</span> <span class="nf">validate_align3_calibration</span><span class="p">(</span><span class="n">fit_output</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check that the affine transform isn&#39;t weird.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parvals</span> <span class="o">=</span> <span class="n">fit_output</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">valuesdict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">scale</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;scale_x&#39;</span><span class="p">,</span> <span class="s1">&#39;scale_y&#39;</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">parvals</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Align3Calibration&#39;</span><span class="p">][</span><span class="s1">&#39;min_scale&#39;</span><span class="p">]</span> <span class="ow">or</span> \
+           <span class="n">parvals</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Align3Calibration&#39;</span><span class="p">][</span><span class="s1">&#39;max_scale&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;X scale (</span><span class="si">{}</span><span class="s1">) is out of range&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parvals</span><span class="p">[</span><span class="n">scale</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="generate_align3_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.generate_align3_calibration.html#CryoNIRSP_Pipeline.Align.Align3Calibration.generate_align3_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_align3_calibration</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">fit_output</span><span class="p">,</span> <span class="n">outname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Collect beam angles and mapping into a single object and write to disk</span>
+
+<span class="sd">    For now the object is just a dictionary and it is saved to disk in an ASDF file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    angles : `numpy.ndarray`</span>
+<span class="sd">        Vector containing angles dispersion angles for beam 1 and beam2</span>
+
+<span class="sd">    fit_output : `lmfit.MinimizerResult`</span>
+<span class="sd">        Object containing best-fit affine transform parameters and additional fitting statistics/information</span>
+
+<span class="sd">    outname : str</span>
+<span class="sd">        Location to save align3 parameters</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict:</span>
+<span class="sd">        The Align3 Calibration</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parvals</span> <span class="o">=</span> <span class="n">fit_output</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">valuesdict</span><span class="p">()</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">skit</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="p">[</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;scale_x&#39;</span><span class="p">],</span> <span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;scale_y&#39;</span><span class="p">]],</span>
+                                     <span class="n">rotation</span><span class="o">=</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">],</span> <span class="n">shear</span><span class="o">=</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;shear&#39;</span><span class="p">],</span>
+                                     <span class="n">translation</span><span class="o">=</span><span class="p">[</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;translation_x&#39;</span><span class="p">],</span> <span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;translation_y&#39;</span><span class="p">]])</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;angles&#39;</span><span class="p">:</span> <span class="p">{</span>
+                       <span class="s1">&#39;beam1&#39;</span><span class="p">:</span> <span class="n">angles</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                       <span class="s1">&#39;beam2&#39;</span><span class="p">:</span> <span class="n">angles</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                       <span class="p">},</span>
+            <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="p">{</span>
+                          <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;affine&#39;</span><span class="p">,</span>  <span class="c1"># Will this ever be different?</span>
+                          <span class="s1">&#39;matrix&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+                          <span class="s1">&#39;scale_x&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="s1">&#39;scale_y&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="s1">&#39;translation_x&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">translation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                          <span class="s1">&#39;translation_y&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">translation</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
+                          <span class="s1">&#39;shear&#39;</span><span class="p">:</span> <span class="n">transform</span><span class="o">.</span><span class="n">shear</span>
+                          <span class="p">}</span>
+           <span class="p">}</span>
+
+    <span class="n">adf</span> <span class="o">=</span> <span class="n">asdf</span><span class="o">.</span><span class="n">AsdfFile</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+    <span class="n">adf</span><span class="o">.</span><span class="n">write_to</span><span class="p">(</span><span class="n">outname</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tree</span></div>
+
+<div class="viewcode-block" id="find_beam_disp_angles"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.find_beam_disp_angles.html#CryoNIRSP_Pipeline.Align.Align3Calibration.find_beam_disp_angles">[docs]</a><span class="k">def</span> <span class="nf">find_beam_disp_angles</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Measure the angle between the dispersion and detector axes for each beam</span>
+
+<span class="sd">    This is done with pinhole image data and uses a pretty straight-forward Hough Transform to identify the strongest</span>
+<span class="sd">    angle.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Object containing a single pinhole frame for BOTH BEAMS.</span>
+
+<span class="sd">    extra_clean : bool</span>
+<span class="sd">        If True then an additional, expensive cleaning step will be done before performing the Hough Transform. This is</span>
+<span class="sd">        very good at getting rid of salty bad-pixel data, but in practice this type of noise probably doesn&#39;t affect</span>
+<span class="sd">        the Hough Transform too much.</span>
+
+<span class="sd">    debug : bool</span>
+<span class="sd">        If True then various debug images and plots will be produced. The code will pause between beams so that these</span>
+<span class="sd">        results can be examined.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Vector of two numbers; the angle (in degrees) between the dispersion and detector axes for each beam,</span>
+<span class="sd">        respectively.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span> <span class="o">=</span> <span class="n">split_beams</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">beam</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span><span class="p">]):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Working on beam </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">binary</span> <span class="o">=</span> <span class="n">make_binary</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="n">extra_clean</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+        <span class="n">H</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">rho</span> <span class="o">=</span> <span class="n">do_hough</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+        <span class="n">peak_theta</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">find_px_angles</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Debug images made. Press enter to continue&#39;</span><span class="p">)</span>
+        <span class="n">angles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">peak_theta</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="find_beam_align_transform"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.find_beam_align_transform.html#CryoNIRSP_Pipeline.Align.Align3Calibration.find_beam_align_transform">[docs]</a><span class="k">def</span> <span class="nf">find_beam_align_transform</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;lbfgsb&#39;</span><span class="p">,</span> <span class="n">perturb_params</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">vary_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">vary_shear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vary_rotation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the Affine mapping of Beam 2 onto Beam 1</span>
+
+<span class="sd">    The (x, y) translation is always fit, and the scaling, rotation, and shear can be fit if desired.</span>
+
+<span class="sd">    An initial guess is made using the points in CryoNIRSP_Pipeline.data.ALIGN3_NUMBERS. The default options</span>
+<span class="sd">    should be the best choice in most/all cases.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Object containing the full-frame detector data for a single frame. This should either be a Solar Gain or an</span>
+<span class="sd">        Align3 Program Task.</span>
+
+<span class="sd">    extra_clean : bool</span>
+<span class="sd">        If True then an additional, expensive cleaning step will be done to reduce the amount of pepper-like noise in</span>
+<span class="sd">        the data.</span>
+
+<span class="sd">    method : str</span>
+<span class="sd">        The fitting method used to minimize affine parameters. Valid values are:</span>
+<span class="sd">        - `&#39;differential_evolution&#39;`: differential evolution (default)</span>
+<span class="sd">        - `&#39;leastsq&#39;`: Levenberg-Marquardt</span>
+<span class="sd">        - `&#39;least_squares&#39;`: Least-Squares minimization, using Trust Region Reflective method by default</span>
+<span class="sd">        - `&#39;brute&#39;`: brute force method</span>
+<span class="sd">        - &#39;`nelder`&#39;: Nelder-Mead</span>
+<span class="sd">        - `&#39;lbfgsb&#39;`: L-BFGS-B</span>
+<span class="sd">        - `&#39;powell&#39;`: Powell</span>
+<span class="sd">        - `&#39;cg&#39;`: Conjugate-Gradient</span>
+<span class="sd">        - `&#39;newton&#39;`: Newton-Congugate-Gradient</span>
+<span class="sd">        - `&#39;cobyla&#39;`: Cobyla</span>
+<span class="sd">        - `&#39;tnc&#39;`: Truncate Newton</span>
+<span class="sd">        - `&#39;trust-ncg&#39;`: Trust Newton-Congugate-Gradient</span>
+<span class="sd">        - `&#39;dogleg&#39;`: Dogleg</span>
+<span class="sd">        - `&#39;slsqp&#39;`: Sequential Linear Squares Programming</span>
+
+<span class="sd">        For more details on the fitting methods please refer to the</span>
+<span class="sd">        `SciPy docs &lt;http://docs.scipy.org/doc/scipy/reference/optimize.html&gt;`__.</span>
+
+<span class="sd">    perturb_params : bool</span>
+<span class="sd">        If True then the initial Affine Transform is perturbed by up to 10%. This can improve accuracy for some fitting</span>
+<span class="sd">        algorithms if the initial guess is really good.</span>
+
+<span class="sd">    vary_scale : bool</span>
+<span class="sd">        If True then allow the x and y scale factors to vary during the fit</span>
+
+<span class="sd">    vary_shear : bool</span>
+<span class="sd">        If True then allow the shear factor to vary during the fit</span>
+
+<span class="sd">    vary_rotation : bool</span>
+<span class="sd">        If True then allow the rotation to vary during the fit</span>
+
+<span class="sd">    debug : bool</span>
+<span class="sd">        If True then create and save FITS files of both beams at all steps in the fitting process. Their names and</span>
+<span class="sd">        additional information will be printed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `lmfit.MinimizerResult`</span>
+<span class="sd">        Object containing best-fit affine parameters and additional fitting statistics/information</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span> <span class="o">=</span> <span class="n">split_beams</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="n">beam1</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">beam1</span><span class="p">)</span>
+    <span class="n">beam2</span> <span class="o">=</span> <span class="n">prep_data</span><span class="p">(</span><span class="n">beam2</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extra_clean</span><span class="p">:</span>
+        <span class="n">beam1</span> <span class="o">=</span> <span class="n">clean_pepper</span><span class="p">(</span><span class="n">beam1</span><span class="p">)</span>
+        <span class="n">beam2</span> <span class="o">=</span> <span class="n">clean_pepper</span><span class="p">(</span><span class="n">beam2</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing initial transform&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">initial_transform</span> <span class="o">=</span> <span class="n">skit</span><span class="o">.</span><span class="n">estimate_transform</span><span class="p">(</span><span class="s1">&#39;affine&#39;</span><span class="p">,</span>
+                                                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Beam_2_match_points&#39;</span><span class="p">]),</span>
+                                                <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Beam_1_match_points&#39;</span><span class="p">]))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Generating parameters&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">generate_parameters</span><span class="p">(</span><span class="n">initial_transform</span><span class="p">,</span> <span class="n">vary_scale</span><span class="o">=</span><span class="n">vary_scale</span><span class="p">,</span> <span class="n">vary_shear</span><span class="o">=</span><span class="n">vary_shear</span><span class="p">,</span>
+                                 <span class="n">vary_rotation</span><span class="o">=</span><span class="n">vary_rotation</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">perturb_params</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Perturbing initial guesses&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">perturb_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">beam1</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;fit_input_beam1.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">beam2</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;fit_input_beam2.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Fit input beams saved as &#39;fit_input_beam[12].fits&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+
+        <span class="n">beam2_trans</span> <span class="o">=</span> <span class="n">transform_beam</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">beam2</span><span class="p">,</span> <span class="n">beam1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">beam2_trans</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;fit_initial_guess.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Fit initial guess saved as &#39;fit_initial_guess.fits&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Initial transform beam similarity: </span><span class="si">{:.1f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">compare_beams</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span><span class="p">))))</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Starting minimizer with free parameters </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span> <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">]))</span>
+    <span class="n">mini</span> <span class="o">=</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">Minimizer</span><span class="p">(</span><span class="n">compare_beams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">fcn_args</span><span class="o">=</span><span class="p">(</span><span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span><span class="p">))</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">fit_out</span> <span class="o">=</span> <span class="n">mini</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Minimization complete in </span><span class="si">{:.1f}</span><span class="s1"> s&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t1</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">beam2_trans</span> <span class="o">=</span> <span class="n">transform_beam</span><span class="p">(</span><span class="n">fit_out</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">beam2</span><span class="p">,</span> <span class="n">beam1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">beam2_trans</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;fit_beam2_output.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">: Best-fit beam2 transform saved as &#39;fit_beam2_output.fits&#39;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Final transform beam similarity: </span><span class="si">{:.1f}</span><span class="s1">%&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">compare_beams</span><span class="p">(</span><span class="n">fit_out</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span><span class="p">))))</span>
+
+    <span class="k">return</span> <span class="n">fit_out</span></div>
+
+
+<div class="viewcode-block" id="generate_parameters"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.generate_parameters.html#CryoNIRSP_Pipeline.Align.Align3Calibration.generate_parameters">[docs]</a><span class="k">def</span> <span class="nf">generate_parameters</span><span class="p">(</span><span class="n">transform</span><span class="p">,</span> <span class="n">vary_scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vary_shear</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">vary_rotation</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create fit Parameters based on an initial-guess transform</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    transform : `skimage.transform._geometric.AffineTransform`</span>
+<span class="sd">        Initial-guess transform</span>
+
+<span class="sd">    vary_scale : bool</span>
+<span class="sd">        If True the scale will be varied during the fit</span>
+
+<span class="sd">    vary_shear : bool</span>
+<span class="sd">        If True the shear will be varied during the fit</span>
+
+<span class="sd">    vary_rotation : bool</span>
+<span class="sd">        If True the rotation will be varied during the fit</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `lmfit.parameter.Parameters`</span>
+<span class="sd">        Set of Parameters suitable for fitting with lmfit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">lmfit</span><span class="o">.</span><span class="n">Parameters</span><span class="p">()</span>
+
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;scale_x&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Scale_x&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">],</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Scale_x&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">],</span>
+               <span class="n">vary</span><span class="o">=</span><span class="n">vary_scale</span><span class="p">)</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;scale_y&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Scale_y&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">],</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Scale_y&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">],</span>
+               <span class="n">vary</span><span class="o">=</span><span class="n">vary_scale</span><span class="p">)</span>
+
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;translation_x&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">translation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Translation_x&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">],</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Translation_x&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">])</span>
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;translation_y&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">translation</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Translation_y&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">],</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Translation_y&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">])</span>
+
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;rotation&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">rotation</span><span class="p">,</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Rotation&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">]),</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Rotation&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">]),</span>
+               <span class="n">vary</span><span class="o">=</span><span class="n">vary_rotation</span><span class="p">)</span>
+
+    <span class="n">params</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s1">&#39;shear&#39;</span><span class="p">,</span>
+               <span class="n">value</span><span class="o">=</span><span class="n">transform</span><span class="o">.</span><span class="n">shear</span><span class="p">,</span>
+               <span class="nb">min</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Shear&#39;</span><span class="p">][</span><span class="s1">&#39;min&#39;</span><span class="p">],</span>
+               <span class="nb">max</span><span class="o">=</span><span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Shear&#39;</span><span class="p">][</span><span class="s1">&#39;max&#39;</span><span class="p">],</span>
+               <span class="n">vary</span><span class="o">=</span><span class="n">vary_shear</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">params</span></div>
+
+<div class="viewcode-block" id="perturb_parameters"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.perturb_parameters.html#CryoNIRSP_Pipeline.Align.Align3Calibration.perturb_parameters">[docs]</a><span class="k">def</span> <span class="nf">perturb_parameters</span><span class="p">(</span><span class="n">params</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Nudge initial-guess parameters</span>
+
+<span class="sd">    Some fitting algorithms may be more accurate if the starting point is not right on the best-fit. This function</span>
+<span class="sd">    nudges the initial guess in case it&#39;s too good. What?</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : `lmfit.parameter.Parameters`</span>
+<span class="sd">        The Parameters to nudge. Only those that vary will be updated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">vary</span><span class="p">:</span>
+            <span class="n">width</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">max</span> <span class="o">-</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">min</span>
+            <span class="n">pert</span> <span class="o">=</span> <span class="n">width</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Perturbing </span><span class="si">{}</span><span class="s1"> by </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">p</span><span class="p">,</span> <span class="n">pert</span><span class="p">))</span>
+            <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="n">p</span><span class="p">]</span><span class="o">.</span><span class="n">value</span> <span class="o">+</span> <span class="n">pert</span></div>
+
+<div class="viewcode-block" id="compare_beams"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.compare_beams.html#CryoNIRSP_Pipeline.Align.Align3Calibration.compare_beams">[docs]</a><span class="k">def</span> <span class="nf">compare_beams</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the goodness-of-fit parameter for 2 beams.</span>
+
+<span class="sd">    We use the structural similarity (SSIM) to measure how similar the two images are.</span>
+
+<span class="sd">    To avoid mis-fits caused by different beam sizes/FOV&#39;s we only compare the portions of the beams that overlap each</span>
+<span class="sd">    other after beam 2 is transformed.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    params : `lmfit.parameter.Parameters`</span>
+<span class="sd">        The fitting parameters</span>
+
+<span class="sd">    beam1 : `numpy.ndarray`</span>
+<span class="sd">        Beam 1, the reference image</span>
+
+<span class="sd">    beam2 : `numpy.ndarray`</span>
+<span class="sd">        Beam 2 the image to be transformed</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    float</span>
+<span class="sd">        The SSIM between beam 1 and transformed beam 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">beam2_trans</span> <span class="o">=</span> <span class="n">transform_beam</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">beam2</span><span class="p">,</span> <span class="n">beam1</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ssim</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">skme</span><span class="o">.</span><span class="n">structural_similarity</span><span class="p">(</span><span class="n">beam1</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">beam2_trans</span><span class="p">)],</span>
+                                              <span class="n">beam2_trans</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">beam2_trans</span><span class="p">)])</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="c1"># This happens if the transform&#39;s cval makes all of beam2_trans NaN&#39;s. Then the above slicing will cause</span>
+        <span class="c1">#  the calculation to fail on an empty slice. In any case, these beams ain&#39;t similar at all!</span>
+        <span class="k">return</span> <span class="mf">1.</span>
+
+    <span class="k">return</span> <span class="n">ssim</span></div>
+
+
+<div class="viewcode-block" id="transform_beam"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.transform_beam.html#CryoNIRSP_Pipeline.Align.Align3Calibration.transform_beam">[docs]</a><span class="k">def</span> <span class="nf">transform_beam</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">beam</span><span class="p">,</span> <span class="n">shape</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Actually transform beam 2 based on the fit parameters</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parvals</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">valuesdict</span><span class="p">()</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">skit</span><span class="o">.</span><span class="n">AffineTransform</span><span class="p">(</span><span class="n">scale</span><span class="o">=</span><span class="p">[</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;scale_x&#39;</span><span class="p">],</span> <span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;scale_y&#39;</span><span class="p">]],</span>
+                                     <span class="n">rotation</span><span class="o">=</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;rotation&#39;</span><span class="p">],</span> <span class="n">shear</span><span class="o">=</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;shear&#39;</span><span class="p">],</span>
+                                     <span class="n">translation</span><span class="o">=</span><span class="p">[</span><span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;translation_x&#39;</span><span class="p">],</span> <span class="n">parvals</span><span class="p">[</span><span class="s1">&#39;translation_y&#39;</span><span class="p">]])</span>
+    <span class="n">beam_trans</span> <span class="o">=</span> <span class="n">skit</span><span class="o">.</span><span class="n">warp</span><span class="p">(</span><span class="n">beam</span><span class="p">,</span> <span class="n">transform</span><span class="o">.</span><span class="n">inverse</span><span class="p">,</span> <span class="n">preserve_range</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">output_shape</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">beam_trans</span></div>
+
+
+<div class="viewcode-block" id="prep_data"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.prep_data.html#CryoNIRSP_Pipeline.Align.Align3Calibration.prep_data">[docs]</a><span class="k">def</span> <span class="nf">prep_data</span><span class="p">(</span><span class="n">beam</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Prepare the data for fitting by removing NaN&#39;s, normalizing, and casting as float64.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">beam</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+    <span class="n">beam</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">beam</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">beam</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">beam</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="split_beams"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.split_beams.html#CryoNIRSP_Pipeline.Align.Align3Calibration.split_beams">[docs]</a><span class="k">def</span> <span class="nf">split_beams</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform a simple and rough separation of the two polarimetric beams</span>
+
+<span class="sd">    This is just a simple array slice right now. It might get more complicated, but it might not!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Full frame data to split</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Data array for beam 1</span>
+
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Data array for beam 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pivot</span> <span class="o">=</span> <span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Beam_border&#39;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Splitting beams along column </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">pivot</span><span class="p">))</span>
+
+    <span class="n">beam1</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="n">pivot</span><span class="p">]</span>
+    <span class="n">beam2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">pivot</span><span class="p">:]</span>
+
+    <span class="k">return</span> <span class="n">beam1</span><span class="p">,</span> <span class="n">beam2</span></div>
+
+
+<div class="viewcode-block" id="make_binary"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.make_binary.html#CryoNIRSP_Pipeline.Align.Align3Calibration.make_binary">[docs]</a><span class="k">def</span> <span class="nf">make_binary</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">numotsu</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">extra_clean</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># (Mostly) copied from ViSP_Pipeline.TargetCalibration</span>
+    <span class="sd">&quot;&quot;&quot;Generate a binary image from an input float or int array.</span>
+
+<span class="sd">    A threshold value is chosen via Otsu&#39;s method and all values below the threshold are set to 0 while everything</span>
+<span class="sd">    else is set to 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : numpy.ndarray</span>
+<span class="sd">        Data to convert to binary</span>
+
+<span class="sd">    numotsu : int</span>
+<span class="sd">        The number of times to perform thresholding using Otsu&#39;s method. Numbers larger than 1 are useful if the</span>
+<span class="sd">        pixel distribution of the data has &gt; 2 modes.</span>
+
+<span class="sd">    debug : bool</span>
+<span class="sd">        If True then the resulting binary image will be saved as &quot;binary.fits&quot; in the current directory.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        An array of 1&#39;s and 0&#39;s corresponding to the thresholded input data.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numotsu</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Threshold on iteration </span><span class="si">{}</span><span class="s1"> = </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="p">,</span> <span class="n">threshold</span><span class="p">))</span>
+        <span class="n">threshold</span> <span class="o">=</span> <span class="n">skif</span><span class="o">.</span><span class="n">threshold_otsu</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">])</span>
+
+    <span class="n">binary</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extra_clean</span><span class="p">:</span>
+        <span class="n">binary</span> <span class="o">=</span> <span class="n">clean_salt</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">ImageHDU</span><span class="p">(</span><span class="n">binary</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;binary.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">binary</span></div>
+
+
+<div class="viewcode-block" id="clean_salt"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.clean_salt.html#CryoNIRSP_Pipeline.Align.Align3Calibration.clean_salt">[docs]</a><span class="k">def</span> <span class="nf">clean_salt</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Qualitatively clean bad pixels that have sharp edges and high signal</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Attempting to remove bad pixels with an opening&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">skim</span><span class="o">.</span><span class="n">diameter_opening</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ALIGN3_NUMBERS</span><span class="p">[</span><span class="s1">&#39;Salt_diameter&#39;</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="clean_pepper"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.clean_pepper.html#CryoNIRSP_Pipeline.Align.Align3Calibration.clean_pepper">[docs]</a><span class="k">def</span> <span class="nf">clean_pepper</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Qualitatibely clean bad pixels that have sharp edges and low signal&quot;&quot;&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Attempting to remove bad pixels with a closing&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">skim</span><span class="o">.</span><span class="n">diameter_closing</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="do_hough"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.do_hough.html#CryoNIRSP_Pipeline.Align.Align3Calibration.do_hough">[docs]</a><span class="k">def</span> <span class="nf">do_hough</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">numtheta</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># Copied from ViSP_Pipeline.TargetCalibration</span>
+    <span class="sd">&quot;&quot;&quot;Perform a Hough line transform on in the input data.</span>
+
+<span class="sd">    Resolution in the angle dimension can be increased via numtheta.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    binary : numpy.ndarray</span>
+<span class="sd">        An integer array of 1&#39;s and 0&#39;s</span>
+
+<span class="sd">    numtheta : int</span>
+<span class="sd">        The number of samples in the theta dimension of the Hough transform.</span>
+
+<span class="sd">    debug : bool</span>
+<span class="sd">        If True a FITS file of the resulting Hough space will be written as &quot;hough.fits&quot;</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The 2D Hough space (i.e., accumulator) of the input image</span>
+
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        A 1D array of the angle values corresponding to the Hough accumulator. Angles will range from -pi/4 to 3/4 pi</span>
+<span class="sd">        and the length will be equal to numtheta.</span>
+
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        A 1D array of the distance values corresponding to the Hough accumulator. This array is entirely determined</span>
+<span class="sd">        by skimage.transform.hough_line</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hough</span> <span class="o">=</span> <span class="n">skit</span><span class="o">.</span><span class="n">hough_line</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">,</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">numtheta</span><span class="p">))</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">hough</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">hough</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">hough</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">H</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="s1">&#39;hough.fits&#39;</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">H</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">rho</span></div>
+
+
+<div class="viewcode-block" id="find_px_angles"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Align.Align3Calibration.find_px_angles.html#CryoNIRSP_Pipeline.Align.Align3Calibration.find_px_angles">[docs]</a><span class="k">def</span> <span class="nf">find_px_angles</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta_min</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">theta_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># Copied from ViSP_Pipeline.TargetCalibration</span>
+    <span class="sd">&quot;&quot;&quot;Find the most significant angles in a Hough transform.</span>
+
+<span class="sd">    Peaks in the Hough transform a first found with a simple max filter and then refined via interpolation of the</span>
+<span class="sd">    surrounding peak.</span>
+
+<span class="sd">    Note, peak angles are not allowed to be within pi/10 of each other.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    H : numpy.ndarray</span>
+<span class="sd">        A 2D array representing a Hough accumulator</span>
+
+<span class="sd">    theta : numpy.ndarray</span>
+<span class="sd">        A 1D array of the angle values corresponding to H</span>
+
+<span class="sd">    debug : bool</span>
+<span class="sd">        If True a plot showing the peak angles and interpolated values will be saved as &quot;peaks.png&quot; in the current</span>
+<span class="sd">        directory.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The most significant angels found</span>
+
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The index values corresponding to the location in theta of the initial (non-interpolated) guesses for most</span>
+<span class="sd">        significant angles.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">theta_min</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">theta_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">theta_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">theta_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+
+    <span class="n">range_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">theta</span> <span class="o">&gt;=</span> <span class="n">theta_min</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">theta</span> <span class="o">&lt;=</span> <span class="n">theta_max</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">fit_theta</span> <span class="o">=</span> <span class="n">theta</span><span class="p">[</span><span class="n">range_idx</span><span class="p">]</span>
+    <span class="n">rss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">H</span><span class="p">[:,</span> <span class="n">range_idx</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="c1"># This min distance does not consider any angles within pi/10 of each other</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">indexes</span><span class="p">(</span><span class="n">rss</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="n">theta</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># We subtract by pi/2 because Hough measures angle from spatial axis and we want angle from dispersion axis</span>
+    <span class="n">peak_theta</span> <span class="o">=</span> <span class="n">pku</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">fit_theta</span><span class="p">,</span> <span class="n">rss</span><span class="p">,</span> <span class="n">ind</span><span class="o">=</span><span class="n">idx</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">2.</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: found peak in theta RSS at </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">idx</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: most prominent angle (deg): </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">peak_theta</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fit_theta</span><span class="p">,</span> <span class="n">rss</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">peak_theta</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">figure</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;peaks.png&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">peak_theta</span><span class="p">,</span> <span class="n">idx</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

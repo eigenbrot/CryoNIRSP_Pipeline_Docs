@@ -1,0 +1,6 @@
+remove_sepectral_curvature
+==========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: remove_sepectral_curvature

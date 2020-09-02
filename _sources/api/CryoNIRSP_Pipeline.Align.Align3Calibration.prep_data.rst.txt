@@ -1,0 +1,6 @@
+prep_data
+=========
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: prep_data

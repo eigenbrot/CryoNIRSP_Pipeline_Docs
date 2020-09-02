@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.Gain.LampGainCalibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../../../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../../../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for CryoNIRSP_Pipeline.Gain.LampGainCalibration</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">generic</span><span class="p">,</span> <span class="n">LinearityCorrection</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">CONSTANTS</span><span class="p">,</span> <span class="n">S122</span>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.LampGainCalibration.main.html#CryoNIRSP_Pipeline.Gain.LampGainCalibration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">,</span> <span class="n">instrument</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">dark_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">linearize</span><span class="p">:</span>
+        <span class="n">lin_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">,</span> <span class="s1">&#39;linearized&#39;</span><span class="p">)</span>
+        <span class="n">LinearityCorrection</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">,</span> <span class="n">lin_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;LinearityKwargs&#39;</span><span class="p">])</span>
+        <span class="n">gain_dir</span> <span class="o">=</span> <span class="n">lin_dir</span>
+
+    <span class="k">if</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s1">&#39;SP&#39;</span><span class="p">:</span>
+        <span class="n">gainData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">SPLampGainData</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">instrument</span> <span class="o">==</span> <span class="s1">&#39;CI&#39;</span><span class="p">:</span>
+        <span class="n">gainData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">CILampGainData</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;instrument&#39; needs to be either &#39;SP&#39; or &#39;CI&#39;&quot;</span><span class="p">)</span>
+
+    <span class="n">validate_lamp_gain_task</span><span class="p">(</span><span class="n">gainData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Averaging data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">avgData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_modulated_FitsData</span><span class="p">(</span><span class="n">gainData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing stddev&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">stdData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">stddev_modulated_FitsData</span><span class="p">(</span><span class="n">gainData</span><span class="p">,</span> <span class="n">avgData</span><span class="p">)</span>
+    <span class="n">avgData</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">stdData</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dark_cal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Removing dark signal&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">generic</span><span class="o">.</span><span class="n">dark_correction</span><span class="p">(</span><span class="n">avgData</span><span class="p">,</span> <span class="n">dark_cal</span><span class="p">)</span>
+
+    <span class="n">validate_lamp_gain_calibration</span><span class="p">(</span><span class="n">avgData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Generating Lamp Gain Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">gain_calibration</span> <span class="o">=</span> <span class="n">generate_lamp_gain_calibration</span><span class="p">(</span><span class="n">avgData</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gain_calibration</span></div>
+
+<div class="viewcode-block" id="validate_lamp_gain_task"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.LampGainCalibration.validate_lamp_gain_task.html#CryoNIRSP_Pipeline.Gain.LampGainCalibration.validate_lamp_gain_task">[docs]</a><span class="k">def</span> <span class="nf">validate_lamp_gain_task</span><span class="p">(</span><span class="n">gainData</span><span class="p">):</span>
+
+    <span class="n">IP0</span> <span class="o">=</span> <span class="n">gainData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span>
+    <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">gainData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">IP0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not all frames have the same IP ID&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="validate_lamp_gain_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.LampGainCalibration.validate_lamp_gain_calibration.html#CryoNIRSP_Pipeline.Gain.LampGainCalibration.validate_lamp_gain_calibration">[docs]</a><span class="k">def</span> <span class="nf">validate_lamp_gain_calibration</span><span class="p">(</span><span class="n">avgGain</span><span class="p">):</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">avgGain</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">avgGain</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Lamp Gain Calibration has negative values&#39;</span><span class="p">)</span>
+
+        <span class="n">std_frac</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">avgGain</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">avgGain</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">std_frac</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Lamp Gain Calibration stddev is too high (</span><span class="si">{:.3f}</span><span class="s1"> of mean)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">std_frac</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="generate_lamp_gain_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.LampGainCalibration.generate_lamp_gain_calibration.html#CryoNIRSP_Pipeline.Gain.LampGainCalibration.generate_lamp_gain_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_lamp_gain_calibration</span><span class="p">(</span><span class="n">avgData</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">):</span>
+    <span class="n">outname</span> <span class="o">=</span> <span class="n">outpre</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span>
+    <span class="n">avgData</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;Lamp Gain Calibration&#39;</span>
+    <span class="n">avgData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;HISTORY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Generated with data from &quot;</span><span class="si">{}</span><span class="s1">&quot; on </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">),</span>
+                                                                                 <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">())</span>
+    <span class="n">avgData</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">outname</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">avgData</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+CIDarkData
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: CIDarkData
+   :show-inheritance:

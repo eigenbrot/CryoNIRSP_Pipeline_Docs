@@ -1,0 +1,6 @@
+generate_gain4_calibration
+==========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: generate_gain4_calibration

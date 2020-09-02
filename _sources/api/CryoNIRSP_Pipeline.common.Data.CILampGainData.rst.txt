@@ -1,0 +1,7 @@
+CILampGainData
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: CILampGainData
+   :show-inheritance:

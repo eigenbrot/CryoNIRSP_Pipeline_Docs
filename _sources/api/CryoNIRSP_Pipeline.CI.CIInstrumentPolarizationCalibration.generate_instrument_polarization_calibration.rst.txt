@@ -1,0 +1,6 @@
+generate_instrument_polarization_calibration
+============================================
+
+.. currentmodule:: CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration
+
+.. autofunction:: generate_instrument_polarization_calibration

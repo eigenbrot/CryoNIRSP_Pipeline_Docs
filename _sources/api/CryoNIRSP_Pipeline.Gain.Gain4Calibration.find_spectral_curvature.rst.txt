@@ -1,0 +1,6 @@
+find_spectral_curvature
+=======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: find_spectral_curvature

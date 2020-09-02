@@ -1,0 +1,7 @@
+SPAlign1Data
+============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SPAlign1Data
+   :show-inheritance:

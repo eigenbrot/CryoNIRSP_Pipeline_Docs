@@ -1,0 +1,6 @@
+ensure_CI_name
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.CI.CIPipeline
+
+.. autofunction:: ensure_CI_name

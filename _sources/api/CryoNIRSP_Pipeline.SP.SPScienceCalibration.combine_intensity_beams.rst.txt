@@ -1,0 +1,6 @@
+combine_intensity_beams
+=======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPScienceCalibration
+
+.. autofunction:: combine_intensity_beams

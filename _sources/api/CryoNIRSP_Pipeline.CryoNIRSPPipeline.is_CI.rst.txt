@@ -1,0 +1,6 @@
+is_CI
+=====
+
+.. currentmodule:: CryoNIRSP_Pipeline.CryoNIRSPPipeline
+
+.. autofunction:: is_CI

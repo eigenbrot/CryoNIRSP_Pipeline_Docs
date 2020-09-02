@@ -1,0 +1,6 @@
+generate_intermediate_objects
+=============================
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPPipeline
+
+.. autofunction:: generate_intermediate_objects

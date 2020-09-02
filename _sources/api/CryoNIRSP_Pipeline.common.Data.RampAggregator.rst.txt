@@ -1,0 +1,21 @@
+RampAggregator
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: RampAggregator
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~RampAggregator.discover_ramps
+      ~RampAggregator.get_ramp_data
+      ~RampAggregator.read_directory
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: discover_ramps
+   .. automethod:: get_ramp_data
+   .. automethod:: read_directory

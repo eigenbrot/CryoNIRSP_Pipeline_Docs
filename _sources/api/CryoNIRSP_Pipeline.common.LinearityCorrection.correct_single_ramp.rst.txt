@@ -1,0 +1,6 @@
+correct_single_ramp
+===================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: correct_single_ramp

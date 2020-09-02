@@ -1,0 +1,7 @@
+Gain4Data
+=========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: Gain4Data
+   :show-inheritance:

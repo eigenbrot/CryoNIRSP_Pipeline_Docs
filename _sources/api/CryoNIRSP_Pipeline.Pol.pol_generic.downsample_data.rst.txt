@@ -1,0 +1,6 @@
+downsample_data
+===============
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_generic
+
+.. autofunction:: downsample_data

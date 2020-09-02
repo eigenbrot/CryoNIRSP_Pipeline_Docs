@@ -1,20 +1,21 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Configuration File Format &#8212; CryoNIRSP_Pipeline v0.1.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration File Format &#8212; CryoNIRSP_Pipeline v0.7.0</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
     <link rel="stylesheet" href="_static/dkist.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favico.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -24,9 +25,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -78,6 +79,9 @@
 <li><a class="reference internal" href="#main">Main</a></li>
 <li><a class="reference internal" href="#darkcalibration">DarkCalibration</a></li>
 <li><a class="reference internal" href="#gain1calibration">Gain1Calibration</a></li>
+<li><a class="reference internal" href="#lampgaincalibration">LampGainCalibration</a></li>
+<li><a class="reference internal" href="#gain4calibration">Gain4Calibration</a></li>
+<li><a class="reference internal" href="#align3calibration">Align3Calibration</a></li>
 <li><a class="reference internal" href="#instrumentpolarization">InstrumentPolarization</a></li>
 <li><a class="reference internal" href="#example-config-file">Example Config File</a></li>
 </ul>
@@ -143,6 +147,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#main">Main</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#darkcalibration">DarkCalibration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gain1calibration">Gain1Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lampgaincalibration">LampGainCalibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gain4calibration">Gain4Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#align3calibration">Align3Calibration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#instrumentpolarization">InstrumentPolarization</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#example-config-file">Example Config File</a></li>
 </ul>
@@ -189,23 +196,38 @@ Calibration Objects by simply pointing the corresponding option to a file that d
 <dt class="field-even">gain1_cal</dt>
 <dd class="field-even"><p>The location of a processed Gain 1 Calibration object. If it does not exist it will be generated.</p>
 </dd>
-<dt class="field-odd">instrument_pol_cal</dt>
-<dd class="field-odd"><p>The location of the Instrument Polarization Calibration object (i.e., demodulation matrices. If
+<dt class="field-odd">lamp_gain_cal</dt>
+<dd class="field-odd"><p>The location of a processed LampGain Calibration object. If it does not exist it will be generated.</p>
+</dd>
+<dt class="field-even">gain4_cal</dt>
+<dd class="field-even"><p>The location of a processed Gain 4 Calibration object. If it does not exist it will be generated.</p>
+</dd>
+<dt class="field-odd">align3_cal</dt>
+<dd class="field-odd"><p>The location of a processed Align 3 Calibration object. If it does not exist it will be generated.</p>
+</dd>
+<dt class="field-even">instrument_pol_cal</dt>
+<dd class="field-even"><p>The location of the Instrument Polarization Calibration object (i.e., demodulation matrices. If
 it does not exist it will be generated.</p>
 </dd>
-<dt class="field-even"><em>remove_TM</em></dt>
-<dd class="field-even"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not apply a polarimetric correction for M1 - M6 (inclusive)</p>
+<dt class="field-odd"><em>linearize</em></dt>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then don’t attempt to linearize <em>any</em> data. This is useful for testing on fake data.</p>
 </dd>
-<dt class="field-odd"><em>include_M12</em></dt>
-<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do include mirrors M1 and M2 in the telescope polarimetric correction. This
+<dt class="field-even"><em>suffix</em></dt>
+<dd class="field-even"><p>[<em>FITS</em>] The suffix to use both when looking for and writing any FITS file</p>
+</dd>
+<dt class="field-odd"><em>remove_TM</em></dt>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not apply a polarimetric correction for M1 - M6 (inclusive)</p>
+</dd>
+<dt class="field-even"><em>include_M12</em></dt>
+<dd class="field-even"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do include mirrors M1 and M2 in the telescope polarimetric correction. This
 option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></p>
 </dd>
-<dt class="field-even"><em>remove_parallactic</em></dt>
-<dd class="field-even"><p><strong>(bool)</strong> [<em>True</em>]If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not include a final rotation into a common Solar reference frame.
+<dt class="field-odd"><em>remove_parallactic</em></dt>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>]If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not include a final rotation into a common Solar reference frame.
 This option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
 </dd>
-<dt class="field-odd"><em>telescope_db</em></dt>
-<dd class="field-odd"><p>[<em>None</em>] The path to a telescope mirror parameter database. If none is provided then the default PA&amp;C database
+<dt class="field-even"><em>telescope_db</em></dt>
+<dd class="field-even"><p>[<em>None</em>] The path to a telescope mirror parameter database. If none is provided then the default PA&amp;C database
 will be used.</p>
 </dd>
 </dl>
@@ -229,6 +251,36 @@ directory must contain dark frames or an error will be thrown.</p>
 </dd>
 </dl>
 </div>
+<div class="section" id="lampgaincalibration">
+<h2>LampGainCalibration<a class="headerlink" href="#lampgaincalibration" title="Permalink to this headline">¶</a></h2>
+<p>This section will only be used if the file specified by <code class="docutils literal notranslate"><span class="pre">Main.lamp_gain_cal</span></code> does not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">raw_lamp_dir</dt>
+<dd class="field-odd"><p>The location of a directory containing raw frames for the LampGain task.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="gain4calibration">
+<h2>Gain4Calibration<a class="headerlink" href="#gain4calibration" title="Permalink to this headline">¶</a></h2>
+<p>This section will only be used if the file specified by <code class="docutils literal notranslate"><span class="pre">Main.gain4_cal</span></code> does not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">raw_gain4_dir</dt>
+<dd class="field-odd"><p>The location of a directory containing raw frames for the Gain4 task.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="align3calibration">
+<h2>Align3Calibration<a class="headerlink" href="#align3calibration" title="Permalink to this headline">¶</a></h2>
+<p>This section will only be used if the file specified by <code class="docutils literal notranslate"><span class="pre">Main.align3_cal</span></code> does not exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">raw_align3_dir</dt>
+<dd class="field-odd"><p>The location of a directory containing raw frames for the Align3 task.</p>
+</dd>
+<dt class="field-even">raw_pinhole_dir</dt>
+<dd class="field-even"><p>The location of a directory containing raw pinhole images.</p>
+</dd>
+</dl>
+</div>
 <div class="section" id="instrumentpolarization">
 <h2>InstrumentPolarization<a class="headerlink" href="#instrumentpolarization" title="Permalink to this headline">¶</a></h2>
 <p>This section will only be used if the file specified by <code class="docutils literal notranslate"><span class="pre">Main.instrument_pol_cal</span></code> does not exist.</p>
@@ -248,7 +300,12 @@ directory must contain dark frames or an error will be thrown.</p>
 <span class="na">output_prefix</span> <span class="o">=</span> <span class="s">Sci</span>
 <span class="na">dark_cal</span> <span class="o">=</span> <span class="s">DarkCal</span>
 <span class="na">gain1_cal</span> <span class="o">=</span> <span class="s">Gain1Cal</span>
+<span class="na">lamp_gain_cal</span> <span class="o">=</span> <span class="s">LampCal</span>
+<span class="na">gain4_cal</span> <span class="o">=</span> <span class="s">Gain4Cal</span>
+<span class="na">align3_cal</span> <span class="o">=</span> <span class="s">Align3Cal</span>
 <span class="na">instrument_pol_cal</span> <span class="o">=</span> <span class="s">InstPolCal</span>
+<span class="na">linearize</span> <span class="o">=</span> <span class="s">False</span>
+<span class="na">suffix</span> <span class="o">=</span> <span class="s">FITS</span>
 <span class="na">remove_TM</span> <span class="o">=</span> <span class="s">True</span>
 <span class="na">include_M12</span> <span class="o">=</span> <span class="s">False</span>
 <span class="na">remove_parallactic</span> <span class="o">=</span> <span class="s">True</span>
@@ -259,6 +316,16 @@ directory must contain dark frames or an error will be thrown.</p>
 
 <span class="k">[Gain1Calibration]</span>
 <span class="na">raw_gain1_dir</span> <span class="o">=</span> <span class="s">../raw</span>
+
+<span class="k">[LampGainCalibration]</span>
+<span class="na">raw_lamp_dir</span> <span class="o">=</span> <span class="s">../raw</span>
+
+<span class="k">[Gain4Calibration]</span>
+<span class="na">raw_gain4_dir</span> <span class="o">=</span> <span class="s">../raw</span>
+
+<span class="k">[Align3Calibration]</span>
+<span class="na">raw_align3_dir</span> <span class="o">=</span> <span class="s">../raw</span>
+<span class="na">raw_pinhole_dir</span> <span class="o">=</span> <span class="s">../raw</span>
 
 <span class="k">[InstrumentPolarization]</span>
 <span class="na">raw_pol_dir</span> <span class="o">=</span> <span class="s">../polcal</span>
@@ -276,15 +343,15 @@ directory must contain dark frames or an error will be thrown.</p>
 <footer class="footer">
   <div class="container">
     <div class="left-footer">
-         &copy; 2019, Arthur Eigenbrot
+         &copy; 2020, Arthur Eigenbrot
        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
     </div>
    
     <div class="right-footer">
-      Last updated on 19 Nov 2019.
+      Last updated on 02 Sep 2020.
     </div>
     <div class="centre-footer">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
     </div>
   </div>
 </footer>

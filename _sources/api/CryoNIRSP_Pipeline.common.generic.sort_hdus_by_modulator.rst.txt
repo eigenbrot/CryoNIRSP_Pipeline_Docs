@@ -1,0 +1,6 @@
+sort_hdus_by_modulator
+======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: sort_hdus_by_modulator

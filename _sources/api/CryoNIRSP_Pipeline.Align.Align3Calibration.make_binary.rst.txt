@@ -1,0 +1,6 @@
+make_binary
+===========
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: make_binary

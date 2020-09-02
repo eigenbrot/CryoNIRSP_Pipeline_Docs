@@ -1,0 +1,7 @@
+SPObservationData
+=================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SPObservationData
+   :show-inheritance:

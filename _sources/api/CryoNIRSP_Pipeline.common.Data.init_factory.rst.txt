@@ -1,0 +1,6 @@
+init_factory
+============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autofunction:: init_factory

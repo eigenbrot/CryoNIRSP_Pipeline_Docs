@@ -1,0 +1,6 @@
+combine_polarimetric_beams
+==========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPScienceCalibration
+
+.. autofunction:: combine_polarimetric_beams

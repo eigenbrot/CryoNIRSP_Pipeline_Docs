@@ -1,0 +1,6 @@
+extract_macropixels
+===================
+
+.. currentmodule:: CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration
+
+.. autofunction:: extract_macropixels

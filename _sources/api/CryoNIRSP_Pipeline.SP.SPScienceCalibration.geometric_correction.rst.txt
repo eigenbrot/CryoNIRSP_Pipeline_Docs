@@ -1,0 +1,6 @@
+geometric_correction
+====================
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPScienceCalibration
+
+.. autofunction:: geometric_correction

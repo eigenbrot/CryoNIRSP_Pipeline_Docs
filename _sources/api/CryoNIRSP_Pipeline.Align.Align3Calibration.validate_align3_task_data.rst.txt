@@ -1,0 +1,6 @@
+validate_align3_task_data
+=========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: validate_align3_task_data

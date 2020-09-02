@@ -1,20 +1,21 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>CryoNIRSP_Pipeline.common.generic &#8212; CryoNIRSP_Pipeline v0.1.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.common.generic &#8212; CryoNIRSP_Pipeline v0.7.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
     <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../../_static/favico.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -22,9 +23,9 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
 <meta name="apple-mobile-web-app-capable" content="yes">
-<script type="text/javascript" src="../../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
 <script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
-<script type="text/javascript" src="../../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
 <script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
@@ -131,14 +132,13 @@
     <div class="body col-md-9 content" role="main">
       
   <h1>Source code for CryoNIRSP_Pipeline.common.generic</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">dask</span>
-<span class="kn">import</span> <span class="nn">dask.array</span> <span class="k">as</span> <span class="nn">da</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="k">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
-<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="k">import</span> <span class="n">Time</span>
-<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="k">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">TelescopePolarizationCalibration</span>
-<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="k">import</span> <span class="n">tag</span><span class="p">,</span> <span class="n">is_mp</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+<span class="kn">from</span> <span class="nn">astropy.time</span> <span class="kn">import</span> <span class="n">Time</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">Data</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">S122</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">,</span> <span class="n">ND_CURVES</span>
+
 
 <div class="viewcode-block" id="average_FitsData"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.average_FitsData.html#CryoNIRSP_Pipeline.common.generic.average_FitsData">[docs]</a><span class="k">def</span> <span class="nf">average_FitsData</span><span class="p">(</span><span class="n">fitsData</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Average ALL hdus into a single frame</span>
@@ -252,13 +252,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">numx</span><span class="p">,</span> <span class="n">numy</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">hdulist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;CRSP_014&#39;</span><span class="p">]</span>
+    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;NumberOfModulatorStates&#39;</span><span class="p">]]</span>
 
     <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">unc_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">numx</span><span class="p">,</span> <span class="n">numy</span><span class="p">,</span> <span class="n">nummod</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nummod</span><span class="p">):</span>
-        <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="s1">&#39;CRSP_015&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">numx</span><span class="p">,</span> <span class="n">numy</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
             <span class="n">start_times</span> <span class="o">=</span> <span class="p">[]</span>
@@ -315,15 +315,15 @@
 
     <span class="n">numx</span><span class="p">,</span> <span class="n">numy</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span>
     <span class="n">hdulist</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;CRSP_014&#39;</span><span class="p">]</span>
+    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;NumberOfModulatorStates&#39;</span><span class="p">]]</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nummod</span><span class="p">):</span>
-        <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="s1">&#39;CRSP_015&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">pos_idx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pos_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">numx</span><span class="p">,</span> <span class="n">numy</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
             <span class="n">start_times</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">end_times</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">avg_idx</span> <span class="o">=</span> <span class="n">average</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="s1">&#39;CRSP_015&#39;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">avg_idx</span> <span class="o">=</span> <span class="n">average</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">],</span><span class="n">i</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">avg_idx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find average value for modulator </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
             <span class="n">avg_data</span> <span class="o">=</span> <span class="n">average</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">avg_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
@@ -349,7 +349,20 @@
     <span class="k">return</span> <span class="n">newData</span></div>
 
 <div class="viewcode-block" id="dark_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.dark_correction.html#CryoNIRSP_Pipeline.common.generic.dark_correction">[docs]</a><span class="k">def</span> <span class="nf">dark_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">dark_calibration</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Subtract a Dark from input data. This function does not care about modulation state.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Data to be corrected</span>
+
+<span class="sd">    dark_calibration : `Data.FitsData`</span>
+<span class="sd">        Dark to be subtracted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None, correction is done in place</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Performing dark correction on </span><span class="si">{}</span><span class="s1"> with </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">fitsData</span><span class="p">,</span> <span class="n">dark_calibration</span><span class="p">))</span>
     <span class="n">dark_data</span> <span class="o">=</span> <span class="n">dark_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">try</span><span class="p">:</span>
@@ -369,46 +382,132 @@
         <span class="n">fitsData</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">dark_unc</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="unmodulated_gain_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction">[docs]</a><span class="k">def</span> <span class="nf">unmodulated_gain_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">gain_calibration</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Divide ALL data arrays by provided gain.</span>
 
+<span class="sd">    Only the first Gain data array is used and this function does not care about modulator state.</span>
+
+<span class="sd">    If the data and gain were taken with different Cryo attenuation filters a scalar correction will be applied.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Data to be corrected</span>
+
+<span class="sd">    gain_calibration : `Data.FitsData`</span>
+<span class="sd">        Gain to use for correction. If multiple data HDUs are present only the first will be used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None, correction is done in place</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Performing gain correction on </span><span class="si">{}</span><span class="s1"> with </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">fitsData</span><span class="p">,</span> <span class="n">gain_calibration</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: WARNING! Gain object does not have uncertainties. Setting to 0, but this is weird!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">gain_calibration</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="p">)))</span>
+
+    <span class="c1"># TODO: Raise error/warning if gain_calibration is modulated</span>
     <span class="n">gain_data</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">gain_unc</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">data_ND_name</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;AttenuationFilterID&#39;</span><span class="p">]]</span>
+    <span class="n">gain_ND_name</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;AttenuationFilterID&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">gain_ND_name</span> <span class="o">!=</span> <span class="n">data_ND_name</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Data (</span><span class="si">{}</span><span class="s1">) and Gain (</span><span class="si">{}</span><span class="s1">) ND filter IDs are different&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">data_ND_name</span><span class="p">,</span> <span class="n">gain_ND_name</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_curve</span> <span class="o">=</span> <span class="n">ND_CURVES</span><span class="p">[</span><span class="n">data_ND_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Cannot find </span><span class="si">{}</span><span class="s1"> (from data) in ND filter curve database&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_ND_name</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gain_curve</span> <span class="o">=</span> <span class="n">ND_CURVES</span><span class="p">[</span><span class="n">gain_ND_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Cannot find </span><span class="si">{}</span><span class="s1"> (from gain) in ND filter curve database&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gain_ND_name</span><span class="p">))</span>
+
+        <span class="n">data_attenuation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">]],</span> <span class="n">data_curve</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_curve</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">gain_attenuation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">]],</span> <span class="n">gain_curve</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gain_curve</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">ND_correction</span> <span class="o">=</span> <span class="n">gain_attenuation</span> <span class="o">/</span> <span class="n">data_attenuation</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">:  ND filter correction = </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">ND_correction</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ND_correction</span> <span class="o">=</span> <span class="mf">1.</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: dividing gain from data HDU </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># We propagate uncertainties first because the data are modified in place</span>
-            <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
-                                      <span class="p">(</span><span class="n">gain_unc</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span>
+            <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ND_correction</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+                                                      <span class="p">(</span><span class="n">gain_unc</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ND_correction</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span>
 
     <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fitsData</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">gain_unc</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="modulated_gain_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.modulated_gain_correction">[docs]</a><span class="k">def</span> <span class="nf">modulated_gain_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">gain_calibration</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Divide each modulator state&#39;s data by Gain from the same modulator state.</span>
 
+<span class="sd">    Every modulator state present in the input data must have a corresponding array in the Gain data.</span>
+
+<span class="sd">    If the data and gain were taken with different Cryo attenuation filters a scalar correction will be applied.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fitsData : `Data.FitsData`</span>
+<span class="sd">        Data to correct</span>
+
+<span class="sd">    gain_calibration : `Data.FitsData`</span>
+<span class="sd">        Gain to use for correction. Should have multiple data HDUs corresponding to multiple modulator states</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None, correction is done in place</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Performing gain correction on </span><span class="si">{}</span><span class="s1"> with </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">fitsData</span><span class="p">,</span> <span class="n">gain_calibration</span><span class="p">))</span>
-    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;CRSP_014&#39;</span><span class="p">]</span>
+    <span class="n">nummod</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;NumberOfModulatorStates&#39;</span><span class="p">]]</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You are trying to correct demodulated data. Use generic.unmodulated_gain_correction instead&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You are trying to correct unmodulated data. Use generic.unmodulated_gain_correction instead&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You are trying to correct unmodulated data with a modulated Calibration. &#39;</span>
-                             <span class="s1">&#39;Use generic.demodulated_gain_correction instead&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You are trying to correct modulated data with a unmodulated Calibration. &#39;</span>
+                             <span class="s1">&#39;Use generic.unmodulated_gain_correction instead&#39;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="k">pass</span>
 
     <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fresh_unc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="p">))</span>
 
+    <span class="k">if</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: WARNING! Gain object does not have uncertainties. Setting to 0, but this is weird!&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">gain_calibration</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span> <span class="o">+</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="p">)))</span>
+
+    <span class="n">data_ND_name</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;AttenuationFilterID&#39;</span><span class="p">]]</span>
+    <span class="n">gain_ND_name</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;AttenuationFilterID&#39;</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="n">gain_ND_name</span> <span class="o">!=</span> <span class="n">data_ND_name</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Data (</span><span class="si">{}</span><span class="s1">) and Gain (</span><span class="si">{}</span><span class="s1">) ND filter IDs are different&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">data_ND_name</span><span class="p">,</span> <span class="n">gain_ND_name</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">data_curve</span> <span class="o">=</span> <span class="n">ND_CURVES</span><span class="p">[</span><span class="n">data_ND_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Cannot find </span><span class="si">{}</span><span class="s1"> (from data) in ND filter curve database&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_ND_name</span><span class="p">))</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">gain_curve</span> <span class="o">=</span> <span class="n">ND_CURVES</span><span class="p">[</span><span class="n">gain_ND_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Cannot find </span><span class="si">{}</span><span class="s1"> (from gain) in ND filter curve database&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gain_ND_name</span><span class="p">))</span>
+
+        <span class="n">data_attenuation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">]],</span> <span class="n">data_curve</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">data_curve</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">gain_attenuation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">gain_calibration</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;Wavelength&#39;</span><span class="p">]],</span> <span class="n">gain_curve</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gain_curve</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">ND_correction</span> <span class="o">=</span> <span class="n">gain_attenuation</span> <span class="o">/</span> <span class="n">data_attenuation</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">:  ND filter correction = </span><span class="si">{:.3f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">ND_correction</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ND_correction</span> <span class="o">=</span> <span class="mf">1.</span>
+
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nummod</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: modulator state </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="p">))</span>
-        <span class="n">didx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="s1">&#39;CRSP_015&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-        <span class="n">gidx</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="s1">&#39;CRSP_015&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">didx</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">gidx</span> <span class="o">=</span> <span class="n">gain_calibration</span><span class="o">.</span><span class="n">find_data_keyword_idx</span><span class="p">(</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gidx</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Could not find gain data for modulator state </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gidx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -420,203 +519,74 @@
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: dividing gain from data HDU </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">j</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># We propagate uncertainties first because the data are modified in place</span>
-                <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
-                                          <span class="p">(</span><span class="n">gain_unc</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ND_correction</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+                                                          <span class="p">(</span><span class="n">gain_unc</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">fresh_unc</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">gain_unc</span>
-            <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span>
+            <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span>  <span class="n">ND_correction</span> <span class="o">*</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">/</span> <span class="n">gain_data</span>
 
     <span class="k">if</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fitsData</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">fresh_unc</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="polarization_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.polarization_correction.html#CryoNIRSP_Pipeline.common.generic.polarization_correction">[docs]</a><span class="k">def</span> <span class="nf">polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">,</span>
-                            <span class="n">remove_TM</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">telescope_db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_M12</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_parallactic</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove some or all polarimetric effects from data</span>
+<div class="viewcode-block" id="sort_hdus_by_modulator"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html#CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator">[docs]</a><span class="k">def</span> <span class="nf">sort_hdus_by_modulator</span><span class="p">(</span><span class="n">fitsData</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure that the HDUList is in modulator order.</span>
 
-<span class="sd">    At a minimum, this function demodulates the data with an InstrumentPolarizationCalibration object (i.e., a</span>
-<span class="sd">    demodulation matrix). It can also remove the M1 - M6 telescope Mueller matrix. In this case it first uses data</span>
-<span class="sd">    header values to generate a telescope matrix appropriate for the time and date of observations and then removes</span>
-<span class="sd">    this matrix from the data.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fitsData : `Data.FitsData`</span>
-<span class="sd">        Data to remove polarimetric effects from. Should be modulated data.</span>
-
-<span class="sd">    inst_pol_calibration : `Data.DemodulationData`</span>
-<span class="sd">        The demodulation matrices</span>
-
-<span class="sd">    remove_TM : bool</span>
-<span class="sd">        If True then the inverse telescope Mueller matrix is applied</span>
-
-<span class="sd">    telescope_db : str</span>
-<span class="sd">        Path to a file containing telescope mirror parameters as a function of time and wavelength. If this is None then</span>
-<span class="sd">        the default database is loaded from the PA&amp;C Modules (recommended).</span>
-
-<span class="sd">    include_M12 : bool</span>
-<span class="sd">        If True then mirrors M1 and M2 are included in the telescope Mueller matrix</span>
-
-<span class="sd">    remove_parallactic : bool</span>
-<span class="sd">        If True then the telescope Mueller matrix will include rotation by the parallactic angle and will thus put</span>
-<span class="sd">        the data into a common solar reference frame</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    `Data.FitsData`</span>
-<span class="sd">        The demodulated input data with the telescope Mueller matrix potentially removed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: demodulating data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-    <span class="n">stokesData</span> <span class="o">=</span> <span class="n">instrument_polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">remove_TM</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">telescope_db</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">telescope_db</span><span class="p">):</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loading telescope parameter database from PA&amp;C defualts&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-            <span class="kn">from</span> <span class="nn">PAC_Pipeline.generic</span> <span class="k">import</span> <span class="n">get_default_telescope_db</span>
-            <span class="n">telescope_db</span> <span class="o">=</span> <span class="n">get_default_telescope_db</span><span class="p">()</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: generating inverse telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="n">tm_mat</span> <span class="o">=</span> <span class="n">TelescopePolarizationCalibration</span><span class="o">.</span><span class="n">generate_telescope_pol_calibration</span><span class="p">(</span><span class="n">stokesData</span><span class="p">,</span> <span class="n">telescope_db</span><span class="p">,</span>
-                                                                                     <span class="n">M12</span><span class="o">=</span><span class="n">include_M12</span><span class="p">,</span>
-                                                                                     <span class="n">include_parallactic</span><span class="o">=</span><span class="n">remove_parallactic</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: removing telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="n">stokesData</span> <span class="o">=</span> <span class="n">telescope_pol_correction</span><span class="p">(</span><span class="n">stokesData</span><span class="p">,</span> <span class="n">tm_mat</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: skipping removal of telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-
-    <span class="k">return</span> <span class="n">stokesData</span></div>
-
-<div class="viewcode-block" id="instrument_polarization_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction.html#CryoNIRSP_Pipeline.common.generic.instrument_polarization_correction">[docs]</a><span class="k">def</span> <span class="nf">instrument_polarization_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">inst_pol_calibration</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Multiply input data by the provided demodulation matrix</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fitsData : `Data.FitsData`</span>
-<span class="sd">        Input data. Should have M data_hdus (one for each modulator state), each with shape (x, y).</span>
-
-<span class="sd">    inst_pol_calibration : `Data.Demodulation`</span>
-<span class="sd">        Should contain the full-frame (i.e., both beams) demodulation matrices in the `.beam1` property. These matrices</span>
-<span class="sd">        should have shape (x, y, 4, M) or (4, M).</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    `Data.FitsData`</span>
-<span class="sd">        Demodulated Stokes data. Has four data_hdus each of shape (x, y), corresponding to the four Stokes components.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: stacking data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-    <span class="n">stacked_data</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-
-    <span class="c1"># Remember from InstrumentPolarizationCalibration.generate_instrument_pol_calibration that beam1 contains</span>
-    <span class="c1">#  the full-frame (both beam) demodulation matrices</span>
-    <span class="n">demod</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">inst_pol_calibration</span><span class="o">.</span><span class="n">beam1</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">stacked_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Modulated data (</span><span class="si">{}</span><span class="s1">) and demodulation matrices (</span><span class="si">{}</span><span class="s1">) do not &#39;</span>
-                         <span class="s1">&#39;have the same number of modulation states&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stacked_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
-
-    <span class="n">output</span> <span class="o">=</span> <span class="n">polarimetric_multiplication</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">,</span> <span class="n">demod</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">is_mp</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: subprocess detected. Computing array synchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;synchronous&#39;</span><span class="p">):</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: computing array (potentially) asynchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-
-    <span class="k">del</span> <span class="n">stacked_data</span>
-
-    <span class="n">outData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
-    <span class="n">outData</span><span class="o">.</span><span class="n">init_with_ndarray</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-
-    <span class="k">for</span> <span class="n">h</span><span class="p">,</span> <span class="n">stokes</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;I&#39;</span><span class="p">,</span> <span class="s1">&#39;Q&#39;</span><span class="p">,</span> <span class="s1">&#39;U&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">]):</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;STOKES&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stokes</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;EXTNAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Stokes </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">stokes</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">outData</span></div>
-
-<div class="viewcode-block" id="telescope_pol_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.telescope_pol_correction.html#CryoNIRSP_Pipeline.common.generic.telescope_pol_correction">[docs]</a><span class="k">def</span> <span class="nf">telescope_pol_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">teleCal</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Apply an inverse Telescope Mueller matrix and update header values</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    fitsData : Data.FitsData</span>
-<span class="sd">        Data to apply the inverse TM to. Should have 4 data HDUs (stokes vectors).</span>
-
-<span class="sd">    teleCal : numpy.ndarray</span>
-<span class="sd">        A (4, 4) array containing the Mueller matrix for the inverse of mirrors 1 - 6</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    Data.FitsData</span>
-<span class="sd">        The input data with the polarimetric contributions of M1 - M6 removed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="s1">&#39;ISSTOKES&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ISSTOKES&#39;</span><span class="p">]:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Input data is not demodulated!&#39;</span><span class="p">)</span>
-
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: stacking data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-    <span class="n">stacked_data</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">dstack</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-
-    <span class="n">output</span> <span class="o">=</span> <span class="n">polarimetric_multiplication</span><span class="p">(</span><span class="n">stacked_data</span><span class="p">,</span> <span class="n">teleCal</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">is_mp</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: subprocess detected. Computing array synchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="k">with</span> <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s1">&#39;synchronous&#39;</span><span class="p">):</span>
-            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: computing array (potentially) asynchronously&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
-
-    <span class="k">del</span> <span class="n">stacked_data</span>
-
-    <span class="n">outData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
-    <span class="n">outData</span><span class="o">.</span><span class="n">init_with_ndarray</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-    <span class="n">outData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-    <span class="k">for</span> <span class="n">new</span><span class="p">,</span> <span class="n">old</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">,</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">):</span>
-        <span class="n">new</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="n">old</span><span class="o">.</span><span class="n">header</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-
-    <span class="k">return</span> <span class="n">outData</span></div>
-
-<div class="viewcode-block" id="polarimetric_multiplication"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication.html#CryoNIRSP_Pipeline.common.generic.polarimetric_multiplication">[docs]</a><span class="k">def</span> <span class="nf">polarimetric_multiplication</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">demod</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Matrix multiply the input data by a polarization demodulation matrix.</span>
-
-<span class="sd">    This is a general-purpose function that requires good understanding of the input parameters. The important thing</span>
-<span class="sd">    is that the demodulation matrix&#39;s last dimension is equal to the number of data HDU&#39;s in the input data.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data : `numpy.ndarray`</span>
-<span class="sd">        Input data to demodulate. Should have shape (x, y, M).</span>
-
-<span class="sd">    demod : `numpy.ndarray`</span>
-<span class="sd">        The demodulation matrix. There are a few different shapes it can have:</span>
-
-<span class="sd">            1. (x, y, 4, M), where (x, y) is the shape of a single input frame and M is the number of modulation</span>
-<span class="sd">            states. In this case, a separate demodulation can be provided for each individual pixel. Total control!</span>
-
-<span class="sd">            2. (4, M). This assumes a constant demodulation matrix across the ViSP chip</span>
-
-<span class="sd">            3. (4, 4). This form is used for removing the polarizing effect of the telescope optics and requires the</span>
-<span class="sd">            input data to already be in &quot;Stokes&quot; form.</span>
-
-<span class="sd">        Note that in all cases the length of the second to last dimension is 4 (corresponding to the Stokes vector)</span>
-<span class="sd">        and the length of the last dimension is equal to the number of data HDUs in the input data.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    `numpy.ndarray`</span>
-<span class="sd">        Demodulated/corrected polarization data. Regardless of the inputs, the output will have shape (x, y, 4),</span>
-<span class="sd">        corresponding to the 4 Stokes parameters.</span>
+<span class="sd">    We also check that there are the correct number of modulator states and no repeats of a single state.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: matrix-multiplying arrays with shapes </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">demod</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">demod</span> <span class="o">*</span> <span class="n">data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sort_idx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Because the first HDU (Primary) will *always* be first.</span>
+    <span class="n">mod_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;CurrentState&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">mod_list</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;There are more than 1 HDU for some modulator states&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">output</span></div>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">mod_list</span><span class="p">)</span> <span class="o">!=</span> <span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;NumberOfModulatorStates&#39;</span><span class="p">]]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Expecting </span><span class="si">{}</span><span class="s1"> modulator states, but only found </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;NumberOfModulatorStates&#39;</span><span class="p">]],</span>
+                                                                                   <span class="nb">len</span><span class="p">(</span><span class="n">mod_list</span><span class="p">)))</span>
 
+    <span class="n">sort_idx</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">mod_list</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># +1 because of the default first value</span>
+    <span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">pyfits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">fitsData</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">])</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fitsData</span><span class="o">.</span><span class="n">file_list</span><span class="p">[:]</span> <span class="o">=</span> <span class="p">[</span><span class="n">fitsData</span><span class="o">.</span><span class="n">file_list</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sort_idx</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="strip_fits"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.strip_fits.html#CryoNIRSP_Pipeline.common.generic.strip_fits">[docs]</a><span class="k">def</span> <span class="nf">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Strip the &#39;.fits&#39; extension from a filename</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="strip_asdf"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.strip_asdf.html#CryoNIRSP_Pipeline.common.generic.strip_asdf">[docs]</a><span class="k">def</span> <span class="nf">strip_asdf</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Strip the &#39;.asdf&#39; extension from a filename</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.asdf&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ensure_fits"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.ensure_fits.html#CryoNIRSP_Pipeline.common.generic.ensure_fits">[docs]</a><span class="k">def</span> <span class="nf">ensure_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure that a string has only one &#39;.fits&#39; on the end of it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ensure_asdf"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.ensure_asdf.html#CryoNIRSP_Pipeline.common.generic.ensure_asdf">[docs]</a><span class="k">def</span> <span class="nf">ensure_asdf</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure that a string has only one &#39;.asdf&#39; on the end of it</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">strip_asdf</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.asdf&#39;</span></div>
+
+<div class="viewcode-block" id="convert_config_to_int"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.generic.convert_config_to_int.html#CryoNIRSP_Pipeline.common.generic.convert_config_to_int">[docs]</a><span class="k">def</span> <span class="nf">convert_config_to_int</span><span class="p">(</span><span class="n">configdict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert configparser-style dictionary of arguments to integers, where appropriate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">configdict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">configdict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">configdict</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span></div>
 </pre></div>
 
     </div>
@@ -626,15 +596,15 @@
 <footer class="footer">
   <div class="container">
     <div class="left-footer">
-         &copy; 2019, Arthur Eigenbrot
+         &copy; 2020, Arthur Eigenbrot
        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
     </div>
    
     <div class="right-footer">
-      Last updated on 19 Nov 2019.
+      Last updated on 02 Sep 2020.
     </div>
     <div class="centre-footer">
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
     </div>
   </div>
 </footer>

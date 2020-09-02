@@ -1,0 +1,6 @@
+find_threshold
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: find_threshold

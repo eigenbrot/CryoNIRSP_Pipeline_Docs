@@ -26,8 +26,18 @@ Calibration Objects by simply pointing the corresponding option to a file that d
 
 :gain1_cal: The location of a processed Gain 1 Calibration object. If it does not exist it will be generated.
 
+:lamp_gain_cal: The location of a processed LampGain Calibration object. If it does not exist it will be generated.
+
+:gain4_cal: The location of a processed Gain 4 Calibration object. If it does not exist it will be generated.
+
+:align3_cal: The location of a processed Align 3 Calibration object. If it does not exist it will be generated.
+
 :instrument_pol_cal: The location of the Instrument Polarization Calibration object (i.e., demodulation matrices. If
     it does not exist it will be generated.
+
+:*linearize*: **(bool)** [*True*] If `False` then don't attempt to linearize *any* data. This is useful for testing on fake data.
+
+:*suffix*: [*FITS*] The suffix to use both when looking for and writing any FITS file
 
 :*remove_TM*: **(bool)** [*True*] If `False` then do not apply a polarimetric correction for M1 - M6 (inclusive)
 
@@ -53,6 +63,26 @@ This section will only be used if the file specified by ``Main.gain1_cal`` does 
 
 :raw_gain1_dir: The location of a directory containing raw frames for the Gain1 task.
 
+LampGainCalibration
+----------------
+This section will only be used if the file specified by ``Main.lamp_gain_cal`` does not exist.
+
+:raw_lamp_dir: The location of a directory containing raw frames for the LampGain task.
+
+Gain4Calibration
+----------------
+This section will only be used if the file specified by ``Main.gain4_cal`` does not exist.
+
+:raw_gain4_dir: The location of a directory containing raw frames for the Gain4 task.
+
+Align3Calibration
+----------------
+This section will only be used if the file specified by ``Main.align3_cal`` does not exist.
+
+:raw_align3_dir: The location of a directory containing raw frames for the Align3 task.
+
+:raw_pinhole_dir: The location of a directory containing raw pinhole images.
+
 InstrumentPolarization
 ----------------------
 This section will only be used if the file specified by ``Main.instrument_pol_cal`` does not exist.
@@ -71,7 +101,12 @@ Example Config File
   output_prefix = Sci
   dark_cal = DarkCal
   gain1_cal = Gain1Cal
+  lamp_gain_cal = LampCal
+  gain4_cal = Gain4Cal
+  align3_cal = Align3Cal
   instrument_pol_cal = InstPolCal
+  linearize = False
+  suffix = FITS
   remove_TM = True
   include_M12 = False
   remove_parallactic = True
@@ -82,6 +117,16 @@ Example Config File
 
   [Gain1Calibration]
   raw_gain1_dir = ../raw
+
+  [LampGainCalibration]
+  raw_lamp_dir = ../raw
+
+  [Gain4Calibration]
+  raw_gain4_dir = ../raw
+
+  [Align3Calibration]
+  raw_align3_dir = ../raw
+  raw_pinhole_dir = ../raw
 
   [InstrumentPolarization]
   raw_pol_dir = ../polcal

@@ -1,0 +1,6 @@
+convert_config_to_int
+=====================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: convert_config_to_int

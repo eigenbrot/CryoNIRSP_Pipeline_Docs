@@ -1,0 +1,6 @@
+ensure_SP_name
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPPipeline
+
+.. autofunction:: ensure_SP_name

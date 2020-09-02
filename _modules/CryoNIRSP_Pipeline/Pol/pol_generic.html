@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CryoNIRSP_Pipeline.Pol.pol_generic &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../../../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../../../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">Reference/API</a></li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <h1>Source code for CryoNIRSP_Pipeline.Pol.pol_generic</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">astropy.io</span> <span class="kn">import</span> <span class="n">fits</span> <span class="k">as</span> <span class="n">pyfits</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">interpolate</span> <span class="k">as</span> <span class="n">spi</span>
+
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">Data</span><span class="p">,</span> <span class="n">generic</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">S122</span><span class="p">,</span> <span class="n">CONSTANTS</span>
+
+
+<div class="viewcode-block" id="resample_CU_params"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.resample_CU_params.html#CryoNIRSP_Pipeline.Pol.pol_generic.resample_CU_params">[docs]</a><span class="k">def</span> <span class="nf">resample_CU_params</span><span class="p">(</span><span class="n">cuData</span><span class="p">,</span> <span class="n">numpix_x</span><span class="p">,</span> <span class="n">numpix_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Resample the CU fit parameters to a different RCUH in preparation for demodulation matrix calculations</span>
+
+<span class="sd">    Right now this is designed primarily to upsample data. It will work if the destination RCUH is smaller than the</span>
+<span class="sd">    source, but the method used will hurt the accuracy of downsampling.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cuData : `Data.FitsData`</span>
+<span class="sd">        CU parameter file object. A little strange in the sense that it has a single HDU with data shape (x, y, 1, Z),</span>
+<span class="sd">        where Z is the number of fit parameters.</span>
+
+<span class="sd">    numpix_x : int</span>
+<span class="sd">        Target spatial size of upsampled data</span>
+
+<span class="sd">    numpix_y : int</span>
+<span class="sd">        Target spectral size of upsampled data</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Object with a single HDU with shape (numpix_x, numpix_y, 1, Z)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">cuData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">resampled_data</span> <span class="o">=</span> <span class="n">upsample_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">numpix_x</span><span class="p">,</span> <span class="n">numpix_y</span><span class="p">)</span>
+
+    <span class="n">phdu</span> <span class="o">=</span> <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">resampled_data</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">cuData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">full_x</span> <span class="o">=</span> <span class="n">cuData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;OGX&#39;</span><span class="p">]</span>
+    <span class="n">full_y</span> <span class="o">=</span> <span class="n">cuData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;OGY&#39;</span><span class="p">]</span>
+    <span class="n">xbin</span> <span class="o">=</span> <span class="n">full_x</span> <span class="o">/</span> <span class="n">numpix_x</span>
+    <span class="n">ybin</span> <span class="o">=</span> <span class="n">full_y</span> <span class="o">/</span> <span class="n">numpix_y</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: resampled spatial binning compared to full-frame = </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">xbin</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: resampled spectral binning compared to full-frame = </span><span class="si">{:.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">ybin</span><span class="p">))</span>
+
+    <span class="n">phdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;SoftwareBinningX&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">xbin</span>
+    <span class="n">phdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;SoftwareBinningY&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">ybin</span>
+
+    <span class="n">resampData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">allow3D</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">resampData</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;resample CU params&#39;</span>
+    <span class="n">resampData</span><span class="o">.</span><span class="n">hdulist</span> <span class="o">=</span> <span class="p">[</span><span class="n">phdu</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">resampData</span></div>
+
+
+<div class="viewcode-block" id="upsample_data"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.upsample_data.html#CryoNIRSP_Pipeline.Pol.pol_generic.upsample_data">[docs]</a><span class="k">def</span> <span class="nf">upsample_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">big_x</span><span class="p">,</span> <span class="n">big_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper-esq function that upsamples data via nearest-neighbor interpolation.</span>
+
+<span class="sd">    The upsampling is done on the first two dimensions only, all other dimensions are preserved in output.</span>
+<span class="sd">    Because interpolation is used, non-integer up-binning can be done no problem. Also, technically this function can</span>
+<span class="sd">    downsample, but accuracy is not guaranteed.</span>
+
+<span class="sd">    Data must be at least 3D.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Data with shape (x, y, m1, ..., mn)</span>
+
+<span class="sd">    big_x : int</span>
+<span class="sd">        Output size in 0th dimension</span>
+
+<span class="sd">    big_y : int</span>
+<span class="sd">        Output size in 1st dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Downsampled data with shape (big_x, big_y, m1, ..., mn)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">numx</span><span class="p">,</span> <span class="n">numy</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">uninterp_shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: macropixeled shape: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: upsampling data to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="p">(</span><span class="n">big_x</span><span class="p">,</span> <span class="n">big_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">uninterp_shape</span><span class="p">))</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">big_x</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">big_x</span> <span class="o">*</span> <span class="n">numx</span><span class="p">,</span> <span class="n">big_x</span><span class="p">)</span> <span class="o">/</span> <span class="n">numx</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">big_y</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">big_y</span> <span class="o">*</span> <span class="n">numy</span><span class="p">,</span> <span class="n">big_y</span><span class="p">)</span> <span class="o">/</span> <span class="n">numy</span>
+    <span class="n">xi</span><span class="p">,</span> <span class="n">yi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">big_x</span><span class="p">:</span><span class="n">big_x</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">big_y</span><span class="p">:</span><span class="n">big_y</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span><span class="p">]</span>
+
+    <span class="n">flat_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">uninterp_shape</span><span class="p">)</span>
+    <span class="n">flat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">numx</span><span class="p">,</span> <span class="n">numy</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">))</span>
+    <span class="n">flat_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">big_x</span><span class="p">,</span> <span class="n">big_y</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: interpolating&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">flat_size</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">:  position </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">uninterp_shape</span><span class="p">)))</span>
+        <span class="n">flat_output</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">spi</span><span class="o">.</span><span class="n">interpn</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">flat_data</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">xi</span><span class="p">,</span> <span class="n">yi</span><span class="p">),</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                           <span class="n">fill_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+
+    <span class="n">full_output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">flat_output</span><span class="p">,</span> <span class="p">(</span><span class="n">big_x</span><span class="p">,</span> <span class="n">big_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">uninterp_shape</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">full_output</span></div>
+
+
+<div class="viewcode-block" id="generate_polcal_dark_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.generate_polcal_dark_calibration.html#CryoNIRSP_Pipeline.Pol.pol_generic.generate_polcal_dark_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_polcal_dark_calibration</span><span class="p">(</span><span class="n">RawDrawer</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the dark frames in the Calibration Sequence (CS) and average them together</span>
+
+<span class="sd">    It is assumed that all Calibration Sequences have 2 darks. Preferably one at the start and one at the end.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    RawDrawer : `Data.RawDrawerData`</span>
+<span class="sd">        Object containing data from a PolCal run</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Data object of first dark</span>
+
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Data object of second dark</span>
+
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Data object of average dark</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dark_file_list</span> <span class="o">=</span> <span class="n">RawDrawer</span><span class="o">.</span><span class="n">get_dark_file_list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dark_file_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;PolCal Calibration Sequence needs exactly 2 dark steps (found </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dark_file_list</span><span class="p">)))</span>
+
+    <span class="n">output_dark_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Working on dark step #</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">darkData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+        <span class="n">darkData</span><span class="o">.</span><span class="n">load_from_filelist</span><span class="p">(</span><span class="n">dark_file_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Averaging data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">avgDark</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">darkData</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing std of data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">stdDark</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">stddev_FitsData</span><span class="p">(</span><span class="n">darkData</span><span class="p">,</span> <span class="n">avgDark</span><span class="p">)</span>
+        <span class="n">avgDark</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">stdDark</span><span class="p">)</span>
+        <span class="n">output_dark_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avgDark</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing total average&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">all_darkData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+    <span class="n">all_darkData</span><span class="o">.</span><span class="n">load_from_filelist</span><span class="p">(</span><span class="n">dark_file_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">dark_file_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">all_avgData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">all_darkData</span><span class="p">)</span>
+    <span class="n">all_stdData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">stddev_FitsData</span><span class="p">(</span><span class="n">all_darkData</span><span class="p">,</span> <span class="n">all_avgData</span><span class="p">)</span>
+    <span class="n">all_avgData</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">all_stdData</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">output_dark_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">output_dark_list</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">all_avgData</span></div>
+
+
+<div class="viewcode-block" id="generate_polcal_gain_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.generate_polcal_gain_calibration.html#CryoNIRSP_Pipeline.Pol.pol_generic.generate_polcal_gain_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_polcal_gain_calibration</span><span class="p">(</span><span class="n">RawDrawer</span><span class="p">,</span> <span class="n">PolDarkCal1</span><span class="p">,</span> <span class="n">PolDarkCal2</span><span class="p">,</span> <span class="n">percentile</span><span class="o">=</span><span class="mf">0.95</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find the clear frames in the Calibration Sequence (CS) and average them together</span>
+
+<span class="sd">    It is assumed that all Calibration Sequences have 2 clear. Preferably one at the start and one at the end.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    RawDrawer : `Data.RawDrawerData`</span>
+<span class="sd">        Object containing data from a PolCal run</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        Data object of average clear frame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">clear_file_list</span> <span class="o">=</span> <span class="n">RawDrawer</span><span class="o">.</span><span class="n">get_clear_file_list</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">clear_file_list</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;PolCal Calibration Sequence needs exactly 2 clear steps (found </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">clear_file_list</span><span class="p">)))</span>
+
+    <span class="n">dark_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">PolDarkCal1</span><span class="p">,</span> <span class="n">PolDarkCal2</span><span class="p">]</span>
+    <span class="n">clear_data_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Working on clear step </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">clearData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+        <span class="n">clearData</span><span class="o">.</span><span class="n">load_from_filelist</span><span class="p">(</span><span class="n">clear_file_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Averaging data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">avgClear</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_modulated_FitsData</span><span class="p">(</span><span class="n">clearData</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing std of data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">stdGain</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">stddev_modulated_FitsData</span><span class="p">(</span><span class="n">clearData</span><span class="p">,</span> <span class="n">avgClear</span><span class="p">)</span>
+        <span class="n">avgClear</span><span class="o">.</span><span class="n">set_unc</span><span class="p">(</span><span class="n">stdGain</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Subtracting dark&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">generic</span><span class="o">.</span><span class="n">dark_correction</span><span class="p">(</span><span class="n">avgClear</span><span class="p">,</span> <span class="n">dark_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">clear_data_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">avgClear</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing total average&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">all_clearData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">concatenate_fitsData</span><span class="p">(</span><span class="n">clear_data_list</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">clear_data_list</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">all_avgData</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">all_clearData</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing normalization at </span><span class="si">{}</span><span class="s1"> percentile&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">percentile</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
+    <span class="c1"># Now normalize by the 95th percentile</span>
+    <span class="n">cdf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">all_avgData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">perc95</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">cdf</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">percentile</span><span class="p">))</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">cdf</span><span class="p">[</span><span class="n">perc95</span><span class="p">]</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">: Normalization = </span><span class="si">{:.4f}</span><span class="s1">. Applying to data&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">norm</span><span class="p">))</span>
+    <span class="n">all_avgData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_avgData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">norm</span>
+    <span class="n">all_avgData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_avgData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">norm</span>
+
+    <span class="k">return</span> <span class="n">all_avgData</span></div>
+
+
+<div class="viewcode-block" id="gen_inst_pol_cal_objects"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.gen_inst_pol_cal_objects.html#CryoNIRSP_Pipeline.Pol.pol_generic.gen_inst_pol_cal_objects">[docs]</a><span class="k">def</span> <span class="nf">gen_inst_pol_cal_objects</span><span class="p">(</span><span class="n">RawDrawer</span><span class="p">,</span> <span class="n">dark_cal_file</span><span class="p">,</span> <span class="n">gain_cal_file</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Manage the creation of auxiliary PolCal calibration objects. Namely darks and gains.</span>
+
+<span class="sd">    If the requested files are found they are simply loaded, otherwise they are generated with the PolCal data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Dark</span>
+    <span class="c1">######</span>
+    <span class="n">dark_prefix</span> <span class="o">=</span> <span class="n">dark_cal_file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dark1_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_1.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dark_prefix</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
+    <span class="n">dark2_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_2.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dark_prefix</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dark_cal_file</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dark1_filename</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">dark2_filename</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find dark cal objects, attempting to generate&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">DarkCal1</span><span class="p">,</span> <span class="n">DarkCal2</span><span class="p">,</span> <span class="n">DarkCalTot</span> <span class="o">=</span> <span class="n">generate_polcal_dark_calibration</span><span class="p">(</span><span class="n">RawDrawer</span><span class="p">)</span>
+        <span class="n">DarkCal1</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">dark1_filename</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">DarkCal2</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">dark2_filename</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">DarkCalTot</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">dark_cal_file</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">DarkCal1</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">dark1_filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">dark1_filename</span><span class="p">))</span>
+        <span class="n">DarkCal2</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">dark2_filename</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">dark2_filename</span><span class="p">))</span>
+        <span class="n">DarkCalTot</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">dark_cal_file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">dark_cal_file</span><span class="p">))</span>
+
+    <span class="c1"># Gain</span>
+    <span class="c1">######</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">gain_cal_file</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find </span><span class="si">{}</span><span class="s1">, attempting to generate&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">gain_cal_file</span><span class="p">))</span>
+        <span class="n">GainCal</span> <span class="o">=</span> <span class="n">generate_polcal_gain_calibration</span><span class="p">(</span><span class="n">RawDrawer</span><span class="p">,</span> <span class="n">DarkCal1</span><span class="p">,</span> <span class="n">DarkCal2</span><span class="p">)</span>
+        <span class="n">GainCal</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">gain_cal_file</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">GainCal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">gain_cal_file</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">gain_cal_file</span><span class="p">))</span>
+
+    <span class="n">pol_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dark_cal&#39;</span><span class="p">:</span> <span class="n">DarkCalTot</span><span class="p">,</span>
+                  <span class="s1">&#39;gain_cal&#39;</span><span class="p">:</span> <span class="n">GainCal</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">pol_kwargs</span></div>
+
+
+<div class="viewcode-block" id="downsample_data"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Pol.pol_generic.downsample_data.html#CryoNIRSP_Pipeline.Pol.pol_generic.downsample_data">[docs]</a><span class="k">def</span> <span class="nf">downsample_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">small_x</span><span class="p">,</span> <span class="n">small_y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper-esq function that downsamples a data array by averaging all values in each bin.</span>
+
+<span class="sd">    The downsampling is done over the first two dimensions only, but all other dimensions are preserved on output.</span>
+
+<span class="sd">    Data must be at least 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    data : `numpy.ndarray`</span>
+<span class="sd">        Data with shape (x, y, m1, ..., mn)</span>
+
+<span class="sd">    small_x : int</span>
+<span class="sd">        Output size in 0th dimension</span>
+
+<span class="sd">    small_y : int</span>
+<span class="sd">        Output size in 1st dimension</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Downsampled data with shape (small_x, small_y, m1, ..., mn)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">small_x</span> <span class="o">&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">small_y</span> <span class="o">&gt;</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s1">&#39;Cannot bin to more pixels than input&#39;</span><span class="p">)</span>
+
+    <span class="n">xbin</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">small_x</span>
+    <span class="n">ybin</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">small_y</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: spatial binning: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">xbin</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: spectral binning: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">ybin</span><span class="p">))</span>
+
+    <span class="c1"># The &quot;or None&quot; happens if the math = 0. The None is needed so *end works in slices as expected below</span>
+    <span class="n">xend</span> <span class="o">=</span> <span class="n">small_x</span> <span class="o">*</span> <span class="n">xbin</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="n">yend</span> <span class="o">=</span> <span class="n">small_y</span> <span class="o">*</span> <span class="n">ybin</span> <span class="o">-</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">small_x</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Spatial binning amount does not exactly fill input dimension. &#39;</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> row[s] will be lost&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">xend</span><span class="p">)))</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">small_y</span><span class="p">)</span> <span class="o">%</span> <span class="mi">1</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Spectral binning amount does not exactly fill input dimension. &#39;</span>
+              <span class="s1">&#39;</span><span class="si">{}</span><span class="s1"> column[s] will be lost&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">yend</span><span class="p">)))</span>
+
+    <span class="n">numx</span><span class="p">,</span> <span class="n">numy</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">uninterp_shape</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">flat_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">uninterp_shape</span><span class="p">)</span>
+    <span class="n">flat_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="n">numx</span><span class="p">,</span> <span class="n">numy</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">))</span>
+
+    <span class="n">x_binned</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">small_x</span><span class="p">,</span> <span class="n">numy</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">))</span>
+    <span class="n">macro_px</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">small_x</span><span class="p">,</span> <span class="n">small_y</span><span class="p">,</span> <span class="n">flat_size</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">xbin</span><span class="p">):</span>
+        <span class="n">x_binned</span> <span class="o">+=</span> <span class="n">flat_data</span><span class="p">[</span><span class="n">x</span><span class="p">:</span><span class="n">xend</span><span class="p">:</span><span class="n">xbin</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ybin</span><span class="p">):</span>
+        <span class="n">macro_px</span> <span class="o">+=</span> <span class="n">x_binned</span><span class="p">[:,</span> <span class="n">y</span><span class="p">:</span><span class="n">yend</span><span class="p">:</span><span class="n">ybin</span><span class="p">,</span> <span class="p">:]</span>
+
+    <span class="n">macro_px</span> <span class="o">/=</span> <span class="n">xbin</span> <span class="o">*</span> <span class="n">ybin</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">macro_px</span><span class="p">,</span> <span class="p">(</span><span class="n">small_x</span><span class="p">,</span> <span class="n">small_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">uninterp_shape</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

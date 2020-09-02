@@ -1,0 +1,6 @@
+extract_detilted_beams
+======================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: extract_detilted_beams

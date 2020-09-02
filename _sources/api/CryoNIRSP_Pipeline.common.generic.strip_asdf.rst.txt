@@ -1,0 +1,6 @@
+strip_asdf
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: strip_asdf

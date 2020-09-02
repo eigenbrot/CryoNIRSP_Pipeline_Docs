@@ -1,0 +1,6 @@
+reduce_single_CS_step
+=====================
+
+.. currentmodule:: CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration
+
+.. autofunction:: reduce_single_CS_step

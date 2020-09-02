@@ -1,0 +1,345 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RampData &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700" type="text/css" />
+    <link rel="stylesheet" href="../_static/dkist.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favico.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="RawDrawerData" href="CryoNIRSP_Pipeline.common.Data.RawDrawerData.html" />
+    <link rel="prev" title="RampAggregator" href="CryoNIRSP_Pipeline.common.Data.RampAggregator.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.12.4.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.4.1/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="col-md-3 navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="http://nso.edu"><img src="../_static/img/NSOlogo.gif">
+        </a>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav hidden">
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">Reference/API</a></li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">RampData</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="CryoNIRSP_Pipeline.common.Data.RampAggregator.html" title="Previous Chapter: RampAggregator"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; RampAggregator</span>
+    </a>
+  </li>
+  <li>
+    <a href="CryoNIRSP_Pipeline.common.Data.RawDrawerData.html" title="Next Chapter: RawDrawerData"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">RawDrawerData &raquo;</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+          </ul>
+          
+            <ul class="nav navbar-nav navbar-left">
+              <li><a href="http://dkist.nso.edu/">DKIST</a></li>
+              <li><a href="http://docs.cadair.com/devdocs">DC Developer Guide</a></li>
+              <li><a href="http://docs.cadair.com/datarate">DKIST Data Rate</a></li>
+              <li><a href="http://docs.cadair.com/datamodel">DKIST Data Model</a></li>
+            </ul>
+          
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3"><div id="side-logo" >
+            <a href="http://dkist.nso.edu">
+                <img src="../_static/img/DKISTLogo-Medium.jpg">
+            </a>
+        </div><div id="sidebar" class="bs-sidenav" role="complementary">
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">CryoNIRSP Pipeline Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config_file.html">Configuration File Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough.html">Data Reduction Walkthrough</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">Reference/API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CryoNIRSPPipeline">CryoNIRSP_Pipeline.CryoNIRSPPipeline Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.SP.SPScienceCalibration">CryoNIRSP_Pipeline.SP.SPScienceCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.SP.SPInstrumentPolarizationCalibration">CryoNIRSP_Pipeline.SP.SPInstrumentPolarizationCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.SP.SPPipeline">CryoNIRSP_Pipeline.SP.SPPipeline Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CI.CIScienceCalibration">CryoNIRSP_Pipeline.CI.CIScienceCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration">CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CI.CIPipeline">CryoNIRSP_Pipeline.CI.CIPipeline Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Align.Align3Calibration">CryoNIRSP_Pipeline.Align.Align3Calibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.Data">CryoNIRSP_Pipeline.common.Data Module</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../API.html#id9">Functions</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../API.html#classes">Classes</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.Align3Data.html">Align3Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.CIDarkData.html">CIDarkData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.CILampGainData.html">CILampGainData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.CIObservationData.html">CIObservationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.CSStep.html">CSStep</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.CSStepData.html">CSStepData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.DataSetData.html">DataSetData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.DemodulationData.html">DemodulationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.FitsData.html">FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.Gain1Data.html">Gain1Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.Gain4Data.html">Gain4Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.RampAggregator.html">RampAggregator</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">RampData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.RawDrawerData.html">RawDrawerData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.SPAlign1Data.html">SPAlign1Data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.SPDarkData.html">SPDarkData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.SPLampGainData.html">SPLampGainData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.SPObservationData.html">SPObservationData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.Data.SlitPositionData.html">SlitPositionData</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../API.html#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.DarkCalibration">CryoNIRSP_Pipeline.common.DarkCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.LinearityCorrection">CryoNIRSP_Pipeline.common.LinearityCorrection Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">CryoNIRSP_Pipeline.Gain.Gain1Calibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain4Calibration">CryoNIRSP_Pipeline.Gain.Gain4Calibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.LampGainCalibration">CryoNIRSP_Pipeline.Gain.LampGainCalibration Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_corrections">CryoNIRSP_Pipeline.Pol.pol_corrections Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_generic">CryoNIRSP_Pipeline.Pol.pol_generic Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.TelescopePolarizationCalibration">CryoNIRSP_Pipeline.Pol.TelescopePolarizationCalibration Module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+        </div>
+    </div>
+
+    <div class="body col-md-9 content" role="main">
+      
+  <div class="section" id="rampdata">
+<h1>RampData<a class="headerlink" href="#rampdata" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData">
+<em class="property">class </em><code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.Data.</code><code class="sig-name descname">RampData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A container for the loading and manipulating of raw DHS data from IR cameras. It is similar to FitsData in how
+it stores/loads data from FITS files, but it is much simpler (no _DataList) because it has one, specific low-level
+function.</p>
+<p>In addition to loading the FITS files that make up a ramp this class also supports some basic verification and
+reduction methods that are needed for linearity correction.</p>
+<p>Initialize properties, load files, verify the data, and construct auxiliary data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_list</strong><span class="classifier">list</span></dt><dd><p>A list of all files (ndr’s) associated with the ramp. These must be in read-order.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Attributes Summary</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.flattened_data" title="CryoNIRSP_Pipeline.common.Data.RampData.flattened_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flattened_data</span></code></a></p></td>
+<td><p>A view of the data array, but flattened along the detector dimension axes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.flattened_subarray" title="CryoNIRSP_Pipeline.common.Data.RampData.flattened_subarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flattened_subarray</span></code></a></p></td>
+<td><p>A view of the data subarray, but flattened along the detector dimension axes</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods Summary</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.check_dead_beef" title="CryoNIRSP_Pipeline.common.Data.RampData.check_dead_beef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_dead_beef</span></code></a>()</p></td>
+<td><p>Check for scrambled data by identifying the location of two signals purposely inserted into the data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.construct_time_vector" title="CryoNIRSP_Pipeline.common.Data.RampData.construct_time_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">construct_time_vector</span></code></a>()</p></td>
+<td><p>Read file headers and construct a vector containing the time stamp of each ndr in the ramp</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.correct_camera_specifics" title="CryoNIRSP_Pipeline.common.Data.RampData.correct_camera_specifics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_camera_specifics</span></code></a>()</p></td>
+<td><p>Identify the camera and mode used to collect the data and perform specific pre-processing steps, if needed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.init_subarray" title="CryoNIRSP_Pipeline.common.Data.RampData.init_subarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_subarray</span></code></a>(x0, y0, xsize, ysize)</p></td>
+<td><p>Initialize the .subarray property with a specific sub-section of the data arrays</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.invert_16bit_data" title="CryoNIRSP_Pipeline.common.Data.RampData.invert_16bit_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">invert_16bit_data</span></code></a>()</p></td>
+<td><p>Invert the slow mode data for conveniencae</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#CryoNIRSP_Pipeline.common.Data.RampData.load_from_filelist" title="CryoNIRSP_Pipeline.common.Data.RampData.load_from_filelist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_from_filelist</span></code></a>(file_list)</p></td>
+<td><p>Open and load each file in the given file list</p></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.flattened_data">
+<code class="sig-name descname">flattened_data</code><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.flattened_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>A view of the data array, but flattened along the detector dimension axes</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.flattened_subarray">
+<code class="sig-name descname">flattened_subarray</code><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.flattened_subarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>A view of the data subarray, but flattened along the detector dimension axes</p>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.check_dead_beef">
+<code class="sig-name descname">check_dead_beef</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.check_dead_beef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.check_dead_beef" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for scrambled data by identifying the location of two signals purposely inserted into the data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.construct_time_vector">
+<code class="sig-name descname">construct_time_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.construct_time_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.construct_time_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read file headers and construct a vector containing the time stamp of each ndr in the ramp</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.correct_camera_specifics">
+<code class="sig-name descname">correct_camera_specifics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.correct_camera_specifics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.correct_camera_specifics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify the camera and mode used to collect the data and perform specific pre-processing steps, if needed.</p>
+<p>The camera is used to determine the gain.</p>
+<p>Fast mode data have the first ndr removed.</p>
+<p>Slow mode data are inverted.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.init_subarray">
+<code class="sig-name descname">init_subarray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">xsize</span></em>, <em class="sig-param"><span class="n">ysize</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.init_subarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.init_subarray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the .subarray property with a specific sub-section of the data arrays</p>
+<p>The subarray is defined as data[: x0:x0 + xsize, y0:y0 + ysize]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.invert_16bit_data">
+<code class="sig-name descname">invert_16bit_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.invert_16bit_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.invert_16bit_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invert the slow mode data for conveniencae</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="CryoNIRSP_Pipeline.common.Data.RampData.load_from_filelist">
+<code class="sig-name descname">load_from_filelist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.load_from_filelist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.load_from_filelist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open and load each file in the given file list</p>
+<p>There is also a simple check to make sure the file list is in ndr/read order.</p>
+<p>All of the data arrays are loaded into a single (N, x, y) numpy array and the corresponding headers are in a
+single, length N, array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_list</strong><span class="classifier">list</span></dt><dd><p>A list of all files (ndr’s) associated with the ramp. These must be in read-order.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <div class="left-footer">
+         &copy; 2020, Arthur Eigenbrot
+       <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a>
+    </div>
+   
+    <div class="right-footer">
+      Last updated on 02 Sep 2020.
+    </div>
+    <div class="centre-footer">
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

@@ -8,7 +8,49 @@ Reference/API
    :skip: is_mp
    :skip: command_line
 
-.. automodapi:: CryoNIRSP_Pipeline.common.ScienceCalibration
+.. automodapi:: CryoNIRSP_Pipeline.SP.SPScienceCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.SP.SPInstrumentPolarizationCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.SP.SPPipeline
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.CI.CIScienceCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.CI.CIPipeline
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.Align.Align3Calibration
    :headings: #^
    :skip: tag
    :skip: glob
@@ -36,6 +78,13 @@ Reference/API
    :skip: is_mp
    :skip: command_line
 
+.. automodapi:: CryoNIRSP_Pipeline.common.LinearityCorrection
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
 .. automodapi:: CryoNIRSP_Pipeline.Gain.Gain1Calibration
    :headings: #^
    :skip: tag
@@ -43,16 +92,38 @@ Reference/API
    :skip: is_mp
    :skip: command_line
 
-.. automodapi:: CryoNIRSP_Pipeline.common.InstrumentPolarizationCalibration
+.. automodapi:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
    :headings: #^
    :skip: tag
    :skip: glob
    :skip: is_mp
    :skip: command_line
 
-.. automodapi:: CryoNIRSP_Pipeline.common.TelescopePolarizationCalibration
+.. automodapi:: CryoNIRSP_Pipeline.Gain.LampGainCalibration
    :headings: #^
    :skip: tag
    :skip: glob
    :skip: is_mp
    :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.Pol.pol_corrections
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.Pol.pol_generic
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+
+.. automodapi:: CryoNIRSP_Pipeline.Pol.TelescopePolarizationCalibration
+   :headings: #^
+   :skip: tag
+   :skip: glob
+   :skip: is_mp
+   :skip: command_line
+

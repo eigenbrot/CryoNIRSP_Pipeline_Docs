@@ -1,0 +1,7 @@
+SPDarkData
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SPDarkData
+   :show-inheritance:

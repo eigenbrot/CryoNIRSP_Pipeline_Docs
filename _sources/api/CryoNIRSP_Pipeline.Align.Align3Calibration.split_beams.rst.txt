@@ -1,0 +1,6 @@
+split_beams
+===========
+
+.. currentmodule:: CryoNIRSP_Pipeline.Align.Align3Calibration
+
+.. autofunction:: split_beams

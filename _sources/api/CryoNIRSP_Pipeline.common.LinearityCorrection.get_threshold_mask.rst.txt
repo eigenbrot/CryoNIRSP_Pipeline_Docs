@@ -1,0 +1,6 @@
+get_threshold_mask
+==================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.LinearityCorrection
+
+.. autofunction:: get_threshold_mask

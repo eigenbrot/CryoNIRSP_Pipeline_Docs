@@ -1,0 +1,7 @@
+SPLampGainData
+==============
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SPLampGainData
+   :show-inheritance:

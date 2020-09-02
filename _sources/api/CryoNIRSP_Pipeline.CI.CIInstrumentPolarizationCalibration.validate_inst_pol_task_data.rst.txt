@@ -1,0 +1,6 @@
+validate_inst_pol_task_data
+===========================
+
+.. currentmodule:: CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration
+
+.. autofunction:: validate_inst_pol_task_data

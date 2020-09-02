@@ -1,0 +1,7 @@
+Align3Data
+==========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: Align3Data
+   :show-inheritance:

@@ -1,0 +1,6 @@
+upsample_data
+=============
+
+.. currentmodule:: CryoNIRSP_Pipeline.Pol.pol_generic
+
+.. autofunction:: upsample_data

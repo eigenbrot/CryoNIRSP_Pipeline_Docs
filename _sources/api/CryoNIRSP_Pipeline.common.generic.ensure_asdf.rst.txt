@@ -1,0 +1,6 @@
+ensure_asdf
+===========
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.generic
+
+.. autofunction:: ensure_asdf

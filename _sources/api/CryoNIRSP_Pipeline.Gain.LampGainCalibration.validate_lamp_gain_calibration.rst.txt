@@ -1,0 +1,6 @@
+validate_lamp_gain_calibration
+==============================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.LampGainCalibration
+
+.. autofunction:: validate_lamp_gain_calibration

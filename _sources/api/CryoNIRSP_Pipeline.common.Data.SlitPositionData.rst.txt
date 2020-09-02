@@ -1,0 +1,7 @@
+SlitPositionData
+================
+
+.. currentmodule:: CryoNIRSP_Pipeline.common.Data
+
+.. autoclass:: SlitPositionData
+   :show-inheritance:

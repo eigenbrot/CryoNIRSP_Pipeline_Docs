@@ -1,0 +1,6 @@
+validate_gain4_task
+===================
+
+.. currentmodule:: CryoNIRSP_Pipeline.Gain.Gain4Calibration
+
+.. autofunction:: validate_gain4_task

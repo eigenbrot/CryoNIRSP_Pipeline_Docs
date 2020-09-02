@@ -1,0 +1,6 @@
+run_PAC_CUpar
+=============
+
+.. currentmodule:: CryoNIRSP_Pipeline.SP.SPInstrumentPolarizationCalibration
+
+.. autofunction:: run_PAC_CUpar
