@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Configuration File Format &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>Configuration File Format &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -210,21 +210,21 @@ Calibration Objects by simply pointing the corresponding option to a file that d
 it does not exist it will be generated.</p>
 </dd>
 <dt class="field-odd"><em>linearize</em></dt>
-<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then don’t attempt to linearize <em>any</em> data. This is useful for testing on fake data.</p>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then don’t attempt to linearize <em>any</em> data. This is useful for testing on fake data.</p>
 </dd>
 <dt class="field-even"><em>suffix</em></dt>
 <dd class="field-even"><p>[<em>FITS</em>] The suffix to use both when looking for and writing any FITS file</p>
 </dd>
 <dt class="field-odd"><em>remove_TM</em></dt>
-<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not apply a polarimetric correction for M1 - M6 (inclusive)</p>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not apply a polarimetric correction for M1 - M6 (inclusive)</p>
 </dd>
 <dt class="field-even"><em>include_M12</em></dt>
-<dd class="field-even"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do include mirrors M1 and M2 in the telescope polarimetric correction. This
-option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></p>
+<dd class="field-even"><p><strong>(bool)</strong> [<em>True</em>] If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do include mirrors M1 and M2 in the telescope polarimetric correction. This
+option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a></p>
 </dd>
 <dt class="field-odd"><em>remove_parallactic</em></dt>
-<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>]If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not include a final rotation into a common Solar reference frame.
-This option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
+<dd class="field-odd"><p><strong>(bool)</strong> [<em>True</em>]If <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> then do not include a final rotation into a common Solar reference frame.
+This option is only used if <code class="docutils literal notranslate"><span class="pre">remove_TM</span></code> is <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a>.</p>
 </dd>
 <dt class="field-even"><em>telescope_db</em></dt>
 <dd class="field-even"><p>[<em>None</em>] The path to a telescope mirror parameter database. If none is provided then the default PA&amp;C database
@@ -288,6 +288,18 @@ directory must contain dark frames or an error will be thrown.</p>
 <dt class="field-odd">raw_pol_dir</dt>
 <dd class="field-odd"><p>The location of a directory containing raw files associated with a single PolCal Calibration Sequence (CS)</p>
 </dd>
+<dt class="field-even">cu_numbins_x</dt>
+<dd class="field-even"><p><strong>(int)</strong> The number of x-dimensions macropixels in the down-sampled CS data used for CU parameter fitting</p>
+</dd>
+<dt class="field-odd">cu_numbins_y</dt>
+<dd class="field-odd"><p><strong>(int)</strong> The number of y-dimensions macropixels in the down-sampled CS data used for CU parameter fitting</p>
+</dd>
+<dt class="field-even">demod_numbins_x</dt>
+<dd class="field-even"><p><strong>(int)</strong> The number of x-dimensions macropixels in the down-sampled CS data used for demodulation matrix calculation</p>
+</dd>
+<dt class="field-odd">demod_numbins_y</dt>
+<dd class="field-odd"><p><strong>(int)</strong> The number of y-dimensions macropixels in the down-sampled CS data used for demodulation matrix calculation</p>
+</dd>
 <dt class="field-even"><em>threads</em></dt>
 <dd class="field-even"><p><strong>(int)</strong> [<em>1</em>] The number of CPU threads to use when performing basic CryoNIRSP reductions on the CS steps</p>
 </dd>
@@ -329,6 +341,10 @@ directory must contain dark frames or an error will be thrown.</p>
 
 <span class="k">[InstrumentPolarization]</span>
 <span class="na">raw_pol_dir</span> <span class="o">=</span> <span class="s">../polcal</span>
+<span class="na">cu_numbins_x</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">cu_numbins_y</span> <span class="o">=</span> <span class="s">1</span>
+<span class="na">demod_numbins_x</span> <span class="o">=</span> <span class="s">4</span>
+<span class="na">demod_numbins_y</span> <span class="o">=</span> <span class="s">4</span>
 <span class="na">threads</span> <span class="o">=</span> <span class="s">3</span>
 </pre></div>
 </div>
@@ -348,7 +364,7 @@ directory must contain dark frames or an error will be thrown.</p>
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.SP.SPPipeline &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.SP.SPPipeline &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -238,17 +238,25 @@
     <span class="c1"># Gain4</span>
     <span class="c1">#######</span>
     <span class="n">filename</span> <span class="o">=</span> <span class="n">ensure_fits</span><span class="p">(</span><span class="n">ensure_SP_name</span><span class="p">(</span><span class="n">strip_fits</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Main&#39;</span><span class="p">][</span><span class="s1">&#39;gain4_cal&#39;</span><span class="p">])))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find </span><span class="si">{}</span><span class="s1">, attempting to generate with Gain4Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
-        <span class="n">Gain4Cal</span> <span class="o">=</span> <span class="n">Gain4Calibration</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain4Calibration&#39;</span><span class="p">][</span><span class="s1">&#39;raw_gain4_dir&#39;</span><span class="p">],</span> <span class="n">Align3Cal</span><span class="p">,</span> <span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
-                                         <span class="n">dark_cal</span><span class="o">=</span><span class="n">DarkCal</span><span class="p">,</span> <span class="n">lamp_gain_cal</span><span class="o">=</span><span class="n">LampGainCal</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="n">linearize</span><span class="p">)</span>
+    <span class="n">shiftname</span> <span class="o">=</span> <span class="n">ensure_fits</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_shifts&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">shiftname</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find either </span><span class="si">{}</span><span class="s1"> or </span><span class="si">{}</span><span class="s1">, attempting to generate with Gain4Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span>
+                                                                                                        <span class="n">filename</span><span class="p">,</span>
+                                                                                                        <span class="n">shiftname</span><span class="p">))</span>
+        <span class="n">Gain4Cal</span><span class="p">,</span> <span class="n">Gain4Shifts</span> <span class="o">=</span> <span class="n">Gain4Calibration</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain4Calibration&#39;</span><span class="p">][</span><span class="s1">&#39;raw_gain4_dir&#39;</span><span class="p">],</span> <span class="n">Align3Cal</span><span class="p">,</span>
+                                                      <span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">dark_cal</span><span class="o">=</span><span class="n">DarkCal</span><span class="p">,</span> <span class="n">lamp_gain_cal</span><span class="o">=</span><span class="n">LampGainCal</span><span class="p">,</span>
+                                                      <span class="n">linearize</span><span class="o">=</span><span class="n">linearize</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">Gain4Cal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
 
+        <span class="n">Gain4Shifts</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">shiftname</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">shiftname</span><span class="p">))</span>
+
     <span class="n">sci_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dark_cal&#39;</span><span class="p">:</span> <span class="n">DarkCal</span><span class="p">,</span> <span class="s1">&#39;align3_cal&#39;</span><span class="p">:</span> <span class="n">Align3Cal</span><span class="p">,</span>
-                  <span class="s1">&#39;gain4_cal&#39;</span><span class="p">:</span> <span class="n">Gain4Cal</span><span class="p">,</span> <span class="s1">&#39;linearize&#39;</span><span class="p">:</span> <span class="n">linearize</span><span class="p">,</span> <span class="s1">&#39;ispol&#39;</span><span class="p">:</span> <span class="n">ispol</span><span class="p">}</span>
+                  <span class="s1">&#39;gain4_cal&#39;</span><span class="p">:</span> <span class="n">Gain4Cal</span><span class="p">,</span> <span class="s1">&#39;gain4_shifts&#39;</span><span class="p">:</span> <span class="n">Gain4Shifts</span><span class="p">,</span>
+                  <span class="s1">&#39;linearize&#39;</span><span class="p">:</span> <span class="n">linearize</span><span class="p">,</span> <span class="s1">&#39;ispol&#39;</span><span class="p">:</span> <span class="n">ispol</span><span class="p">}</span>
 
     <span class="c1"># Instrument Pol</span>
     <span class="c1">################</span>
@@ -314,7 +322,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

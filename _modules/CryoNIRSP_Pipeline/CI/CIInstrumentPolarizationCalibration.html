@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -146,7 +146,7 @@
 <div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration.main.html#CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">raw_pol_dir</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
          <span class="n">cu_numbins_x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cu_numbins_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">demod_numbins_x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">demod_numbins_y</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 
-    <span class="n">pol_rdx_dir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/proc_CI&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">raw_pol_dir</span><span class="p">)</span>
+    <span class="n">pol_rdx_dir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/polcal_proc_CI&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">TMPDIR</span><span class="p">)</span>
     <span class="n">dmod1_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/DMOD.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_rdx_dir</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
     <span class="n">cmp_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/CUpars.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_rdx_dir</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
     <span class="n">cmp_resamp_name</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/CUpars_demodRCUH.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">pol_rdx_dir</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
@@ -205,7 +205,7 @@
 <span class="sd">    This function sets up the right directories and default file names and then hands off the management to</span>
 <span class="sd">    `manage_CS_rdx`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/proc_CI&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">raw_pol_dir</span><span class="p">)</span>
+    <span class="n">outdir</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/polcal_proc_CI&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">Data</span><span class="o">.</span><span class="n">TMPDIR</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">darkcal_file</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">ensure_fits</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">dark_cal</span><span class="p">))</span>
@@ -460,7 +460,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

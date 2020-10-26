@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.common.Data &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.common.Data &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -149,7 +149,7 @@
 <span class="sd">    reduction of DKIST data.</span>
 
 <span class="sd">    At its heart, this class is just a list of astropy.io.fits HDU objects.</span>
-<span class="sd">pacman -Syu --overwrite /usr/lib\*/p11-kit-trust.so</span>
+
 <span class="sd">    astropy.io.fits is used to store data and metadata because of its use of memmap to reduce the load on RAM when</span>
 <span class="sd">    accessing data arrays.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -843,10 +843,15 @@
 <div class="viewcode-block" id="RampData.init_subarray"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.Data.RampData.html#CryoNIRSP_Pipeline.common.Data.RampData.init_subarray">[docs]</a>    <span class="k">def</span> <span class="nf">init_subarray</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the .subarray property with a specific sub-section of the data arrays</span>
 
-<span class="sd">        The subarray is defined as data[: x0:x0 + xsize, y0:y0 + ysize]</span>
+<span class="sd">        The subarray is defined as data[: x0:x0 + xsize, y0:y0 + ysize]. If any None values are passed the subarray</span>
+<span class="sd">        is not initialized and just points to the raw data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">x0</span><span class="p">:</span><span class="n">x0</span> <span class="o">+</span> <span class="n">xsize</span><span class="p">,</span> <span class="n">y0</span><span class="p">:</span><span class="n">y0</span> <span class="o">+</span> <span class="n">ysize</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">subarray_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">x0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">y0</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">xsize</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ysize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subarray_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subarray</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="n">x0</span><span class="p">:</span><span class="n">x0</span> <span class="o">+</span> <span class="n">xsize</span><span class="p">,</span> <span class="n">y0</span><span class="p">:</span><span class="n">y0</span> <span class="o">+</span> <span class="n">ysize</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subarray_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">xsize</span><span class="p">,</span> <span class="n">ysize</span><span class="p">)</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">flattened_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -859,7 +864,7 @@
         <span class="sd">&quot;&quot;&quot;A view of the data subarray, but flattened along the detector dimension axes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subarray</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subarray</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">subarray</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ndr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No subarray exists. Use .init_subarray to create one.&#39;</span><span class="p">)</span></div>
 
@@ -1265,6 +1270,10 @@
 <span class="c1"># task_dict as a class attribute outside of an __init__ means that any changes to that variable by a subclass</span>
 <span class="c1"># affect **all** parent classes. Wild.</span>
 <div class="viewcode-block" id="init_factory"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.Data.init_factory.html#CryoNIRSP_Pipeline.common.Data.init_factory">[docs]</a><span class="k">def</span> <span class="nf">init_factory</span><span class="p">(</span><span class="n">task_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make __init__ functions for each of the _TaskData derivatives.</span>
+
+<span class="sd">    Exists because Class Variables are a thing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">init_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">memmap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialize the empty object and maybe load some data.&quot;&quot;&quot;</span>
@@ -1425,7 +1434,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

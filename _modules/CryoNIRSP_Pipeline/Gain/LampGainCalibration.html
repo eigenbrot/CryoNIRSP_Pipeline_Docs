@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.Gain.LampGainCalibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.Gain.LampGainCalibration &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -166,6 +166,9 @@
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Removing dark signal&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
         <span class="n">generic</span><span class="o">.</span><span class="n">dark_correction</span><span class="p">(</span><span class="n">avgData</span><span class="p">,</span> <span class="n">dark_cal</span><span class="p">)</span>
 
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Normalizing Lamp Gain&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">generic</span><span class="o">.</span><span class="n">normalize_modulated_FitsData</span><span class="p">(</span><span class="n">avgData</span><span class="p">)</span>
+
     <span class="n">validate_lamp_gain_calibration</span><span class="p">(</span><span class="n">avgData</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Generating Lamp Gain Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
@@ -213,7 +216,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

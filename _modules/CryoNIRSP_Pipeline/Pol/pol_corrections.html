@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.Pol.pol_corrections &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.Pol.pol_corrections &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -136,6 +136,7 @@
 <span class="kn">import</span> <span class="nn">dask</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">array</span> <span class="k">as</span> <span class="n">da</span>
+<span class="kn">from</span> <span class="nn">PAC_Pipeline.generic</span> <span class="kn">import</span> <span class="n">get_default_telescope_db</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.Pol</span> <span class="kn">import</span> <span class="n">TelescopePolarizationCalibration</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">generic</span><span class="p">,</span> <span class="n">Data</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span><span class="p">,</span> <span class="n">is_mp</span>
@@ -183,7 +184,6 @@
     <span class="k">if</span> <span class="n">remove_TM</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">telescope_db</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">telescope_db</span><span class="p">):</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loading telescope parameter database from PA&amp;C defualts&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-            <span class="kn">from</span> <span class="nn">PAC_Pipeline.generic</span> <span class="kn">import</span> <span class="n">get_default_telescope_db</span>
             <span class="n">telescope_db</span> <span class="o">=</span> <span class="n">get_default_telescope_db</span><span class="p">()</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: generating inverse telescope matrix&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
@@ -348,7 +348,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

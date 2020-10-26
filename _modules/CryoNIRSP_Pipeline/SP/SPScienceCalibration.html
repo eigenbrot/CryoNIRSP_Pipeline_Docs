@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.SP.SPScienceCalibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.SP.SPScienceCalibration &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -145,8 +145,8 @@
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.Pol</span> <span class="kn">import</span> <span class="n">pol_corrections</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">CONSTANTS</span><span class="p">,</span> <span class="n">S122</span>
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.SP.SPScienceCalibration.main.html#CryoNIRSP_Pipeline.SP.SPScienceCalibration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">datasetData</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">dark_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instrument_pol_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align3_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gain4_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ispol</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-         <span class="n">telescope_db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_TM</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_M12</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_parallactic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.SP.SPScienceCalibration.main.html#CryoNIRSP_Pipeline.SP.SPScienceCalibration.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">datasetData</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">dark_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">instrument_pol_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">align3_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gain4_cal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+         <span class="n">gain4_shifts</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ispol</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">telescope_db</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">remove_TM</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">include_M12</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_parallactic</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Note that this script does NOT run on non-linearized data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -164,11 +164,7 @@
         <span class="k">if</span> <span class="n">ispol</span><span class="p">:</span>
             <span class="n">generic</span><span class="o">.</span><span class="n">modulated_gain_correction</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">gain4_cal</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># TODO: Make this not gross. Probably change how Gain4 is stored.</span>
-            <span class="c1"># This is a pretty gross hack caused by the grossness of the Gain4 HDU list (shift HDU at the end)</span>
-            <span class="n">dummy_gain4</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
-            <span class="n">dummy_gain4</span><span class="o">.</span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">gain4_cal</span><span class="o">.</span><span class="n">hdulist</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">modavg_gain</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">dummy_gain4</span><span class="p">)</span>
+            <span class="n">modavg_gain</span> <span class="o">=</span> <span class="n">generic</span><span class="o">.</span><span class="n">average_FitsData</span><span class="p">(</span><span class="n">gain4_cal</span><span class="p">)</span>
             <span class="n">generic</span><span class="o">.</span><span class="n">unmodulated_gain_correction</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">modavg_gain</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">ispol</span> <span class="ow">and</span> <span class="n">instrument_pol_cal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -178,8 +174,8 @@
                                                           <span class="n">remove_parallactic</span><span class="o">=</span><span class="n">remove_parallactic</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">align3_cal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">gain4_cal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot perform geometric correction without both Gain4 and Align3 Cals&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">gain4_shifts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot perform geometric correction without both Gain4 Shifts and Align3 Cals&#39;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">ispol</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Combining polarimetric beams&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
@@ -189,7 +185,7 @@
             <span class="n">sciData</span> <span class="o">=</span> <span class="n">combine_intensity_beams</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">align3_cal</span><span class="p">)</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Removing spectral tilt and curvature&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-        <span class="n">sciData</span> <span class="o">=</span> <span class="n">geometric_correction</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">align3_cal</span><span class="p">,</span> <span class="n">gain4_cal</span><span class="p">)</span>
+        <span class="n">sciData</span> <span class="o">=</span> <span class="n">geometric_correction</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">align3_cal</span><span class="p">,</span> <span class="n">gain4_shifts</span><span class="p">)</span>
 
     <span class="n">sci_cal</span> <span class="o">=</span> <span class="n">generate_science_calibration</span><span class="p">(</span><span class="n">sciData</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
 
@@ -310,7 +306,7 @@
     <span class="k">return</span> <span class="n">fitsData</span></div>
 
 
-<div class="viewcode-block" id="geometric_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction.html#CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction">[docs]</a><span class="k">def</span> <span class="nf">geometric_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">align3_cal</span><span class="p">,</span> <span class="n">gain4_cal</span><span class="p">):</span>
+<div class="viewcode-block" id="geometric_correction"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction.html#CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction">[docs]</a><span class="k">def</span> <span class="nf">geometric_correction</span><span class="p">(</span><span class="n">fitsData</span><span class="p">,</span> <span class="n">align3_cal</span><span class="p">,</span> <span class="n">gain4_shifts</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Remove dispersion angle offset and spectral curvature from data</span>
 
 <span class="sd">    Input data is assumed to be combined beam data and thus only beam 1 corrections are applied.</span>
@@ -323,8 +319,8 @@
 <span class="sd">    align3_cal : dict</span>
 <span class="sd">        Dictionary with ALIGN3 calibration, specifically the beam dispersion angles</span>
 
-<span class="sd">    gain4_cal : `Data.FitsData`</span>
-<span class="sd">        Object containing Gain4 Calibration</span>
+<span class="sd">    gain4_shifts : `Data.FitsData`</span>
+<span class="sd">        Object containing Gain4 Calibration shifts</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -332,7 +328,7 @@
 <span class="sd">        The input data are modified in place, but they are also returned for convenience</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">rot_angle</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">align3_cal</span><span class="p">[</span><span class="s1">&#39;angles&#39;</span><span class="p">][</span><span class="s1">&#39;beam1&#39;</span><span class="p">]</span>
-    <span class="n">shifts</span> <span class="o">=</span> <span class="n">gain4_cal</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">shifts</span> <span class="o">=</span> <span class="n">gain4_shifts</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># These are the shifts for beam 1</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Disp angle correction = </span><span class="si">{:.2f}</span><span class="s1"> deg&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">rot_angle</span><span class="p">))</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fitsData</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
         <span class="k">try</span><span class="p">:</span>
@@ -376,7 +372,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

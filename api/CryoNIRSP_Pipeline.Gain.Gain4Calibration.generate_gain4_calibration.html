@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>generate_gain4_calibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>generate_gain4_calibration &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -159,6 +159,8 @@
 <li class="toctree-l4 current"><a class="current reference internal" href="#">generate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html">remove_sepectral_curvature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
 </ul>
 </li>
@@ -182,26 +184,23 @@
 <h1>generate_gain4_calibration<a class="headerlink" href="#generate-gain4-calibration" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">generate_gain4_calibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">full_chip_average</span></em>, <em class="sig-param"><span class="n">gainData</span></em>, <em class="sig-param"><span class="n">shifts</span></em>, <em class="sig-param"><span class="n">gain_dir</span></em>, <em class="sig-param"><span class="n">outpre</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#generate_gain4_calibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the Solar spectrum from the original data and write to disk</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl>
-<dt><strong>full_chip_average</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The average solar spectrum, reshifted and tilted to match the original data</p>
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">generate_gain4_calibration</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gainData</span></em>, <em class="sig-param"><span class="n">shifts</span></em>, <em class="sig-param"><span class="n">outpre</span></em>, <em class="sig-param"><span class="n">gain_dir</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#generate_gain4_calibration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>gainData<span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>The average Solar Gain data used to measure the solar spectrum, with solar spectra removed</p>
 </dd>
-<dt><strong>gainData</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>The average Solar Gain data used to measure the solar spectrum</p>
+<dt>shifts<span class="classifier">list</span></dt><dd><p>List of 2 <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> that contain the spectral shifts for beams 1 and 2, in that order.</p>
 </dd>
-<dt><strong>shifts</strong><span class="classifier">list</span></dt><dd><p>List of 2 <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a> that contain the spectral shifts for beams 1 and 2, in that order.</p>
+<dt>outpre<span class="classifier">str</span></dt><dd><p>Prefix to use for output files</p>
 </dd>
-<dt><strong>gain_dir</strong><span class="classifier">str</span></dt><dd><p>The location of the data that were used to make this Cal object</p>
-</dd>
-<dt><strong>outpre</strong><span class="classifier">str</span></dt><dd><p>Prefix to use for output files</p>
+<dt>gain_dir<span class="classifier">str</span></dt><dd><p>The location of the data that were used to make this Cal object</p>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
 <dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></dt><dd><p>A Gain4 Calibration object</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></dt><dd><p>The spectra shifts for each beam</p>
 </dd>
 </dl>
 </dd>
@@ -223,7 +222,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

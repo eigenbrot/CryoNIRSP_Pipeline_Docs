@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>remove_sepectral_curvature &#8212; CryoNIRSP_Pipeline v0.8.0</title>
+    <title>remove_solar_spectra &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -19,8 +19,8 @@
     <link rel="shortcut icon" href="../_static/favico.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="remove_solar_spectra" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" />
-    <link rel="prev" title="main" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" />
+    <link rel="next" title="validate_gain4_calibration" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html" />
+    <link rel="prev" title="remove_sepectral_curvature" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -75,7 +75,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">remove_sepectral_curvature</a></li>
+<li><a class="reference internal" href="#">remove_solar_spectra</a></li>
 </ul>
 </ul>
 </li>
@@ -85,11 +85,11 @@
               
                 
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" title="Previous Chapter: main"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; main</span>
+    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html" title="Previous Chapter: remove_sepectral_curvature"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; remove_sepect...</span>
     </a>
   </li>
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" title="Next Chapter: remove_solar_spectra"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">remove_solar_spectra &raquo;</span>
+    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html" title="Next Chapter: validate_gain4_calibration"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">validate_gain... &raquo;</span>
     </a>
   </li>
               
@@ -158,8 +158,8 @@
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra.html">generate_average_spectra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html">generate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">remove_sepectral_curvature</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html">remove_sepectral_curvature</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">remove_solar_spectra</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
 </ul>
@@ -180,24 +180,18 @@
 
     <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="remove-sepectral-curvature">
-<h1>remove_sepectral_curvature<a class="headerlink" href="#remove-sepectral-curvature" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="remove-solar-spectra">
+<h1>remove_solar_spectra<a class="headerlink" href="#remove-solar-spectra" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">remove_sepectral_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">shifts</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#remove_sepectral_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shift the spectrum of each spatial position by the amount specified</p>
+<dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra">
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">remove_solar_spectra</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gainData</span></em>, <em class="sig-param"><span class="n">full_chip_average</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#remove_solar_spectra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the Solar spectrum from the original data</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>2D spectra to be shifted. Shape (X, Y)</p>
+<dt><strong>gainData</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>The average Solar Gain data used to measure the solar spectrum</p>
 </dd>
-<dt><strong>shifts</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Array of length X, containing the spectral shift of each spatial location</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>Array of shifted spectra. Same shape as input.</p>
+<dt><strong>full_chip_average</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The average solar spectrum, reshifted and tilted to match the original data</p>
 </dd>
 </dl>
 </dd>

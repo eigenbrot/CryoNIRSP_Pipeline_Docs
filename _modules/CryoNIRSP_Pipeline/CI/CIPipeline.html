@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.CI.CIPipeline &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.CI.CIPipeline &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -135,7 +135,7 @@
 <span></span><span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.generic</span> <span class="kn">import</span> <span class="n">strip_fits</span><span class="p">,</span> <span class="n">ensure_fits</span><span class="p">,</span> <span class="n">convert_config_to_int</span>
-<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.Gain</span> <span class="kn">import</span> <span class="n">LampGainCalibration</span>
+<span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.Gain</span> <span class="kn">import</span> <span class="n">Gain1Calibration</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common</span> <span class="kn">import</span> <span class="n">DarkCalibration</span><span class="p">,</span> <span class="n">Data</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.CI</span> <span class="kn">import</span> <span class="n">CIScienceCalibration</span><span class="p">,</span> <span class="n">CIInstrumentPolarizationCalibration</span>
@@ -190,19 +190,18 @@
         <span class="n">DarkCal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
 
-    <span class="c1"># Lamp Gain</span>
-    <span class="c1">###########</span>
-    <span class="n">filename</span> <span class="o">=</span> <span class="n">ensure_fits</span><span class="p">(</span><span class="n">ensure_CI_name</span><span class="p">(</span><span class="n">strip_fits</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Main&#39;</span><span class="p">][</span><span class="s1">&#39;lamp_gain_cal&#39;</span><span class="p">])))</span>
+    <span class="c1"># Gain1</span>
+    <span class="c1">#######</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">ensure_fits</span><span class="p">(</span><span class="n">ensure_CI_name</span><span class="p">(</span><span class="n">strip_fits</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Main&#39;</span><span class="p">][</span><span class="s1">&#39;gain1_cal&#39;</span><span class="p">])))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find </span><span class="si">{}</span><span class="s1">, attempting to generate with LampGainCalibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
-        <span class="n">LampGainCal</span> <span class="o">=</span> <span class="n">LampGainCalibration</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;LampGainCalibration&#39;</span><span class="p">][</span><span class="s1">&#39;raw_lamp_dir&#39;</span><span class="p">],</span> <span class="s1">&#39;CI&#39;</span><span class="p">,</span>
-                                               <span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
-                                               <span class="n">dark_cal</span><span class="o">=</span><span class="n">DarkCal</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="n">linearize</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Could not find </span><span class="si">{}</span><span class="s1">, attempting to generate with Gain1Calibration&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
+        <span class="n">Gain1Cal</span> <span class="o">=</span> <span class="n">Gain1Calibration</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain1Calibration&#39;</span><span class="p">][</span><span class="s1">&#39;raw_gain1_dir&#39;</span><span class="p">],</span> <span class="n">strip_fits</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span>
+                                            <span class="n">dark_cal</span><span class="o">=</span><span class="n">DarkCal</span><span class="p">,</span> <span class="n">linearize</span><span class="o">=</span><span class="n">linearize</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">LampGainCal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">Gain1Cal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loaded </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">filename</span><span class="p">))</span>
 
-    <span class="n">sci_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dark_cal&#39;</span><span class="p">:</span> <span class="n">DarkCal</span><span class="p">,</span> <span class="s1">&#39;lampgain_cal&#39;</span><span class="p">:</span> <span class="n">LampGainCal</span><span class="p">,</span> <span class="s1">&#39;linearize&#39;</span><span class="p">:</span> <span class="n">linearize</span><span class="p">,</span> <span class="s1">&#39;ispol&#39;</span><span class="p">:</span> <span class="n">ispol</span><span class="p">}</span>
+    <span class="n">sci_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dark_cal&#39;</span><span class="p">:</span> <span class="n">DarkCal</span><span class="p">,</span> <span class="s1">&#39;gain1_cal&#39;</span><span class="p">:</span> <span class="n">Gain1Cal</span><span class="p">,</span> <span class="s1">&#39;linearize&#39;</span><span class="p">:</span> <span class="n">linearize</span><span class="p">,</span> <span class="s1">&#39;ispol&#39;</span><span class="p">:</span> <span class="n">ispol</span><span class="p">}</span>
 
     <span class="c1"># Instrument Pol</span>
     <span class="c1">################</span>
@@ -269,7 +268,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

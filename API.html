@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reference/API &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>Reference/API &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -215,6 +215,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-CryoNIRSP_Pipeline.CryoNIRSPPipeline">CryoNIRSP_Pipeline.CryoNIRSPPipeline Module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config.html">gen_blank_config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config.html">gen_sensible_config</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI.html">is_CI</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP.html">is_SP</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.main.html">main</a></li>
@@ -329,6 +330,7 @@
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.ensure_asdf.html">ensure_asdf</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.ensure_fits.html">ensure_fits</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html">modulated_gain_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData.html">normalize_modulated_FitsData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html">sort_hdus_by_modulator</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html">stddev_FitsData</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html">stddev_modulated_FitsData</a></li>
@@ -384,6 +386,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#id11">Functions</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.check_mask_vs_fitorder.html">check_mask_vs_fitorder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html">correct_single_ramp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT.html">correct_single_ramp_LUT</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html">find_threshold</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html">get_threshold_mask</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html">main</a></li>
@@ -413,6 +416,8 @@
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html">generate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html">remove_sepectral_curvature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
 </ul>
 </li>
@@ -482,13 +487,16 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_blank_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_blank_config</span></code></a>(filename)</p></td>
 <td><p>Create a blank configuration file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_CI</span></code></a>(data_dir)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_sensible_config</span></code></a>(filename, raw_dir)</p></td>
+<td><p>Create a blank configuration file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_CI"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_CI</span></code></a>(data_dir)</p></td>
 <td><p>Return True if there are <em>any</em> CI frames in the specified directory</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_SP</span></code></a>(data_dir)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.is_SP"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_SP</span></code></a>(data_dir)</p></td>
 <td><p>Return True if there are <em>any</em> SP frames in the specified directory</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.main.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.main" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(config_file)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.main.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.main" title="CryoNIRSP_Pipeline.CryoNIRSPPipeline.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(config_file)</p></td>
 <td><p>The main, runner script for the entire CryoNIRSP Pipeline.</p></td>
 </tr>
 </tbody>
@@ -816,22 +824,25 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.modulated_gain_correction" title="CryoNIRSP_Pipeline.common.generic.modulated_gain_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">modulated_gain_correction</span></code></a>(fitsData, …)</p></td>
 <td><p>Divide each modulator state’s data by Gain from the same modulator state.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html#CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator" title="CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_hdus_by_modulator</span></code></a>(fitsData)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData.html#CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData" title="CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize_modulated_FitsData</span></code></a>(fitsData)</p></td>
+<td><p>Normalize all HDUs for each modulator state so that the mean is the same as the global mean</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html#CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator" title="CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort_hdus_by_modulator</span></code></a>(fitsData)</p></td>
 <td><p>Make sure that the HDUList is in modulator order.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_FitsData</span></code></a>(fitsData[, average])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_FitsData</span></code></a>(fitsData[, average])</p></td>
 <td><p>Compute the per-pixel standard deviation across ALL HDUs present in the input data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_modulated_FitsData</span></code></a>(fitsData[, average])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html#CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData" title="CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">stddev_modulated_FitsData</span></code></a>(fitsData[, average])</p></td>
 <td><p>Compute the per-pixel standard deviation for each modulator state present in the input data</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.strip_asdf.html#CryoNIRSP_Pipeline.common.generic.strip_asdf" title="CryoNIRSP_Pipeline.common.generic.strip_asdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_asdf</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.strip_asdf.html#CryoNIRSP_Pipeline.common.generic.strip_asdf" title="CryoNIRSP_Pipeline.common.generic.strip_asdf"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_asdf</span></code></a>(filename)</p></td>
 <td><p>Strip the ‘.asdf’ extension from a filename</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.strip_fits.html#CryoNIRSP_Pipeline.common.generic.strip_fits" title="CryoNIRSP_Pipeline.common.generic.strip_fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_fits</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.strip_fits.html#CryoNIRSP_Pipeline.common.generic.strip_fits" title="CryoNIRSP_Pipeline.common.generic.strip_fits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strip_fits</span></code></a>(filename)</p></td>
 <td><p>Strip the ‘.fits’ extension from a filename</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction" title="CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unmodulated_gain_correction</span></code></a>(fitsData, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html#CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction" title="CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unmodulated_gain_correction</span></code></a>(fitsData, …)</p></td>
 <td><p>Divide ALL data arrays by provided gain.</p></td>
 </tr>
 </tbody>
@@ -852,7 +863,7 @@
 <td><p>Add in this case means concatenation, NOT a sum of the actual data</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.init_factory.html#CryoNIRSP_Pipeline.common.Data.init_factory" title="CryoNIRSP_Pipeline.common.Data.init_factory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_factory</span></code></a>(task_dict)</p></td>
-<td><p></p></td>
+<td><p>Make __init__ functions for each of the _TaskData derivatives.</p></td>
 </tr>
 </tbody>
 </table>
@@ -890,7 +901,7 @@
 <td><p>DemodulationData is a small modification of the <a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html#CryoNIRSP_Pipeline.common.Data.FitsData" title="CryoNIRSP_Pipeline.common.Data.FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsData</span></code></a> class.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html#CryoNIRSP_Pipeline.common.Data.FitsData" title="CryoNIRSP_Pipeline.common.Data.FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsData</span></code></a>([load_obj, memmap, allow3D])</p></td>
-<td><p>FitsData is a basically a wrapper for astropy.io.fits, with some extra methods and properties to aid the</p></td>
+<td><p>FitsData is a basically a wrapper for astropy.io.fits, with some extra methods and properties to aid the reduction of DKIST data.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.Gain1Data.html#CryoNIRSP_Pipeline.common.Data.Gain1Data" title="CryoNIRSP_Pipeline.common.Data.Gain1Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Gain1Data</span></code></a>([data_dir, memmap])</p></td>
 <td><p>Gain1Data is an extension of <code class="xref py py-obj docutils literal notranslate"><span class="pre">FitData</span></code> designed to only hold data associated with Gain1. It inherits all of the functionality of <a class="reference internal" href="api/CryoNIRSP_Pipeline.common.Data.FitsData.html#CryoNIRSP_Pipeline.common.Data.FitsData" title="CryoNIRSP_Pipeline.common.Data.FitsData"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FitsData</span></code></a> and defines an extra method that loads all data from a directory who’s headers match the  following:                Key  Value                —  —–           DKIST004  Gain           CRSP_002  Gain1.</p></td>
@@ -976,19 +987,22 @@
 <tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html#CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp" title="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_single_ramp</span></code></a>(rampData, bad_px_vec[, …])</p></td>
 <td><p>Perform linearity correction on a single ramp.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html#CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold" title="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_threshold</span></code></a>(flat_data)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT.html#CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT" title="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">correct_single_ramp_LUT</span></code></a>(rampData, LUT, …)</p></td>
+<td><p>Perform linearity correction on a single ramp.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html#CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold" title="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_threshold</span></code></a>(flat_data[, …])</p></td>
 <td><p>Find the threshold value at which ramp data departs from linearity</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html#CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask" title="CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_threshold_mask</span></code></a>(data, threshold)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html#CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask" title="CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_threshold_mask</span></code></a>(data, threshold)</p></td>
 <td><p>Compute a mask that masks out pixels above the given threshold</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html#CryoNIRSP_Pipeline.common.LinearityCorrection.main" title="CryoNIRSP_Pipeline.common.LinearityCorrection.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(target_dir, output_dir, threshold_file, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html#CryoNIRSP_Pipeline.common.LinearityCorrection.main" title="CryoNIRSP_Pipeline.common.LinearityCorrection.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(target_dir, output_dir, threshold_file, …)</p></td>
 <td><p>Use a collection of raw DHS non-destructive reads (NDRs) to produce linearity corrected data.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots.html#CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots" title="CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_debug_plots</span></code></a>(rampData, threshold, …)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots.html#CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots" title="CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots"><code class="xref py py-obj docutils literal notranslate"><span class="pre">make_debug_plots</span></code></a>(rampData, threshold, …)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit.html#CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit" title="CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">masked_polyfit</span></code></a>(time, data, order, mask, …)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit.html#CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit" title="CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">masked_polyfit</span></code></a>(time, data, order, mask, …)</p></td>
 <td><p>Fit each pixel with a polynomial</p></td>
 </tr>
 </tbody>
@@ -1040,20 +1054,26 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.extract_detilted_beams.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.extract_detilted_beams" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.extract_detilted_beams"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_detilted_beams</span></code></a>(fitsData, geometric_cal)</p></td>
 <td><p>Split full-frame SP data along the beam edge and rotate each beam by the dispersion angle</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_spectral_curvature</span></code></a>(data[, min_corr, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_spectral_curvature</span></code></a>(data[, …])</p></td>
 <td><p>Compute the spectral shift of each spatial channel relative to a central spectrum</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_average_spectra</span></code></a>(avg_spectrum, shifts)</p></td>
 <td><p>Fill the full, 2D Cryo beam with the average spectrum</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_gain4_calibration</span></code></a>(…)</p></td>
-<td><p>Remove the Solar spectrum from the original data and write to disk</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_gain4_calibration</span></code></a>(gainData, shifts, …)</p></td>
+<td><p>gainData : <code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.main" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main"><code class="xref py py-obj docutils literal notranslate"><span class="pre">main</span></code></a>(gain_dir, align3_cal, outpre[, …])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_sepectral_curvature</span></code></a>(data, shifts)</p></td>
 <td><p>Shift the spectrum of each spatial position by the amount specified</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">remove_solar_spectra</span></code></a>(gainData, full_chip_average)</p></td>
+<td><p>Remove the Solar spectrum from the original data</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_gain4_calibration</span></code></a>(gainData)</p></td>
+<td><p></p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task" title="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task"><code class="xref py py-obj docutils literal notranslate"><span class="pre">validate_gain4_task</span></code></a>(gainData)</p></td>
 <td><p></p></td>
@@ -1098,16 +1118,19 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument_polarization_correction</span></code></a>(fitsData, …)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_default_telescope_db</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.instrument_polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">instrument_polarization_correction</span></code></a>(fitsData, …)</p></td>
 <td><p>Multiply input data by the provided demodulation matrix</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication" title="CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarimetric_multiplication</span></code></a>(data, demod)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication" title="CryoNIRSP_Pipeline.Pol.pol_corrections.polarimetric_multiplication"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarimetric_multiplication</span></code></a>(data, demod)</p></td>
 <td><p>Matrix multiply the input data by a polarization demodulation matrix.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarization_correction</span></code></a>(fitsData, …[, …])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.polarization_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">polarization_correction</span></code></a>(fitsData, …[, …])</p></td>
 <td><p>Remove some or all polarimetric effects from data</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope_pol_correction</span></code></a>(fitsData, teleCal)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction.html#CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction" title="CryoNIRSP_Pipeline.Pol.pol_corrections.telescope_pol_correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">telescope_pol_correction</span></code></a>(fitsData, teleCal)</p></td>
 <td><p>Apply an inverse Telescope Mueller matrix and update header values</p></td>
 </tr>
 </tbody>
@@ -1178,7 +1201,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

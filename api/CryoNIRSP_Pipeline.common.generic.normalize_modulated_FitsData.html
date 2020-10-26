@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>remove_sepectral_curvature &#8212; CryoNIRSP_Pipeline v0.8.0</title>
+    <title>normalize_modulated_FitsData &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -19,8 +19,8 @@
     <link rel="shortcut icon" href="../_static/favico.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="remove_solar_spectra" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" />
-    <link rel="prev" title="main" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" />
+    <link rel="next" title="sort_hdus_by_modulator" href="CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html" />
+    <link rel="prev" title="modulated_gain_correction" href="CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -75,7 +75,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">remove_sepectral_curvature</a></li>
+<li><a class="reference internal" href="#">normalize_modulated_FitsData</a></li>
 </ul>
 </ul>
 </li>
@@ -85,11 +85,11 @@
               
                 
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" title="Previous Chapter: main"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; main</span>
+    <a href="CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html" title="Previous Chapter: modulated_gain_correction"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; modulated_gai...</span>
     </a>
   </li>
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" title="Next Chapter: remove_solar_spectra"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">remove_solar_spectra &raquo;</span>
+    <a href="CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html" title="Next Chapter: sort_hdus_by_modulator"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">sort_hdus_by_... &raquo;</span>
     </a>
   </li>
               
@@ -144,28 +144,31 @@
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration">CryoNIRSP_Pipeline.CI.CIInstrumentPolarizationCalibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.CI.CIPipeline">CryoNIRSP_Pipeline.CI.CIPipeline Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Align.Align3Calibration">CryoNIRSP_Pipeline.Align.Align3Calibration Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../API.html#id8">Functions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.average_FitsData.html">average_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.average_modulated_FitsData.html">average_modulated_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.convert_config_to_int.html">convert_config_to_int</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.dark_correction.html">dark_correction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.ensure_asdf.html">ensure_asdf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.ensure_fits.html">ensure_fits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.modulated_gain_correction.html">modulated_gain_correction</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">normalize_modulated_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.sort_hdus_by_modulator.html">sort_hdus_by_modulator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.stddev_FitsData.html">stddev_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.stddev_modulated_FitsData.html">stddev_modulated_FitsData</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.strip_asdf.html">strip_asdf</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.strip_fits.html">strip_fits</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.generic.unmodulated_gain_correction.html">unmodulated_gain_correction</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.Data">CryoNIRSP_Pipeline.common.Data Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.DarkCalibration">CryoNIRSP_Pipeline.common.DarkCalibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.LinearityCorrection">CryoNIRSP_Pipeline.common.LinearityCorrection Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">CryoNIRSP_Pipeline.Gain.Gain1Calibration Module</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain4Calibration">CryoNIRSP_Pipeline.Gain.Gain4Calibration Module</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../API.html#id13">Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.combine_retilted_beams.html">combine_retilted_beams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.compute_average_spectrum.html">compute_average_spectrum</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.extract_detilted_beams.html">extract_detilted_beams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html">find_spectral_curvature</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra.html">generate_average_spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html">generate_gain4_calibration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">remove_sepectral_curvature</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain4Calibration">CryoNIRSP_Pipeline.Gain.Gain4Calibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.LampGainCalibration">CryoNIRSP_Pipeline.Gain.LampGainCalibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_corrections">CryoNIRSP_Pipeline.Pol.pol_corrections Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_generic">CryoNIRSP_Pipeline.Pol.pol_generic Module</a></li>
@@ -180,24 +183,18 @@
 
     <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="remove-sepectral-curvature">
-<h1>remove_sepectral_curvature<a class="headerlink" href="#remove-sepectral-curvature" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="normalize-modulated-fitsdata">
+<h1>normalize_modulated_FitsData<a class="headerlink" href="#normalize-modulated-fitsdata" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">remove_sepectral_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">shifts</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#remove_sepectral_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shift the spectrum of each spatial position by the amount specified</p>
+<dt id="CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData">
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.generic.</code><code class="sig-name descname">normalize_modulated_FitsData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fitsData</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/generic.html#normalize_modulated_FitsData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.generic.normalize_modulated_FitsData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalize all HDUs for each modulator state so that the mean is the same as the global mean</p>
+<p>In other words, each modulator state is normalized to a mean of 1 and then all modulator states are scaled by the
+original, total mean.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>2D spectra to be shifted. Shape (X, Y)</p>
-</dd>
-<dt><strong>shifts</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Array of length X, containing the spectral shift of each spatial location</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>Array of shifted spectra. Same shape as input.</p>
+<dt><strong>fitsData</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>Data to be normalized. No problem is each modulator state has a different number of HDUs</p>
 </dd>
 </dl>
 </dd>

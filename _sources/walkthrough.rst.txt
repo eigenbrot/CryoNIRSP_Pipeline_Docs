@@ -14,7 +14,7 @@ We'll also need a set of CryoNIRSP data from a PolCal run. This can be generated
 
 .. code-block:: console
 
-  $ pac_fake_data -I cryo -C efficient_CS polcal
+  $ pac_fake_data -I cryo-ci -C efficient_CS raw
   ...
   CRYONIRSP_20160523T000000.000000_0.fits
   CRYONIRSP_20160523T000001.000000_1.fits
@@ -24,6 +24,8 @@ We'll also need a set of CryoNIRSP data from a PolCal run. This can be generated
   CRYONIRSP_20160523T000005.000000_5.fits
   ...
 
+(If you're reducing CI data then change the argument to ``-I`` to be `cryo-ci`)
+
 Setup
 -----
 Now let's create a default config file:
@@ -32,9 +34,9 @@ Now let's create a default config file:
 
   $ mkdir rdx
   $ cd rdx
-  $ cryo_pipeline -b config.ini
+  $ cryo_pipeline -d ../raw config.ini
 
-Now we'll need to populate the config file, which should be pretty straight forward.
+The ``-d`` flag populates a file with sensible defaults given a raw data directory:
 
 .. code-block:: ini
 
@@ -66,8 +68,12 @@ Now we'll need to populate the config file, which should be pretty straight forw
   raw_pinhole_dir = ../raw
 
   [InstrumentPolarization]
-  raw_pol_dir = ../polcal
+  raw_pol_dir = ../raw
   threads = 3
+  cu_numbins_x = 1
+  cu_numbins_y = 1
+  demod_numbins_x = 4
+  demod_numbins_y = 4
 
 Run
 ---
@@ -106,10 +112,12 @@ If you followed the steps above then you should have a directory that looks like
   Gain1Cal_unc.fits
   InstPolCal.fits
   Sci.fits
+  polcal_proc_CI
   spool.txt
 
 The reduced Science data live in ``Sci.fits``. The ``*Cal`` files are the intermediate Calibration objects. All
-``*_unc.fits`` files are the pixel uncertainties associated with the parent file.
+``*_unc.fits`` files are the pixel uncertainties associated with the parent file. The ``polcal_proc_CI`` directory is
+where some extra reductions for the Instrument Polarization Calibration live.
 
 Hopefully your reduced Science frame looks something like below
 

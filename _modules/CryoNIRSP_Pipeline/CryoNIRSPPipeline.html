@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.CryoNIRSPPipeline &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.CryoNIRSPPipeline &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -258,7 +258,56 @@
     <span class="n">config</span><span class="p">[</span><span class="s1">&#39;LampGainCalibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_lamp_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
     <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain4Calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_gain4_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
     <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Align3Calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_align3_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;raw_pinhole_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
-    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;InstrumentPolarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_pol_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;threads&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;InstrumentPolarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_pol_dir&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;cu_numbins_x&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;cu_numbins_y&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;demod_numbins_x&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;demod_numbins_y&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;threads&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="gen_sensible_config"><a class="viewcode-back" href="../../api/CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config.html#CryoNIRSP_Pipeline.CryoNIRSPPipeline.gen_sensible_config">[docs]</a><span class="k">def</span> <span class="nf">gen_sensible_config</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">raw_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a blank configuration file.</span>
+
+<span class="sd">    This is useful as a way to see all of the available options.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    raw_dir : str</span>
+<span class="sd">        Path to raw data directory</span>
+
+<span class="sd">    filename : str</span>
+<span class="sd">        The location to save the file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">ConfigParser</span><span class="p">(</span><span class="n">allow_no_value</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Main&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_sci_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">,</span>
+                      <span class="s1">&#39;output_prefix&#39;</span><span class="p">:</span> <span class="s1">&#39;Sci&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;dark_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;DarkCal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;gain1_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;Gain1Cal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;lamp_gain_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;LampCal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;gain4_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;Gain4Cal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;align3_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;Align3Cal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;instrument_pol_cal&#39;</span><span class="p">:</span> <span class="s1">&#39;InstPolCal&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;linearize&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;DarkCalibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_dark_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain1Calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_gain1_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;LampGainCalibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_lamp_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Gain4Calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_gain4_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;Align3Calibration&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_align3_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">,</span> <span class="s1">&#39;raw_pinhole_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s1">&#39;InstrumentPolarization&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;raw_pol_dir&#39;</span><span class="p">:</span> <span class="n">raw_dir</span><span class="p">,</span>
+                                        <span class="s1">&#39;cu_numbins_x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                        <span class="s1">&#39;cu_numbins_y&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+                                        <span class="s1">&#39;demod_numbins_x&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                                        <span class="s1">&#39;demod_numbins_y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+                                        <span class="s1">&#39;threads&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">config</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -274,12 +323,19 @@
                         <span class="s1">&#39;the standard INI format&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;config_file&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;INI-style file containing pipeline options&quot;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="s1">&#39;--blank&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Generate a blank configuration file&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--default&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Generate a config file with sensible defaults based on a given raw data dir&#39;</span><span class="p">,</span>
+                        <span class="n">metavar</span><span class="o">=</span><span class="s1">&#39;raw_dir&#39;</span><span class="p">)</span>
+
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">blank</span><span class="p">:</span>
         <span class="n">gen_blank_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config_file</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">default</span><span class="p">:</span>
+        <span class="n">gen_sensible_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">default</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config_file</span><span class="p">):</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config_file</span><span class="p">))</span>
@@ -301,7 +357,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

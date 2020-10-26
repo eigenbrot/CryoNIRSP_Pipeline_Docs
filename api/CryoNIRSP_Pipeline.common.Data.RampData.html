@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RampData &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>RampData &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -195,7 +195,7 @@
 <dl class="py class">
 <dt id="CryoNIRSP_Pipeline.common.Data.RampData">
 <em class="property">class </em><code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.Data.</code><code class="sig-name descname">RampData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file_list</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>A container for the loading and manipulating of raw DHS data from IR cameras. It is similar to FitsData in how
 it stores/loads data from FITS files, but it is much simpler (no _DataList) because it has one, specific low-level
 function.</p>
@@ -291,7 +291,8 @@ reduction methods that are needed for linearity correction.</p>
 <dt id="CryoNIRSP_Pipeline.common.Data.RampData.init_subarray">
 <code class="sig-name descname">init_subarray</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">xsize</span></em>, <em class="sig-param"><span class="n">ysize</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#RampData.init_subarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.RampData.init_subarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the .subarray property with a specific sub-section of the data arrays</p>
-<p>The subarray is defined as data[: x0:x0 + xsize, y0:y0 + ysize]</p>
+<p>The subarray is defined as data[: x0:x0 + xsize, y0:y0 + ysize]. If any None values are passed the subarray
+is not initialized and just points to the raw data</p>
 </dd></dl>
 
 <dl class="py method">
@@ -334,7 +335,7 @@ single, length N, array.</p>
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

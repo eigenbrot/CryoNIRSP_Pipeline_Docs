@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>main &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>main &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -151,6 +151,7 @@
 <li class="toctree-l3 current"><a class="reference internal" href="../API.html#id11">Functions</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.check_mask_vs_fitorder.html">check_mask_vs_fitorder</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html">correct_single_ramp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT.html">correct_single_ramp_LUT</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html">find_threshold</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html">get_threshold_mask</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">main</a></li>
@@ -180,7 +181,7 @@
 <h1>main<a class="headerlink" href="#main" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CryoNIRSP_Pipeline.common.LinearityCorrection.main">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.LinearityCorrection.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_dir</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">threshold_file</span></em>, <em class="sig-param"><span class="n">bad_px_file</span></em>, <em class="sig-param"><span class="n">x0</span></em>, <em class="sig-param"><span class="n">y0</span></em>, <em class="sig-param"><span class="n">x_size</span></em>, <em class="sig-param"><span class="n">y_size</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/LinearityCorrection.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.LinearityCorrection.main" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.LinearityCorrection.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">target_dir</span></em>, <em class="sig-param"><span class="n">output_dir</span></em>, <em class="sig-param"><span class="n">threshold_file</span></em>, <em class="sig-param"><span class="n">bad_px_file</span></em>, <em class="sig-param"><span class="n">x0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y0</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">x_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">order</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">overwrite</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/LinearityCorrection.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.LinearityCorrection.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use a collection of raw DHS non-destructive reads (NDRs) to produce linearity corrected data.</p>
 <p>This is essentially a pre-processing step for all data before they can be ingested properly by the rest of the
 pipeline.</p>
@@ -228,7 +229,7 @@ pipeline.</p>
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.Gain.Gain4Calibration &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.Gain.Gain4Calibration &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -157,6 +157,7 @@
         <span class="n">LinearityCorrection</span><span class="o">.</span><span class="n">main</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">,</span> <span class="n">lin_dir</span><span class="p">,</span> <span class="o">**</span><span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;LinearityKwargs&#39;</span><span class="p">])</span>
         <span class="n">gain_dir</span> <span class="o">=</span> <span class="n">lin_dir</span>
 
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Loading data from </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span> <span class="n">gain_dir</span><span class="p">))</span>
     <span class="n">gainData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">Gain4Data</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">)</span>
 
     <span class="n">validate_gain4_task</span><span class="p">(</span><span class="n">gainData</span><span class="p">)</span>
@@ -221,9 +222,17 @@
     <span class="k">if</span> <span class="n">dark_cal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">generic</span><span class="o">.</span><span class="n">dark_correction</span><span class="p">(</span><span class="n">modAvg</span><span class="p">,</span> <span class="n">dark_cal</span><span class="p">)</span>
 
-    <span class="n">gainCal</span> <span class="o">=</span> <span class="n">generate_gain4_calibration</span><span class="p">(</span><span class="n">big_avg</span><span class="p">,</span> <span class="n">modAvg</span><span class="p">,</span> <span class="n">final_shift_list</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">,</span> <span class="n">outpre</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Removing average solar spectra&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">remove_solar_spectra</span><span class="p">(</span><span class="n">modAvg</span><span class="p">,</span> <span class="n">big_avg</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">gainCal</span></div>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Normalizing Gain 4&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">generic</span><span class="o">.</span><span class="n">normalize_modulated_FitsData</span><span class="p">(</span><span class="n">modAvg</span><span class="p">)</span>
+
+    <span class="n">validate_gain4_calibration</span><span class="p">(</span><span class="n">modAvg</span><span class="p">)</span>
+
+    <span class="n">gainCal</span><span class="p">,</span> <span class="n">gain_shifts</span> <span class="o">=</span> <span class="n">generate_gain4_calibration</span><span class="p">(</span><span class="n">modAvg</span><span class="p">,</span> <span class="n">final_shift_list</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gainCal</span><span class="p">,</span> <span class="n">gain_shifts</span></div>
 
 <div class="viewcode-block" id="validate_gain4_task"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task">[docs]</a><span class="k">def</span> <span class="nf">validate_gain4_task</span><span class="p">(</span><span class="n">gainData</span><span class="p">):</span>
 
@@ -232,53 +241,68 @@
         <span class="k">if</span> <span class="n">h</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">S122</span><span class="p">[</span><span class="s1">&#39;InstrumentProgramID&#39;</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">IP0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not all frames have the same IP ID&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="generate_gain4_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_gain4_calibration</span><span class="p">(</span><span class="n">full_chip_average</span><span class="p">,</span> <span class="n">gainData</span><span class="p">,</span> <span class="n">shifts</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">,</span> <span class="n">outpre</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Remove the Solar spectrum from the original data and write to disk</span>
+<div class="viewcode-block" id="validate_gain4_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration">[docs]</a><span class="k">def</span> <span class="nf">validate_gain4_calibration</span><span class="p">(</span><span class="n">gainData</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="remove_solar_spectra"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra">[docs]</a><span class="k">def</span> <span class="nf">remove_solar_spectra</span><span class="p">(</span><span class="n">gainData</span><span class="p">,</span> <span class="n">full_chip_average</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remove the Solar spectrum from the original data</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    full_chip_average : `numpy.ndarray`</span>
-<span class="sd">        The average solar spectrum, reshifted and tilted to match the original data</span>
-
 <span class="sd">    gainData : `Data.FitsData`</span>
 <span class="sd">        The average Solar Gain data used to measure the solar spectrum</span>
+
+<span class="sd">    full_chip_average : `numpy.ndarray`</span>
+<span class="sd">        The average solar spectrum, reshifted and tilted to match the original data</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gainData</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">gainData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gainData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">full_chip_average</span>
+        <span class="k">if</span> <span class="n">gainData</span><span class="o">.</span><span class="n">unc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">gainData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">gainData</span><span class="o">.</span><span class="n">unc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">full_chip_average</span></div>
+
+<div class="viewcode-block" id="generate_gain4_calibration"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration">[docs]</a><span class="k">def</span> <span class="nf">generate_gain4_calibration</span><span class="p">(</span><span class="n">gainData</span><span class="p">,</span> <span class="n">shifts</span><span class="p">,</span> <span class="n">outpre</span><span class="p">,</span> <span class="n">gain_dir</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    gainData : `Data.FitsData`</span>
+<span class="sd">        The average Solar Gain data used to measure the solar spectrum, with solar spectra removed</span>
 
 <span class="sd">    shifts : list</span>
 <span class="sd">        List of 2 `numpy.ndarray` that contain the spectral shifts for beams 1 and 2, in that order.</span>
 
-<span class="sd">    gain_dir : str</span>
-<span class="sd">        The location of the data that were used to make this Cal object</span>
-
 <span class="sd">    outpre : str</span>
 <span class="sd">        Prefix to use for output files</span>
+
+<span class="sd">    gain_dir : str</span>
+<span class="sd">        The location of the data that were used to make this Cal object</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    `Data.FitsData`</span>
 <span class="sd">        A Gain4 Calibration object</span>
+
+<span class="sd">    `Data.FitsData`</span>
+<span class="sd">        The spectra shifts for each beam</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># TODO: Make this .unc aware</span>
+    <span class="n">outname</span> <span class="o">=</span> <span class="n">outpre</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span>
+    <span class="n">gainData</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;Gain 4 Calibration&#39;</span>
+    <span class="n">gainData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;HISTORY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Generated with data from &quot;</span><span class="si">{}</span><span class="s1">&quot; on </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">),</span>
+                                                                                  <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">())</span>
+    <span class="n">gainData</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">outname</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">hdu_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="n">gainData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
-    <span class="n">hdu_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;HISTORY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Generated with data from &quot;</span><span class="si">{}</span><span class="s1">&quot; on </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">gain_dir</span><span class="p">),</span>
-                                                                                 <span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">())</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gainData</span><span class="o">.</span><span class="n">data</span><span class="p">)):</span>
-        <span class="n">final_gain</span> <span class="o">=</span> <span class="n">gainData</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="n">full_chip_average</span>
-        <span class="n">final_gain</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">final_gain</span><span class="p">)</span>
-        <span class="n">hdu_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pyfits</span><span class="o">.</span><span class="n">ImageHDU</span><span class="p">(</span><span class="n">final_gain</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="n">gainData</span><span class="o">.</span><span class="n">data_hdus</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">header</span><span class="p">))</span>
-
+    <span class="n">dummy_primary</span> <span class="o">=</span> <span class="n">pyfits</span><span class="o">.</span><span class="n">PrimaryHDU</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="n">gainData</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
     <span class="n">shift_hdu</span> <span class="o">=</span> <span class="n">pyfits</span><span class="o">.</span><span class="n">ImageHDU</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">shifts</span><span class="p">))</span>
     <span class="n">shift_hdu</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="s1">&#39;EXTNAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Spectral shifts&#39;</span>
-    <span class="n">hdu_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">shift_hdu</span><span class="p">)</span>
 
-    <span class="n">outname</span> <span class="o">=</span> <span class="n">outpre</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">]</span>
-    <span class="n">pyfits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">(</span><span class="n">hdu_list</span><span class="p">)</span><span class="o">.</span><span class="n">writeto</span><span class="p">(</span><span class="n">outname</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">shiftData</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">()</span>
+    <span class="n">shiftData</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="s1">&#39;Gain 4 shifts&#39;</span>
+    <span class="n">shiftData</span><span class="o">.</span><span class="n">hdulist</span> <span class="o">=</span> <span class="n">pyfits</span><span class="o">.</span><span class="n">HDUList</span><span class="p">([</span><span class="n">dummy_primary</span><span class="p">,</span> <span class="n">shift_hdu</span><span class="p">])</span>
+    <span class="n">shift_outname</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">_shifts.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">outpre</span><span class="p">,</span> <span class="n">CONSTANTS</span><span class="p">[</span><span class="s1">&#39;Data&#39;</span><span class="p">][</span><span class="s1">&#39;suffix&#39;</span><span class="p">])</span>
+    <span class="n">shiftData</span><span class="o">.</span><span class="n">write_out</span><span class="p">(</span><span class="n">shift_outname</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="n">gainCal</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">FitsData</span><span class="p">(</span><span class="n">outname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gainData</span><span class="p">,</span> <span class="n">shiftData</span></div>
 
-    <span class="k">return</span> <span class="n">gainCal</span></div>
-
-<div class="viewcode-block" id="find_spectral_curvature"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature">[docs]</a><span class="k">def</span> <span class="nf">find_spectral_curvature</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_corr</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">peak_interp_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_shift</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">edge_chop</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="find_spectral_curvature"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature">[docs]</a><span class="k">def</span> <span class="nf">find_spectral_curvature</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">median_spec_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">min_corr</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">peak_interp_width</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_shift</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+                            <span class="n">edge_chop</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Compute the spectral shift of each spatial channel relative to a central spectrum</span>
 
 <span class="sd">    The reference spectrum is chosen to be as close to the middle of the spectral range as possible, while ensuring the</span>
@@ -292,6 +316,9 @@
 <span class="sd">    ----------</span>
 <span class="sd">    data : `numpy.ndarray`</span>
 <span class="sd">        A 2D set of spectra with shape (X, Y). Should be aligned so the dispersion axis lies along array axes</span>
+
+<span class="sd">    median_spec_window : int</span>
+<span class="sd">        Window (in +/- pixels) around the centerr of the slit to use in determining the reference spectrum</span>
 
 <span class="sd">    min_corr : float</span>
 <span class="sd">        The minimum correlation amount required for a measured shift to be considered &quot;good&quot;</span>
@@ -316,7 +343,7 @@
 <span class="sd">        Array of length X, containing the spectral shift of each spatial location</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">numspec</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">refspec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">numspec</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">5</span><span class="p">:</span><span class="n">numspec</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">refspec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">numspec</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">median_spec_window</span><span class="p">:</span><span class="n">numspec</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">median_spec_window</span><span class="p">,</span> <span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">refspec</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">refspec</span><span class="p">)</span>
     <span class="n">refspec</span> <span class="o">=</span> <span class="n">refspec</span><span class="p">[</span><span class="n">edge_chop</span><span class="p">:</span><span class="o">-</span><span class="n">edge_chop</span><span class="p">]</span>
 
@@ -525,7 +552,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

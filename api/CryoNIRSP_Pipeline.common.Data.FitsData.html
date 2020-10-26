@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FitsData &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>FitsData &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -195,15 +195,12 @@
 <dl class="py class">
 <dt id="CryoNIRSP_Pipeline.common.Data.FitsData">
 <em class="property">class </em><code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.Data.</code><code class="sig-name descname">FitsData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">load_obj</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">memmap</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow3D</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/Data.html#FitsData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.Data.FitsData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl>
-<dt>FitsData is a basically a wrapper for astropy.io.fits, with some extra methods and properties to aid the</dt><dd><p>reduction of DKIST data.</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>FitsData is a basically a wrapper for astropy.io.fits, with some extra methods and properties to aid the
+reduction of DKIST data.</p>
 <p>At its heart, this class is just a list of astropy.io.fits HDU objects.</p>
-</dd>
-<dt>pacman -Syu –overwrite /usr/lib*/p11-kit-trust.so</dt><dd><p>astropy.io.fits is used to store data and metadata because of its use of memmap to reduce the load on RAM when
+<p>astropy.io.fits is used to store data and metadata because of its use of memmap to reduce the load on RAM when
 accessing data arrays.</p>
-</dd>
-</dl>
 <p>Initialize an empty object and maybe load files from a directory.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -449,7 +446,7 @@ have been loaded.</p>
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

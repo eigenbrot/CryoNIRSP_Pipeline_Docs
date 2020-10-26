@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CryoNIRSP_Pipeline.common.LinearityCorrection &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>CryoNIRSP_Pipeline.common.LinearityCorrection &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -141,7 +141,8 @@
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.common.tag</span> <span class="kn">import</span> <span class="n">tag</span>
 <span class="kn">from</span> <span class="nn">CryoNIRSP_Pipeline.data</span> <span class="kn">import</span> <span class="n">CONSTANTS</span>
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html#CryoNIRSP_Pipeline.common.LinearityCorrection.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">threshold_file</span><span class="p">,</span> <span class="n">bad_px_file</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.main.html#CryoNIRSP_Pipeline.common.LinearityCorrection.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">target_dir</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">threshold_file</span><span class="p">,</span> <span class="n">bad_px_file</span><span class="p">,</span> <span class="c1"># LUT_file,</span>
+         <span class="n">x0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Use a collection of raw DHS non-destructive reads (NDRs) to produce linearity corrected data.</span>
 
 <span class="sd">    This is essentially a pre-processing step for all data before they can be ingested properly by the rest of the</span>
@@ -182,6 +183,9 @@
 <span class="sd">        If True then any already-corrected output files will be overwritten</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="n">order</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Order cannot be less than 1. (You asked for </span><span class="si">{}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">order</span><span class="p">))</span>
+
     <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">threshold_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -189,6 +193,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">thresh</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">bad_px</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">bad_px_file</span><span class="p">)</span>
+    <span class="c1"># LUT = np.load(LUT_file)</span>
 
     <span class="n">allRamps</span> <span class="o">=</span> <span class="n">Data</span><span class="o">.</span><span class="n">RampAggregator</span><span class="p">(</span><span class="n">target_dir</span><span class="p">)</span>
 
@@ -198,6 +203,7 @@
         <span class="n">rampData</span> <span class="o">=</span> <span class="n">allRamps</span><span class="o">.</span><span class="n">get_ramp_data</span><span class="p">(</span><span class="n">ramp_id</span><span class="p">)</span>
         <span class="n">rampData</span><span class="o">.</span><span class="n">init_subarray</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x_size</span><span class="p">,</span> <span class="n">y_size</span><span class="p">)</span>
 
+        <span class="c1"># new_data = correct_single_ramp_LUT(rampData, LUT, bad_px, threshold_vec=thresh)[None,:,:]</span>
         <span class="n">new_data</span> <span class="o">=</span> <span class="n">correct_single_ramp</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">bad_px</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span> <span class="n">threshold_vec</span><span class="o">=</span><span class="n">thresh</span><span class="p">)[</span><span class="kc">None</span><span class="p">,:,:]</span>
 
         <span class="n">date_id</span> <span class="o">=</span> <span class="n">Time</span><span class="p">(</span><span class="n">ramp_id</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -228,7 +234,7 @@
 <span class="sd">    threshold_vec : `numpy.ndarray`</span>
 <span class="sd">        Vector containing the upper threshold of the linear region for each pixel. Must have the same shape as</span>
 <span class="sd">        rampData.flattened_subarray.shape[1:]</span>
-<span class="sd">        </span>
+
 <span class="sd">    bad_px_vec : `numpy.ndarray`</span>
 <span class="sd">        Vector containing as bad pixel mask. Must have shape equal to rampData.flattened_subarray.shape[1:]</span>
 
@@ -268,13 +274,76 @@
         <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Waiting...&#39;</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Calculating corrected data values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coeffs</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">coeffs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># We take coeffs[-2:] because we only want the linear part</span>
+    <span class="c1">#  Also, is it dumb to use polyval(coeffs[-2:], ...) and then subtract coeffs[-1]? Probably.</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">coeffs</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:],</span> <span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">coeffs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">tmp</span><span class="p">[</span><span class="n">bad_px_vec</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="find_threshold"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html#CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold">[docs]</a><span class="k">def</span> <span class="nf">find_threshold</span><span class="p">(</span><span class="n">flat_data</span><span class="p">):</span>
+<div class="viewcode-block" id="correct_single_ramp_LUT"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT.html#CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT">[docs]</a><span class="k">def</span> <span class="nf">correct_single_ramp_LUT</span><span class="p">(</span><span class="n">rampData</span><span class="p">,</span> <span class="n">LUT</span><span class="p">,</span> <span class="n">bad_px_vec</span><span class="p">,</span> <span class="n">threshold_vec</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform linearity correction on a single ramp. This is the heart of this module.</span>
+
+<span class="sd">    The correction pipeline has the following steps:</span>
+
+<span class="sd">    1. Use ramp data to conform the threshold values to the current data</span>
+
+<span class="sd">    2. Identify the last NDR prior to saturation</span>
+
+<span class="sd">    3. For each pixel, apply the LUT polynomials to the NDRs found in 2</span>
+
+<span class="sd">    4. Convert to flux by dividing by the time of the NDRs found in 2</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    rampData : `Data.RampData`</span>
+<span class="sd">        Object containing the ramp to be corrected. This object must have had a subarray initialized.</span>
+
+<span class="sd">    LUT : `numpy.ndarray`</span>
+<span class="sd">        Array of shape (order + 1, x*y) containing lookup-table polynomial coefficients for each pixel</span>
+
+<span class="sd">    threshold_vec : `numpy.ndarray`</span>
+<span class="sd">        Vector containing the upper threshold of the linear region for each pixel. Must have the same shape as</span>
+<span class="sd">        rampData.flattened_subarray.shape[1:]</span>
+
+<span class="sd">    bad_px_vec : `numpy.ndarray`</span>
+<span class="sd">        Vector containing as bad pixel mask. Must have shape equal to rampData.flattened_subarray.shape[1:]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    `numpy.ndarray`</span>
+<span class="sd">        Corrected pixel values for all pixels in the rampData subarray. Same shape as rampData.subarray</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bias</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">threshold_vec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Using pre-computed threshold values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:}</span><span class="s1">: Correcting threshold with gain </span><span class="si">{:.1f}</span><span class="s1"> and average bias </span><span class="si">{:.1f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">(),</span>
+                                                                                          <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span><span class="p">,</span>
+                                                                                          <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">bias</span><span class="p">)))</span>
+        <span class="n">corrected_threshold</span> <span class="o">=</span> <span class="n">threshold_vec</span> <span class="o">/</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">+</span> <span class="n">bias</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Computing threshold values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+        <span class="n">corrected_threshold</span> <span class="o">=</span> <span class="n">find_threshold</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Finding highest non-saturated NDRs&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">threshold_mask</span><span class="p">,</span> <span class="n">first_nan</span> <span class="o">=</span> <span class="n">get_threshold_mask</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">,</span> <span class="n">corrected_threshold</span><span class="p">)</span>
+
+    <span class="n">last_non_nan</span> <span class="o">=</span> <span class="n">first_nan</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">only_saturated_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">last_non_nan</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">last_NDR_vals</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">flattened_subarray</span><span class="p">[</span><span class="n">last_non_nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">rampData</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">))]</span> <span class="o">-</span> <span class="n">bias</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">: Applying LUT values&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">tag</span><span class="p">()))</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">rampData</span><span class="o">.</span><span class="n">gain</span> <span class="o">*</span> <span class="n">last_NDR_vals</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">polyval</span><span class="p">(</span><span class="n">LUT</span><span class="p">,</span> <span class="n">last_NDR_vals</span><span class="p">)</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">/</span> <span class="n">rampData</span><span class="o">.</span><span class="n">time_vec</span><span class="p">[</span><span class="n">last_non_nan</span><span class="p">]</span>
+    <span class="n">flux</span><span class="p">[</span><span class="n">bad_px_vec</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">flux</span><span class="p">[</span><span class="n">only_saturated_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">rampData</span><span class="o">.</span><span class="n">subarray_shape</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="find_threshold"><a class="viewcode-back" href="../../../api/CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html#CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold">[docs]</a><span class="k">def</span> <span class="nf">find_threshold</span><span class="p">(</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">linear_ddx_threshold</span><span class="o">=</span><span class="mf">100.</span><span class="p">,</span> <span class="n">threshold_knee</span><span class="o">=</span><span class="mf">0.9</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Find the threshold value at which ramp data departs from linearity</span>
 
 <span class="sd">    The threshold is computed separately for all pixels in the image and is found via the second derivative of electrons</span>
@@ -285,6 +354,14 @@
 <span class="sd">    flat_data : `numpy.ndarray`</span>
 <span class="sd">        Array with shape (N, x*y) where N is the number of NDRs and (x, y) are the detector image dimensions</span>
 
+<span class="sd">    linear_ddx_threshold : float</span>
+<span class="sd">        If the second derivative of the ramp data is below this level then the ramp is assumed to be linear across all</span>
+<span class="sd">        NDRs and thus the threshold will be the value of the last NDR</span>
+
+<span class="sd">    threshold_knee : float</span>
+<span class="sd">        A scale factor to apply to the location of maximum second derivative so that the reported threshold is slightly</span>
+<span class="sd">        below the saturation limit. Should REALLY be less than 1.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    `numpy.ndarray`</span>
@@ -294,16 +371,13 @@
     <span class="n">ddx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">flat_data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># If the ramp is basically linear across all NDRs then ddx will be mostly constant. Check for that here.</span>
-    <span class="c1">#  Beware the magic number 100</span>
-    <span class="c1">#TODO: Magic number!</span>
-    <span class="n">all_linear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">)</span>
+    <span class="n">all_linear</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">linear_ddx_threshold</span><span class="p">)</span>
 
     <span class="n">max_delta_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">ddx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">max_delta_idx</span><span class="p">[</span><span class="n">all_linear</span><span class="p">]</span> <span class="o">=</span> <span class="n">flat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span> <span class="c1"># If the ramp is linear across all NDRs then set the index of last linear NDR to the final NDR</span>
 
-    <span class="c1"># 0.9 to move the threshold a &quot;bit&quot; below the value of max change. Highly scientific.</span>
-    <span class="c1">#TODO: Magic number!</span>
-    <span class="n">threshold</span> <span class="o">=</span> <span class="n">flat_data</span><span class="p">[</span><span class="n">max_delta_idx</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">flat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">*</span> <span class="mf">0.9</span>
+    <span class="c1"># move the threshold a &quot;bit&quot; below the value of max change. Highly scientific.</span>
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">flat_data</span><span class="p">[</span><span class="n">max_delta_idx</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="n">flat_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="o">*</span> <span class="n">threshold_knee</span>
 
     <span class="k">return</span> <span class="n">threshold</span></div>
 
@@ -523,7 +597,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

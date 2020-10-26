@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geometric_correction &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>geometric_correction &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -179,7 +179,7 @@
 <h1>geometric_correction<a class="headerlink" href="#geometric-correction" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.SP.SPScienceCalibration.</code><code class="sig-name descname">geometric_correction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fitsData</span></em>, <em class="sig-param"><span class="n">align3_cal</span></em>, <em class="sig-param"><span class="n">gain4_cal</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/SP/SPScienceCalibration.html#geometric_correction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.SP.SPScienceCalibration.</code><code class="sig-name descname">geometric_correction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fitsData</span></em>, <em class="sig-param"><span class="n">align3_cal</span></em>, <em class="sig-param"><span class="n">gain4_shifts</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/SP/SPScienceCalibration.html#geometric_correction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.SP.SPScienceCalibration.geometric_correction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove dispersion angle offset and spectral curvature from data</p>
 <p>Input data is assumed to be combined beam data and thus only beam 1 corrections are applied.</p>
 <dl class="field-list">
@@ -189,7 +189,7 @@
 </dd>
 <dt><strong>align3_cal</strong><span class="classifier">dict</span></dt><dd><p>Dictionary with ALIGN3 calibration, specifically the beam dispersion angles</p>
 </dd>
-<dt><strong>gain4_cal</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>Object containing Gain4 Calibration</p>
+<dt><strong>gain4_shifts</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.FitsData</span></code></span></dt><dd><p>Object containing Gain4 Calibration shifts</p>
 </dd>
 </dl>
 </dd>
@@ -217,7 +217,7 @@
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1

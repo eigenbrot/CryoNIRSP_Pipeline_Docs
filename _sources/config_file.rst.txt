@@ -89,6 +89,14 @@ This section will only be used if the file specified by ``Main.instrument_pol_ca
 
 :raw_pol_dir: The location of a directory containing raw files associated with a single PolCal Calibration Sequence (CS)
 
+:cu_numbins_x: **(int)** The number of x-dimensions macropixels in the down-sampled CS data used for CU parameter fitting
+
+:cu_numbins_y: **(int)** The number of y-dimensions macropixels in the down-sampled CS data used for CU parameter fitting
+
+:demod_numbins_x: **(int)** The number of x-dimensions macropixels in the down-sampled CS data used for demodulation matrix calculation
+
+:demod_numbins_y: **(int)** The number of y-dimensions macropixels in the down-sampled CS data used for demodulation matrix calculation
+
 :*threads*: **(int)** [*1*] The number of CPU threads to use when performing basic CryoNIRSP reductions on the CS steps
 
 Example Config File
@@ -130,4 +138,8 @@ Example Config File
 
   [InstrumentPolarization]
   raw_pol_dir = ../polcal
+  cu_numbins_x = 1
+  cu_numbins_y = 1
+  demod_numbins_x = 4
+  demod_numbins_y = 4
   threads = 3

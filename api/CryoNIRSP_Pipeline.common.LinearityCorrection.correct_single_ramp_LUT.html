@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>remove_sepectral_curvature &#8212; CryoNIRSP_Pipeline v0.8.0</title>
+    <title>correct_single_ramp_LUT &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -19,8 +19,8 @@
     <link rel="shortcut icon" href="../_static/favico.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="remove_solar_spectra" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" />
-    <link rel="prev" title="main" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" />
+    <link rel="next" title="find_threshold" href="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html" />
+    <link rel="prev" title="correct_single_ramp" href="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
@@ -75,7 +75,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">remove_sepectral_curvature</a></li>
+<li><a class="reference internal" href="#">correct_single_ramp_LUT</a></li>
 </ul>
 </ul>
 </li>
@@ -85,11 +85,11 @@
               
                 
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html" title="Previous Chapter: main"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; main</span>
+    <a href="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html" title="Previous Chapter: correct_single_ramp"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; correct_single_ramp</span>
     </a>
   </li>
   <li>
-    <a href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html" title="Next Chapter: remove_solar_spectra"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">remove_solar_spectra &raquo;</span>
+    <a href="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html" title="Next Chapter: find_threshold"><span class="glyphicon glyphicon-chevron-right visible-sm"></span><span class="hidden-sm hidden-tablet">find_threshold &raquo;</span>
     </a>
   </li>
               
@@ -147,25 +147,22 @@
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.generic">CryoNIRSP_Pipeline.common.generic Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.Data">CryoNIRSP_Pipeline.common.Data Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.DarkCalibration">CryoNIRSP_Pipeline.common.DarkCalibration Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.LinearityCorrection">CryoNIRSP_Pipeline.common.LinearityCorrection Module</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.common.LinearityCorrection">CryoNIRSP_Pipeline.common.LinearityCorrection Module</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="../API.html#id11">Functions</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.check_mask_vs_fitorder.html">check_mask_vs_fitorder</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp.html">correct_single_ramp</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">correct_single_ramp_LUT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.find_threshold.html">find_threshold</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.get_threshold_mask.html">get_threshold_mask</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.main.html">main</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.make_debug_plots.html">make_debug_plots</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.common.LinearityCorrection.masked_polyfit.html">masked_polyfit</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain1Calibration">CryoNIRSP_Pipeline.Gain.Gain1Calibration Module</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain4Calibration">CryoNIRSP_Pipeline.Gain.Gain4Calibration Module</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="../API.html#id13">Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.combine_retilted_beams.html">combine_retilted_beams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.compute_average_spectrum.html">compute_average_spectrum</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.extract_detilted_beams.html">extract_detilted_beams</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature.html">find_spectral_curvature</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_average_spectra.html">generate_average_spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html">generate_gain4_calibration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">remove_sepectral_curvature</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
-<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.Gain4Calibration">CryoNIRSP_Pipeline.Gain.Gain4Calibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Gain.LampGainCalibration">CryoNIRSP_Pipeline.Gain.LampGainCalibration Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_corrections">CryoNIRSP_Pipeline.Pol.pol_corrections Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../API.html#module-CryoNIRSP_Pipeline.Pol.pol_generic">CryoNIRSP_Pipeline.Pol.pol_generic Module</a></li>
@@ -180,24 +177,36 @@
 
     <div class="body col-md-9 content" role="main">
       
-  <div class="section" id="remove-sepectral-curvature">
-<h1>remove_sepectral_curvature<a class="headerlink" href="#remove-sepectral-curvature" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="correct-single-ramp-lut">
+<h1>correct_single_ramp_LUT<a class="headerlink" href="#correct-single-ramp-lut" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">remove_sepectral_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">shifts</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#remove_sepectral_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature" title="Permalink to this definition">¶</a></dt>
-<dd><p>Shift the spectrum of each spatial position by the amount specified</p>
+<dt id="CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT">
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.common.LinearityCorrection.</code><code class="sig-name descname">correct_single_ramp_LUT</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rampData</span></em>, <em class="sig-param"><span class="n">LUT</span></em>, <em class="sig-param"><span class="n">bad_px_vec</span></em>, <em class="sig-param"><span class="n">threshold_vec</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/common/LinearityCorrection.html#correct_single_ramp_LUT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.common.LinearityCorrection.correct_single_ramp_LUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform linearity correction on a single ramp. This is the heart of this module.</p>
+<p>The correction pipeline has the following steps:</p>
+<ol class="arabic simple">
+<li><p>Use ramp data to conform the threshold values to the current data</p></li>
+<li><p>Identify the last NDR prior to saturation</p></li>
+<li><p>For each pixel, apply the LUT polynomials to the NDRs found in 2</p></li>
+<li><p>Convert to flux by dividing by the time of the NDRs found in 2</p></li>
+</ol>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>2D spectra to be shifted. Shape (X, Y)</p>
+<dt><strong>rampData</strong><span class="classifier"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data.RampData</span></code></span></dt><dd><p>Object containing the ramp to be corrected. This object must have had a subarray initialized.</p>
 </dd>
-<dt><strong>shifts</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Array of length X, containing the spectral shift of each spatial location</p>
+<dt><strong>LUT</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Array of shape (order + 1, x*y) containing lookup-table polynomial coefficients for each pixel</p>
+</dd>
+<dt><strong>threshold_vec</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Vector containing the upper threshold of the linear region for each pixel. Must have the same shape as
+rampData.flattened_subarray.shape[1:]</p>
+</dd>
+<dt><strong>bad_px_vec</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Vector containing as bad pixel mask. Must have shape equal to rampData.flattened_subarray.shape[1:]</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>Array of shifted spectra. Same shape as input.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>Corrected pixel values for all pixels in the rampData subarray. Same shape as rampData.subarray</p>
 </dd>
 </dl>
 </dd>

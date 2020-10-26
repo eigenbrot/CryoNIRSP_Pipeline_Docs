@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>find_spectral_curvature &#8212; CryoNIRSP_Pipeline v0.7.0</title>
+    <title>find_spectral_curvature &#8212; CryoNIRSP_Pipeline v0.8.0</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -159,6 +159,8 @@
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.generate_gain4_calibration.html">generate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.main.html">main</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_sepectral_curvature.html">remove_sepectral_curvature</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.remove_solar_spectra.html">remove_solar_spectra</a></li>
+<li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_calibration.html">validate_gain4_calibration</a></li>
 <li class="toctree-l4"><a class="reference internal" href="CryoNIRSP_Pipeline.Gain.Gain4Calibration.validate_gain4_task.html">validate_gain4_task</a></li>
 </ul>
 </li>
@@ -182,7 +184,7 @@
 <h1>find_spectral_curvature<a class="headerlink" href="#find-spectral-curvature" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature">
-<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">find_spectral_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">min_corr</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">peak_interp_width</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">max_shift</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">edge_chop</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#find_spectral_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">CryoNIRSP_Pipeline.Gain.Gain4Calibration.</code><code class="sig-name descname">find_spectral_curvature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">median_spec_window</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">min_corr</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">peak_interp_width</span><span class="o">=</span><span class="default_value">5</span></em>, <em class="sig-param"><span class="n">max_shift</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">edge_chop</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">debug</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/CryoNIRSP_Pipeline/Gain/Gain4Calibration.html#find_spectral_curvature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#CryoNIRSP_Pipeline.Gain.Gain4Calibration.find_spectral_curvature" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spectral shift of each spatial channel relative to a central spectrum</p>
 <p>The reference spectrum is chosen to be as close to the middle of the spectral range as possible, while ensuring the
 quality of the spectrum is good (i.e., no NaN’s, etc.). Each spatial pixel is then correlated with this reference
@@ -193,6 +195,8 @@ detector are minimized.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
 <dt><strong>data</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v1.19)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>A 2D set of spectra with shape (X, Y). Should be aligned so the dispersion axis lies along array axes</p>
+</dd>
+<dt><strong>median_spec_window</strong><span class="classifier">int</span></dt><dd><p>Window (in +/- pixels) around the centerr of the slit to use in determining the reference spectrum</p>
 </dd>
 <dt><strong>min_corr</strong><span class="classifier">float</span></dt><dd><p>The minimum correlation amount required for a measured shift to be considered “good”</p>
 </dd>
@@ -232,7 +236,7 @@ where the spectral edges are low quality or signal.</p>
     </div>
    
     <div class="right-footer">
-      Last updated on 02 Sep 2020.
+      Last updated on 26 Oct 2020.
     </div>
     <div class="centre-footer">
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.2.1
